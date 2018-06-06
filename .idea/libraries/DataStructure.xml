@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="DataStructure">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/src/libs/DataStructure.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
