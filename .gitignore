@@ -53,3 +53,7 @@ nb-configuration.xml
 release.properties
 pom.xml.releaseBackup
 pom.xml.tag
+out/production/Classification/libs/DataStructure.jar
+out/production/Classification/libs/Math.jar
+out/production/Classification/libs/Sampling.jar
+out/production/Classification/libs/Util.jar
