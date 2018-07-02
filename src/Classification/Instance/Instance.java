@@ -144,12 +144,12 @@ public class Instance implements Serializable{
 
     /**
      * Converts instance to a string.
-     * @return A string of attributes separated with tab character.
+     * @return A string of attributes separated with comma character.
      */
     public String toString(){
         String result = "";
         for (Attribute attribute:attributes){
-            result = result + attribute.toString() + "\t";
+            result = result + attribute.toString() + ",";
         }
         result = result + classLabel;
         return result;
