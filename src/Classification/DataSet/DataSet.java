@@ -42,6 +42,10 @@ public class DataSet {
                             definition.addAttribute(AttributeType.DISCRETE);
                         }
                     }
+                } else {
+                    if (attributes.length != definition.attributeCount() + 1){
+                        continue;
+                    }
                 }
                 Instance instance = new Instance(attributes[attributes.length - 1]);
                 for (int j = 0; j < attributes.length - 1; j++){

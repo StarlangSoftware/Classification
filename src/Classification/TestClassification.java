@@ -12,6 +12,7 @@ import Classification.Model.Svm.KernelType;
 import Classification.Parameter.*;
 import Classification.Performance.ExperimentPerformance;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class TestClassification {
@@ -139,6 +140,17 @@ public class TestClassification {
         try {
             results = run.execute(new Experiment(new AutoEncoder(), parameter, dataSet));
             System.out.println(results.meanPerformance().getErrorRate());
+        } catch (DiscreteFeaturesNotAllowed discreteFeaturesNotAllowed) {
+            discreteFeaturesNotAllowed.printStackTrace();
+        }
+    }
+
+    private static void testNlp(){
+        DataSet dataSet = new DataSet(new File("ner.txt"));
+        KFoldRun run = new KFoldRun(10);
+        try {
+            ExperimentPerformance results = run.execute(new Experiment(new Rocchio(), new RocchioParameter(10), dataSet));
+            System.out.println(100 * results.meanClassificationPerformance().getErrorRate() + " " + 100 * results.standardDeviationClassificationPerformance().getErrorRate());
         } catch (DiscreteFeaturesNotAllowed discreteFeaturesNotAllowed) {
             discreteFeaturesNotAllowed.printStackTrace();
         }

@@ -11,11 +11,9 @@ import java.util.ArrayList;
 
 public class DummyModel extends Model implements Serializable{
 
-    private InstanceList trainSet;
     private DiscreteDistribution distribution;
 
     public DummyModel(InstanceList trainSet) {
-        this.trainSet = trainSet;
         this.distribution = trainSet.classDistribution();
     }
 
@@ -24,7 +22,7 @@ public class DummyModel extends Model implements Serializable{
             ArrayList<String> possibleClassLabels = ((CompositeInstance)instance).getPossibleClassLabels();
             return distribution.getMaxItem(possibleClassLabels);
         } else {
-            return Classifier.getMaximum(this.trainSet.getClassLabels());
+            return distribution.getMaxItem();
         }
     }
 
