@@ -2,6 +2,7 @@ package Classification.DataSet;
 
 import Classification.Attribute.*;
 import Classification.FeatureSelection.FeatureSubSet;
+import Classification.Instance.CompositeInstance;
 import Classification.Instance.Instance;
 import Classification.InstanceList.InstanceList;
 
@@ -25,6 +26,7 @@ public class DataSet {
     }
 
     public DataSet(File file){
+        Instance instance;
         int i = 0;
         instances = new InstanceList();
         definition = new DataDefinition();
@@ -47,7 +49,12 @@ public class DataSet {
                         continue;
                     }
                 }
-                Instance instance = new Instance(attributes[attributes.length - 1]);
+                if (!attributes[attributes.length - 1].contains(";")){
+                    instance = new Instance(attributes[attributes.length - 1]);
+                } else {
+                    String[] labels = attributes[attributes.length - 1].split(";");
+                    instance = new CompositeInstance(labels);
+                }
                 for (int j = 0; j < attributes.length - 1; j++){
                     switch (definition.getAttributeType(j)){
                         case CONTINUOUS:
