@@ -146,10 +146,10 @@ public class TestClassification {
     }
 
     private static void testNlp(){
-        DataSet dataSet = new DataSet(new File("semantic.txt"));
+        DataSet dataSet = new DataSet(new File("shallowparse.txt"));
         KFoldRun run = new KFoldRun(10);
         try {
-            ExperimentPerformance results = run.execute(new Experiment(new Dummy(), new Parameter(10), dataSet));
+            ExperimentPerformance results = run.execute(new Experiment(new RandomClassifier(), new Parameter(10), dataSet));
             System.out.println(100 * results.meanClassificationPerformance().getErrorRate() + " " + 100 * results.standardDeviationClassificationPerformance().getErrorRate());
         } catch (DiscreteFeaturesNotAllowed discreteFeaturesNotAllowed) {
             discreteFeaturesNotAllowed.printStackTrace();

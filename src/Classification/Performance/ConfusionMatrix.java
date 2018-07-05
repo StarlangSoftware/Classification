@@ -1,42 +1,82 @@
 package Classification.Performance;
 
-import Math.*;
+import DataStructure.CounterHashMap;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ConfusionMatrix {
-    private Matrix matrix;
+    private HashMap<String, CounterHashMap<String>> matrix;
     private ArrayList<String> classLabels;
 
     public ConfusionMatrix(ArrayList<String> classLabels){
         this.classLabels = classLabels;
-        matrix = new Matrix(classLabels.size(), classLabels.size());
+        matrix = new HashMap<>();
     }
 
     public void classify(String actualClass, String predictedClass){
-        int actual, predicted;
-        actual = classLabels.indexOf(actualClass);
-        predicted = classLabels.indexOf(predictedClass);
-        if (actual != -1 && predicted != -1){
-            matrix.increment(actual, predicted);
+        CounterHashMap<String> counterHashMap;
+        if (matrix.containsKey(actualClass)){
+            counterHashMap = matrix.get(actualClass);
+        } else {
+            counterHashMap = new CounterHashMap<>();
         }
+        counterHashMap.put(predictedClass);
+        matrix.put(actualClass, counterHashMap);
     }
 
     public void addConfusionMatrix(ConfusionMatrix confusionMatrix){
-        try {
-            matrix.add(confusionMatrix.matrix);
-        } catch (MatrixDimensionMismatch matrixDimensionMismatch) {
+        for (String actualClass : confusionMatrix.matrix.keySet()){
+            CounterHashMap<String> rowToBeAdded = confusionMatrix.matrix.get(actualClass);
+            if (matrix.containsKey(actualClass)){
+                CounterHashMap<String> currentRow = matrix.get(actualClass);
+                currentRow.add(rowToBeAdded);
+                matrix.put(actualClass, currentRow);
+            } else {
+                matrix.put(actualClass, rowToBeAdded);
+            }
         }
     }
 
+    private double sumOfElements(){
+        double result = 0;
+        for (String actualClass : matrix.keySet()){
+            result += matrix.get(actualClass).sumOfCounts();
+        }
+        return result;
+    }
+
+    private double trace(){
+        double result = 0;
+        for (String actualClass : matrix.keySet()){
+            if (matrix.get(actualClass).containsKey(actualClass)){
+                result += matrix.get(actualClass).get(actualClass);
+            }
+        }
+        return result;
+    }
+
+    private double columnSum(String predictedClass){
+        double result = 0;
+        for (String actualClass : matrix.keySet()){
+            if (matrix.get(actualClass).containsKey(predictedClass)){
+                result += matrix.get(actualClass).get(predictedClass);
+            }
+        }
+        return result;
+    }
+
     public double getAccuracy(){
-        return matrix.trace() / matrix.sumOfElements();
+        return trace() / sumOfElements();
     }
 
     public double[] precision(){
         double[] result = new double[classLabels.size()];
         for (int i = 0; i < classLabels.size(); i++){
-            result[i] = matrix.getValue(i, i) / matrix.columnSum(i);
+            String actualClass = classLabels.get(i);
+            if (matrix.containsKey(actualClass)){
+                result[i] = matrix.get(actualClass).get(actualClass) / columnSum(actualClass);
+            }
         }
         return result;
     }
@@ -44,7 +84,10 @@ public class ConfusionMatrix {
     public double[] recall(){
         double[] result = new double[classLabels.size()];
         for (int i = 0; i < classLabels.size(); i++){
-            result[i] = matrix.getValue(i, i) / matrix.rowSum(i);
+            String actualClass = classLabels.get(i);
+            if (matrix.containsKey(actualClass)){
+                result[i] = (matrix.get(actualClass).get(actualClass) + 0.0) / matrix.get(actualClass).sumOfCounts();
+            }
         }
         return result;
     }
@@ -63,9 +106,10 @@ public class ConfusionMatrix {
         double[] fMeasure = fMeasure();
         double sum = 0;
         for (int i = 0; i < classLabels.size(); i++){
-            sum += fMeasure[i] * matrix.rowSum(i);
+            String actualClass = classLabels.get(i);
+            sum += fMeasure[i] * matrix.get(actualClass).sumOfCounts();
         }
-        return sum / matrix.sumOfElements();
+        return sum / sumOfElements();
     }
 
 }
