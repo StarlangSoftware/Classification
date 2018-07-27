@@ -28,6 +28,11 @@ public class Kernel {
         }
     }
 
+    /**
+     * Swaps the kernel values of the instance i with instance j. Swaps also the square values if they are als
+     * @param i Index of the first instance
+     * @param j Index of the second instance
+     */
     public void swapIndex(int i, int j){
         NodeList tmp;
         tmp = x[i];
@@ -38,22 +43,53 @@ public class Kernel {
         }
     }
 
+    /**
+     * Calculates linear kernel value for two instances using dot product.
+     * @param i Index of the first instance
+     * @param j Index of the second instance
+     * @return Linear kernel value for two instances.
+     */
     private double linear(int i, int j){
         return x[i].dot(x[j]);
     }
 
+    /**
+     * Calculates polynomial kernel value for two instances. (gamma \sum_i x1_ix2_i)^d + x_0
+     * @param i Index of the first instance
+     * @param j Index of the second instance
+     * @return Polynomial kernel value for two instances.
+     */
     private double polynom(int i, int j){
         return Math.pow(gamma * x[i].dot(x[j]) + coefficient0, degree);
     }
 
+    /**
+     * Calculates radial basis kernel value for two instances. e^(-gamma * (x1^2 + x2^2 - 2\sum_i x1_ix2_i))
+     * @param i Index of the first instance
+     * @param j Index of the second instance
+     * @return Radial basis kernel value for two instances.
+     */
     private double rbf(int i, int j){
         return Math.exp(-gamma * (xSquare[i] + xSquare[j] - 2 * x[i].dot(x[j])));
     }
 
+    /**
+     * Calculates sigmoid kernel value for two instances. tanh(gamma * \sum_i x1_ix2_i + x_0)
+     * @param i Index of the first instance
+     * @param j Index of the second instance
+     * @return Sigmoid kernel value for two instances.
+     */
     private double sigmoid(int i, int j){
         return Math.tanh(gamma * x[i].dot(x[j]) + coefficient0);
     }
 
+    /**
+     * Calculates kernel value for two instances according to the kernel function. Calls respective kernel
+     * functions such as linear kernel, polynomial kernel, rbf kernel, etc.
+     * @param i Index of the first instance
+     * @param j Index of the second instance
+     * @return Kernel value for two instances.
+     */
     public double function(int i, int j){
         switch (kernelType){
             case LINEAR:
@@ -68,6 +104,16 @@ public class Kernel {
         return 0;
     }
 
+    /**
+     * Calculates kernel value for two instances x and y according to the kernel. This function is different
+     * from kernel_function in the way that kernel_function calculates kernel value for two instances of the data
+     * array by specifying the indexes of those two instances. On the other hand, k_function calculates kernel value
+     * for two usual instances.
+     * @param x First instance
+     * @param y Second instance
+     * @param parameter Kernel parameters including kernel type, gamma, x_0 etc.
+     * @return Kernel value for two instances
+     */
     public static double function(NodeList x, NodeList y, SvmParameter parameter){
         switch (parameter.getKernelType()){
             case LINEAR:
