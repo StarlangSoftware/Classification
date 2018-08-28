@@ -9,15 +9,16 @@ import Classification.Parameter.Parameter;
 
 import java.util.HashMap;
 
-public class Lda extends Classifier{
+public class Lda extends Classifier {
 
     /**
      * Training algorithm for the linear discriminant analysis classifier (Introduction to Machine Learning, Alpaydin, 2015).
-     * @param trainSet Training data given to the algorithm.
+     *
+     * @param trainSet   Training data given to the algorithm.
      * @param parameters -
      */
     public void train(InstanceList trainSet, Parameter parameters) throws DiscreteFeaturesNotAllowed {
-        if (!discreteCheck(trainSet.get(0))){
+        if (!discreteCheck(trainSet.get(0))) {
             throw new DiscreteFeaturesNotAllowed();
         }
         String Ci;
@@ -29,7 +30,7 @@ public class Lda extends Classifier{
         DiscreteDistribution priorDistribution = trainSet.classDistribution();
         Partition classLists = trainSet.divideIntoClasses();
         covariance = new Matrix(trainSet.get(0).continuousAttributeSize(), trainSet.get(0).continuousAttributeSize());
-        for (int i = 0; i < classLists.size(); i++){
+        for (int i = 0; i < classLists.size(); i++) {
             averageVector = new Vector(classLists.get(i).continuousAttributeAverage());
             classCovariance = classLists.get(i).covariance(averageVector);
             classCovariance.multiplyWithConstant(classLists.get(i).size() - 1);
@@ -44,7 +45,7 @@ public class Lda extends Classifier{
         } catch (DeterminantZero determinantZero) {
             System.out.println(determinantZero.toString());
         }
-        for (int i = 0; i < classLists.size(); i++){
+        for (int i = 0; i < classLists.size(); i++) {
             Ci = ((InstanceListOfSameClass) classLists.get(i)).getClassLabel();
             averageVector = new Vector(classLists.get(i).continuousAttributeAverage());
             try {
