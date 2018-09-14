@@ -17,14 +17,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
-public class InstanceList implements Serializable{
+public class InstanceList implements Serializable {
 
     protected ArrayList<Instance> list;
 
     /**
      * Empty constructor for an instance list. Initializes the instance list with zero instances.
      */
-    public InstanceList(){
+    public InstanceList() {
         list = new ArrayList<Instance>();
     }
 
@@ -33,30 +33,31 @@ public class InstanceList implements Serializable{
      * must be stored in a separate line separated with the character separator. The last item must be the class label.
      * The function reads the file line by line and for each line; depending on the data definition, that is, type of
      * the attributes, adds discrete and continuous attributes to a new instance. For example, given the data set file
-     *
+     * <p>
      * red;1;0.4;true
      * green;-1;0.8;true
      * blue;3;1.3;false
-     *
+     * <p>
      * where the first attribute is a discrete attribute, second and third attributes are continuous attributes, the
      * fourth item is the class label.
+     *
      * @param definition Data definition of the data set.
-     * @param separator Separator character which separates the attribute values in the data file.
-     * @param fileName Name of the data set file.
+     * @param separator  Separator character which separates the attribute values in the data file.
+     * @param fileName   Name of the data set file.
      */
-    public InstanceList(DataDefinition definition, String separator, String fileName){
+    public InstanceList(DataDefinition definition, String separator, String fileName) {
         Instance current;
         String line;
         list = new ArrayList<Instance>();
-        try{
+        try {
             BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), "UTF8"));
             line = br.readLine();
-            while (line != null){
+            while (line != null) {
                 String[] attributeList = line.split(separator);
-                if (attributeList.length == definition.attributeCount() + 1){
+                if (attributeList.length == definition.attributeCount() + 1) {
                     current = new Instance(attributeList[attributeList.length - 1]);
-                    for (int i = 0; i < attributeList.length - 1; i++){
-                        switch (definition.getAttributeType(i)){
+                    for (int i = 0; i < attributeList.length - 1; i++) {
+                        switch (definition.getAttributeType(i)) {
                             case DISCRETE:
                                 current.addAttribute(new DiscreteAttribute(attributeList[i]));
                                 break;
@@ -72,8 +73,7 @@ public class InstanceList implements Serializable{
                 }
                 line = br.readLine();
             }
-        }
-        catch (FileNotFoundException fileNotFoundException){
+        } catch (FileNotFoundException fileNotFoundException) {
             System.out.println("Dataset with fileName " + fileName + " not found");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -84,81 +84,93 @@ public class InstanceList implements Serializable{
 
     /**
      * Mutator for the list variable.
+     *
      * @param list New list for the list variable.
      */
-    public InstanceList(ArrayList<Instance> list){
+    public InstanceList(ArrayList<Instance> list) {
         this.list = list;
     }
 
     /**
      * Adds instance to the instance list.
+     *
      * @param instance Instance to be added.
      */
-    public void add(Instance instance){
+    public void add(Instance instance) {
         list.add(instance);
     }
 
     /**
      * Adds a list of instances to the current instance list.
+     *
      * @param instanceList List of instances to be added.
      */
-    public void addAll(ArrayList<Instance> instanceList){
+    public void addAll(ArrayList<Instance> instanceList) {
         list.addAll(instanceList);
     }
 
     /**
      * Returns size of the instance list.
+     *
      * @return Size of the instance list.
      */
-    public int size(){
+    public int size() {
         return list.size();
     }
 
     /**
      * Accessor for a single instance with the given index.
+     *
      * @param index Index of the instance.
      * @return Instance with index 'index'.
      */
-    public Instance get(int index){
+    public Instance get(int index) {
         return list.get(index);
     }
 
     /**
      * Sorts attribute list according to the attribute with index 'attributeIndex'.
+     *
      * @param attributeIndex index of the attribute.
      */
-    public void sort(int attributeIndex){
+    public void sort(int attributeIndex) {
         InstanceComparator comparator = new InstanceComparator(attributeIndex);
         Collections.sort(list, comparator);
     }
 
-    public void sort(){
+    /**
+     * Sorts attributes list.
+     */
+    public void sort() {
         Collections.sort(list, new InstanceClassComparator());
     }
 
     /**
      * Shuffles the instance list.
+     * @param seed Seed is used for random number generation.
      */
-    public void shuffle(int seed){
+    public void shuffle(int seed) {
         Collections.shuffle(list, new Random(seed));
     }
 
     /**
      * Creates a bootstrap sample from the current instance list.
+     *
      * @param seed To create a different bootstrap sample, we need a new seed for each sample.
-     * @return Bootstrap sample
+     * @return Bootstrap sample.
      */
-    public Bootstrap bootstrap(int seed){
+    public Bootstrap bootstrap(int seed) {
         return new Bootstrap<Instance>(list, seed);
     }
 
     /**
-     * Extracts the class labels of each instance in the instance list and returns them in an array of string.
+     * Extracts the class labels of each instance in the instance list and returns them in an array of {@link String}.
+     *
      * @return An array list of class labels.
      */
-    public ArrayList<String> getClassLabels(){
+    public ArrayList<String> getClassLabels() {
         ArrayList<String> classLabels = new ArrayList<String>();
-        for (Instance instance:list){
+        for (Instance instance : list) {
             classLabels.add(instance.getClassLabel());
         }
         return classLabels;
@@ -166,12 +178,13 @@ public class InstanceList implements Serializable{
 
     /**
      * Extracts the class labels of each instance in the instance list and returns them as a set.
-     * @return An array list of distinct class labels.
+     *
+     * @return An {@link ArrayList} of distinct class labels.
      */
-    public ArrayList<String> getDistinctClassLabels(){
+    public ArrayList<String> getDistinctClassLabels() {
         ArrayList<String> classLabels = new ArrayList<String>();
-        for (Instance instance:list){
-            if (!classLabels.contains(instance.getClassLabel())){
+        for (Instance instance : list) {
+            if (!classLabels.contains(instance.getClassLabel())) {
                 classLabels.add(instance.getClassLabel());
             }
         }
@@ -180,9 +193,10 @@ public class InstanceList implements Serializable{
 
     /**
      * Extracts the possible class labels of each instance in the instance list and returns them as a set.
-     * @return An array list of distinct class labels.
+     *
+     * @return An {@link ArrayList} of distinct class labels.
      */
-    public ArrayList<String> getUnionOfPossibleClassLabels(){
+    public ArrayList<String> getUnionOfPossibleClassLabels() {
         ArrayList<String> possibleClassLabels = new ArrayList<String>();
         for (Instance instance : list) {
             if (instance instanceof CompositeInstance) {
@@ -193,7 +207,7 @@ public class InstanceList implements Serializable{
                     }
                 }
             } else {
-                if (!possibleClassLabels.contains(instance.getClassLabel())){
+                if (!possibleClassLabels.contains(instance.getClassLabel())) {
                     possibleClassLabels.add(instance.getClassLabel());
                 }
             }
@@ -204,14 +218,15 @@ public class InstanceList implements Serializable{
     /**
      * Divides the instances in the instance list into partitions so that all instances of a class are grouped in a
      * single partition.
+     *
      * @return Groups of instances according to their class labels.
      */
-    public Partition divideIntoClasses(){
+    public Partition divideIntoClasses() {
         ArrayList<String> classLabels = getDistinctClassLabels();
         Partition result = new Partition();
         for (String classLabel : classLabels)
             result.add(new InstanceListOfSameClass(classLabel));
-        for (Instance instance:list){
+        for (Instance instance : list) {
             result.get(classLabels.indexOf(instance.getClassLabel())).add(instance);
         }
         return result;
@@ -219,14 +234,15 @@ public class InstanceList implements Serializable{
 
     /**
      * Extracts distinct discrete values of a given attribute as an array of strings.
-     * @param attributeIndex Index of the discrete attribute
+     *
+     * @param attributeIndex Index of the discrete attribute.
      * @return An array of distinct values of a discrete attribute.
      */
-    public ArrayList<String> getAttributeValueList(int attributeIndex){
+    public ArrayList<String> getAttributeValueList(int attributeIndex) {
         ArrayList<String> valueList = new ArrayList<String>();
-        for (Instance instance:list){
-            if (!valueList.contains(((DiscreteAttribute)instance.getAttribute(attributeIndex)).getValue())){
-                valueList.add(((DiscreteAttribute)instance.getAttribute(attributeIndex)).getValue());
+        for (Instance instance : list) {
+            if (!valueList.contains(((DiscreteAttribute) instance.getAttribute(attributeIndex)).getValue())) {
+                valueList.add(((DiscreteAttribute) instance.getAttribute(attributeIndex)).getValue());
             }
         }
         return valueList;
@@ -234,14 +250,16 @@ public class InstanceList implements Serializable{
 
     /**
      * Creates a stratified partition of the current instance list. In a stratified partition, the percentage of each
-     * class is preserved. For example, let say there are three classes in the instance list, and let the percentages of
+     * class is preserved. For example, let's say there are three classes in the instance list, and let the percentages of
      * these classes be %20, %30, and %50; then the percentages of these classes in the stratified partitions are the
      * same, that is, %20, %30, and %50.
+     *
      * @param ratio Ratio of the stratified partition. Ratio is between 0 and 1. If the ratio is 0.2, then 20 percent
-     *              of the instances are put in the first group, 80 percent of the instances are put in the second group
+     *              of the instances are put in the first group, 80 percent of the instances are put in the second group.
+     * @param random random is used as a random number.
      * @return 2 group stratified partition of the instances in this instance list.
      */
-    public Partition stratifiedPartition(double ratio, Random random){
+    public Partition stratifiedPartition(double ratio, Random random) {
         int[] counts;
         DiscreteDistribution distribution;
         Partition partition = new Partition();
@@ -253,10 +271,10 @@ public class InstanceList implements Serializable{
         for (int i = 0; i < size(); i++)
             randomArray.add(i);
         Collections.shuffle(randomArray, random);
-        for (int i = 0; i < size(); i++){
+        for (int i = 0; i < size(); i++) {
             Instance instance = list.get(randomArray.get(i));
             int classIndex = distribution.getIndex(instance.getClassLabel());
-            if (counts[classIndex] < size() * ratio * distribution.getProbability(instance.getClassLabel())){
+            if (counts[classIndex] < size() * ratio * distribution.getProbability(instance.getClassLabel())) {
                 partition.get(0).add(instance);
             } else {
                 partition.get(1).add(instance);
@@ -268,18 +286,20 @@ public class InstanceList implements Serializable{
 
     /**
      * Creates a partition of the current instance list.
+     *
      * @param ratio Ratio of the partition. Ratio is between 0 and 1. If the ratio is 0.2, then 20 percent
-     *              of the instances are put in the first group, 80 percent of the instances are put in the second group
+     *              of the instances are put in the first group, 80 percent of the instances are put in the second group.
+     * @param random random is used as a random number.
      * @return 2 group partition of the instances in this instance list.
      */
-    public Partition partition(double ratio, Random random){
+    public Partition partition(double ratio, Random random) {
         Partition partition = new Partition();
         partition.add(new InstanceList());
         partition.add(new InstanceList());
         Collections.shuffle(list, random);
-        for (int i = 0; i < size(); i++){
+        for (int i = 0; i < size(); i++) {
             Instance instance = list.get(i);
-            if (i < size() * ratio){
+            if (i < size() * ratio) {
                 partition.get(0).add(instance);
             } else {
                 partition.get(1).add(instance);
@@ -292,28 +312,37 @@ public class InstanceList implements Serializable{
      * Creates a partition depending on the distinct values of a discrete attribute. If the discrete attribute has 4
      * distinct values, the resulting partition will have 4 groups, where each group contain instance whose
      * values of that discrete attribute are the same.
+     *
      * @param attributeIndex Index of the discrete attribute.
      * @return L groups of instances, where L is the number of distinct values of the discrete attribute with index
      * attributeIndex.
      */
-    public Partition divideWithRespectToAttribute(int attributeIndex){
+    public Partition divideWithRespectToAttribute(int attributeIndex) {
         ArrayList<String> valueList = getAttributeValueList(attributeIndex);
         Partition result = new Partition();
-        for (String value:valueList){
+        for (String value : valueList) {
             result.add(new InstanceList());
         }
-        for (Instance instance:list){
+        for (Instance instance : list) {
             result.get(valueList.indexOf(((DiscreteAttribute) instance.getAttribute(attributeIndex)).getValue())).add(instance);
         }
         return result;
     }
 
-    public Partition divideWithRespectToIndexedAttribute(int attributeIndex, int attributeValue){
+    /**
+     * Creates a partition depending on the distinct values of a discrete indexed attribute.
+     *
+     * @param attributeIndex Index of the discrete indexed attribute.
+     * @param attributeValue Value of the attribute.
+     * @return L groups of instances, where L is the number of distinct values of the discrete indexed attribute with index
+     * attributeIndex and value attributeValue.
+     */
+    public Partition divideWithRespectToIndexedAttribute(int attributeIndex, int attributeValue) {
         Partition result = new Partition();
         result.add(new InstanceList());
         result.add(new InstanceList());
-        for (Instance instance:list){
-            if (((DiscreteIndexedAttribute)instance.getAttribute(attributeIndex)).getIndex() == attributeValue){
+        for (Instance instance : list) {
+            if (((DiscreteIndexedAttribute) instance.getAttribute(attributeIndex)).getIndex() == attributeValue) {
                 result.get(0).add(instance);
             } else {
                 result.get(1).add(instance);
@@ -325,16 +354,17 @@ public class InstanceList implements Serializable{
     /**
      * Creates a two group partition depending on the values of a continuous attribute. If the value of the attribute is
      * less than splitValue, the instance is forwarded to the first group, else it is forwarded to the second group.
+     *
      * @param attributeIndex Index of the continuous attribute
-     * @param splitValue Threshold to divide instances
+     * @param splitValue     Threshold to divide instances
      * @return Two groups of instances as a partition.
      */
-    public Partition divideWithRespectToAttribute(int attributeIndex, double splitValue){
+    public Partition divideWithRespectToAttribute(int attributeIndex, double splitValue) {
         Partition result = new Partition();
         result.add(new InstanceList());
         result.add(new InstanceList());
-        for (Instance instance:list){
-            if (((ContinuousAttribute)instance.getAttribute(attributeIndex)).getValue() <= splitValue){
+        for (Instance instance : list) {
+            if (((ContinuousAttribute) instance.getAttribute(attributeIndex)).getValue() <= splitValue) {
                 result.get(0).add(instance);
             } else {
                 result.get(1).add(instance);
@@ -347,21 +377,22 @@ public class InstanceList implements Serializable{
      * Calculates the mean of a single attribute for this instance list (m_i). If the attribute is discrete, the maximum
      * occurring value for that attribute is returned. If the attribute is continuous, the mean value of the values of
      * all instances are returned.
-     * @param index Index of the attribute
+     *
+     * @param index Index of the attribute.
      * @return The mean value of the instances as an attribute.
      */
-    private Attribute attributeAverage(int index){
-        if (list.get(0).getAttribute(index) instanceof DiscreteAttribute){
+    private Attribute attributeAverage(int index) {
+        if (list.get(0).getAttribute(index) instanceof DiscreteAttribute) {
             ArrayList<String> values = new ArrayList<String>();
-            for (Instance instance:list){
-                values.add(((DiscreteAttribute)instance.getAttribute(index)).getValue());
+            for (Instance instance : list) {
+                values.add(((DiscreteAttribute) instance.getAttribute(index)).getValue());
             }
             return new DiscreteAttribute(Classifier.getMaximum(values));
         } else {
-            if (list.get(0).getAttribute(index) instanceof ContinuousAttribute){
+            if (list.get(0).getAttribute(index) instanceof ContinuousAttribute) {
                 double sum = 0.0;
-                for (Instance instance:list){
-                    sum += ((ContinuousAttribute)instance.getAttribute(index)).getValue();
+                for (Instance instance : list) {
+                    sum += ((ContinuousAttribute) instance.getAttribute(index)).getValue();
                 }
                 return new ContinuousAttribute(sum / list.size());
             } else {
@@ -370,26 +401,32 @@ public class InstanceList implements Serializable{
         }
     }
 
-    private ArrayList<Double> continuousAttributeAverage(int index){
-        if (list.get(0).getAttribute(index) instanceof DiscreteIndexedAttribute){
+    /**
+     * Calculates the mean of a single attribute for this instance list (m_i).
+     *
+     * @param index Index of the attribute.
+     * @return The mean value of the instances as an attribute.
+     */
+    private ArrayList<Double> continuousAttributeAverage(int index) {
+        if (list.get(0).getAttribute(index) instanceof DiscreteIndexedAttribute) {
             int maxIndexSize = ((DiscreteIndexedAttribute) list.get(0).getAttribute(index)).getMaxIndex();
             ArrayList<Double> values = new ArrayList<Double>();
-            for (int i = 0; i < maxIndexSize; i++){
+            for (int i = 0; i < maxIndexSize; i++) {
                 values.add(0.0);
             }
-            for (Instance instance:list){
+            for (Instance instance : list) {
                 int valueIndex = ((DiscreteIndexedAttribute) instance.getAttribute(index)).getIndex();
                 values.set(valueIndex, values.get(valueIndex) + 1);
             }
-            for (int i = 0; i < values.size(); i++){
+            for (int i = 0; i < values.size(); i++) {
                 values.set(i, values.get(i) / list.size());
             }
             return values;
         } else {
-            if (list.get(0).getAttribute(index) instanceof ContinuousAttribute){
+            if (list.get(0).getAttribute(index) instanceof ContinuousAttribute) {
                 double sum = 0.0;
-                for (Instance instance:list){
-                    sum += ((ContinuousAttribute)instance.getAttribute(index)).getValue();
+                for (Instance instance : list) {
+                    sum += ((ContinuousAttribute) instance.getAttribute(index)).getValue();
                 }
                 ArrayList<Double> values = new ArrayList<>();
                 values.add(sum / list.size());
@@ -403,18 +440,19 @@ public class InstanceList implements Serializable{
     /**
      * Calculates the standard deviation of a single attribute for this instance list (m_i). If the attribute is discrete,
      * null returned. If the attribute is continuous, the standard deviation  of the values all instances are returned.
-     * @param index Index of the attribute
+     *
+     * @param index Index of the attribute.
      * @return The standard deviation of the instances as an attribute.
      */
-    private Attribute attributeStandardDeviation(int index){
-        if (list.get(0).getAttribute(index) instanceof ContinuousAttribute){
+    private Attribute attributeStandardDeviation(int index) {
+        if (list.get(0).getAttribute(index) instanceof ContinuousAttribute) {
             double average, sum = 0.0;
-            for (Instance instance:list){
-                sum += ((ContinuousAttribute)instance.getAttribute(index)).getValue();
+            for (Instance instance : list) {
+                sum += ((ContinuousAttribute) instance.getAttribute(index)).getValue();
             }
             average = sum / list.size();
             sum = 0.0;
-            for (Instance instance:list){
+            for (Instance instance : list) {
                 sum += Math.pow(((ContinuousAttribute) instance.getAttribute(index)).getValue() - average, 2);
             }
             return new ContinuousAttribute(Math.sqrt(sum / (list.size() - 1)));
@@ -423,47 +461,53 @@ public class InstanceList implements Serializable{
         }
     }
 
-    private ArrayList<Double> continuousAttributeStandardDeviation(int index){
-        if (list.get(0).getAttribute(index) instanceof DiscreteIndexedAttribute){
+    /**
+     * Calculates the standard deviation of a single continuous attribute for this instance list (m_i).
+     *
+     * @param index Index of the attribute.
+     * @return The standard deviation of the instances as an attribute.
+     */
+    private ArrayList<Double> continuousAttributeStandardDeviation(int index) {
+        if (list.get(0).getAttribute(index) instanceof DiscreteIndexedAttribute) {
             int maxIndexSize = ((DiscreteIndexedAttribute) list.get(0).getAttribute(index)).getMaxIndex();
             ArrayList<Double> averages = new ArrayList<Double>();
-            for (int i = 0; i < maxIndexSize; i++){
+            for (int i = 0; i < maxIndexSize; i++) {
                 averages.add(0.0);
             }
-            for (Instance instance:list){
+            for (Instance instance : list) {
                 int valueIndex = ((DiscreteIndexedAttribute) instance.getAttribute(index)).getIndex();
                 averages.set(valueIndex, averages.get(valueIndex) + 1);
             }
-            for (int i = 0; i < averages.size(); i++){
+            for (int i = 0; i < averages.size(); i++) {
                 averages.set(i, averages.get(i) / list.size());
             }
             ArrayList<Double> values = new ArrayList<Double>();
-            for (int i = 0; i < maxIndexSize; i++){
+            for (int i = 0; i < maxIndexSize; i++) {
                 values.add(0.0);
             }
-            for (Instance instance:list){
+            for (Instance instance : list) {
                 int valueIndex = ((DiscreteIndexedAttribute) instance.getAttribute(index)).getIndex();
-                for (int i = 0; i < maxIndexSize; i++){
-                    if (i == valueIndex){
+                for (int i = 0; i < maxIndexSize; i++) {
+                    if (i == valueIndex) {
                         values.set(i, values.get(i) + Math.pow(1 - averages.get(i), 2));
                     } else {
                         values.set(i, values.get(i) + Math.pow(averages.get(i), 2));
                     }
                 }
             }
-            for (int i = 0; i < values.size(); i++){
+            for (int i = 0; i < values.size(); i++) {
                 values.set(i, Math.sqrt(values.get(i) / (list.size() - 1)));
             }
             return values;
         } else {
-            if (list.get(0).getAttribute(index) instanceof ContinuousAttribute){
+            if (list.get(0).getAttribute(index) instanceof ContinuousAttribute) {
                 double average, sum = 0.0;
-                for (Instance instance:list){
-                    sum += ((ContinuousAttribute)instance.getAttribute(index)).getValue();
+                for (Instance instance : list) {
+                    sum += ((ContinuousAttribute) instance.getAttribute(index)).getValue();
                 }
                 average = sum / list.size();
                 sum = 0.0;
-                for (Instance instance:list){
+                for (Instance instance : list) {
                     sum += Math.pow(((ContinuousAttribute) instance.getAttribute(index)).getValue() - average, 2);
                 }
                 ArrayList<Double> result = new ArrayList<>();
@@ -475,95 +519,154 @@ public class InstanceList implements Serializable{
         }
     }
 
-    public DiscreteDistribution attributeDistribution(int index){
+    /**
+     * The attributeDistribution method takes an index as an input and if the attribute of the instance at given index is
+     * discrete, it returns the distribution of the attributes of that instance.
+     *
+     * @param index Index of the attribute.
+     * @return Distribution of the attribute.
+     */
+    public DiscreteDistribution attributeDistribution(int index) {
         DiscreteDistribution distribution = new DiscreteDistribution();
-        if (list.get(0).getAttribute(index) instanceof DiscreteAttribute){
-            for (Instance instance:list){
-                distribution.addItem(((DiscreteAttribute)instance.getAttribute(index)).getValue());
+        if (list.get(0).getAttribute(index) instanceof DiscreteAttribute) {
+            for (Instance instance : list) {
+                distribution.addItem(((DiscreteAttribute) instance.getAttribute(index)).getValue());
             }
         }
         return distribution;
     }
 
-    public ArrayList<DiscreteDistribution> attributeClassDistribution(int attributeIndex){
+    /**
+     * The attributeClassDistribution method takes an attribute index as an input. It loops through the instances, gets
+     * the corresponding value of given attribute index and adds the class label of that instance to the discrete distributions list.
+     *
+     * @param attributeIndex Index of the attribute.
+     * @return Distribution of the class labels.
+     */
+    public ArrayList<DiscreteDistribution> attributeClassDistribution(int attributeIndex) {
         ArrayList<DiscreteDistribution> distributions = new ArrayList<DiscreteDistribution>();
         ArrayList<String> valueList = getAttributeValueList(attributeIndex);
-        for (String ignored :valueList){
+        for (String ignored : valueList) {
             distributions.add(new DiscreteDistribution());
         }
-        for (Instance instance:list){
-            distributions.get(valueList.indexOf(((DiscreteAttribute)instance.getAttribute(attributeIndex)).getValue())).addItem(instance.getClassLabel());
+        for (Instance instance : list) {
+            distributions.get(valueList.indexOf(((DiscreteAttribute) instance.getAttribute(attributeIndex)).getValue())).addItem(instance.getClassLabel());
         }
         return distributions;
     }
 
-    public DiscreteDistribution discreteIndexedAttributeClassDistribution(int attributeIndex, int attributeValue){
+    /**
+     * The discreteIndexedAttributeClassDistribution method takes an attribute index and an attribute value as inputs.
+     * It loops through the instances, gets the corresponding value of given attribute index and given attribute value.
+     * Then, adds the class label of that instance to the discrete indexed distributions list.
+     *
+     * @param attributeIndex Index of the attribute.
+     * @param attributeValue Value of the attribute.
+     * @return Distribution of the class labels.
+     */
+    public DiscreteDistribution discreteIndexedAttributeClassDistribution(int attributeIndex, int attributeValue) {
         DiscreteDistribution distribution = new DiscreteDistribution();
-        for (Instance instance:list){
-            if (((DiscreteIndexedAttribute)instance.getAttribute(attributeIndex)).getIndex() == attributeValue){
+        for (Instance instance : list) {
+            if (((DiscreteIndexedAttribute) instance.getAttribute(attributeIndex)).getIndex() == attributeValue) {
                 distribution.addItem(instance.getClassLabel());
             }
         }
         return distribution;
     }
 
-    public DiscreteDistribution classDistribution(){
+    /**
+     * The classDistribution method returns the distribution of all the class labels of instances.
+     *
+     * @return Distribution of the class labels.
+     */
+    public DiscreteDistribution classDistribution() {
         DiscreteDistribution distribution = new DiscreteDistribution();
-        for (Instance instance:list){
+        for (Instance instance : list) {
             distribution.addItem(instance.getClassLabel());
         }
         return distribution;
     }
 
-    public ArrayList<DiscreteDistribution> allAttributesDistribution(){
+    /**
+     * The allAttributesDistribution method returns the distributions of all the attributes of instances.
+     *
+     * @return Distributions of all the attributes of instances.
+     */
+    public ArrayList<DiscreteDistribution> allAttributesDistribution() {
         ArrayList<DiscreteDistribution> distributions = new ArrayList<DiscreteDistribution>();
-        for (int i = 0; i < list.get(0).attributeSize(); i++){
+        for (int i = 0; i < list.get(0).attributeSize(); i++) {
             distributions.add(attributeDistribution(i));
         }
         return distributions;
     }
 
-    public Instance average(){
+    /**
+     * Returns the mean of all the attributes for instances in the list.
+     *
+     * @return Mean of all the attributes for instances in the list.
+     */
+    public Instance average() {
         Instance result = new Instance(list.get(0).getClassLabel());
-        for (int i = 0; i < list.get(0).attributeSize(); i++){
+        for (int i = 0; i < list.get(0).attributeSize(); i++) {
             result.addAttribute(attributeAverage(i));
         }
         return result;
     }
 
-    public ArrayList<Double> continuousAttributeAverage(){
+    /**
+     * Calculates mean of the attributes of instances.
+     *
+     * @return Mean of the attributes of instances.
+     */
+    public ArrayList<Double> continuousAttributeAverage() {
         ArrayList<Double> result = new ArrayList<>();
-        for (int i = 0; i < list.get(0).attributeSize(); i++){
+        for (int i = 0; i < list.get(0).attributeSize(); i++) {
             result.addAll(continuousAttributeAverage(i));
         }
         return result;
     }
 
-    public Instance standardDeviation(){
+    /**
+     * Returns the standard deviation of attributes for instances.
+     *
+     * @return Standard deviation of attributes for instances.
+     */
+    public Instance standardDeviation() {
         Instance result = new Instance(list.get(0).getClassLabel());
-        for (int i = 0; i < list.get(0).attributeSize(); i++){
+        for (int i = 0; i < list.get(0).attributeSize(); i++) {
             result.addAttribute(attributeStandardDeviation(i));
         }
         return result;
     }
 
-    public ArrayList<Double> continuousAttributeStandardDeviation(){
+    /**
+     * Returns the standard deviation of continuous attributes for instances.
+     *
+     * @return Standard deviation of continuous attributes for instances.
+     */
+    public ArrayList<Double> continuousAttributeStandardDeviation() {
         ArrayList<Double> result = new ArrayList<>();
-        for (int i = 0; i < list.get(0).attributeSize(); i++){
+        for (int i = 0; i < list.get(0).attributeSize(); i++) {
             result.addAll(continuousAttributeStandardDeviation(i));
         }
         return result;
     }
 
-    public Matrix covariance(Vector average){
+    /**
+     * Calculates a covariance {@link Matrix} by using an average {@link Vector}.
+     *
+     * @param average Vector input.
+     * @return Covariance {@link Matrix}.
+     */
+    public Matrix covariance(Vector average) {
         double mi, mj, xi, xj;
         Matrix result = new Matrix(list.get(0).continuousAttributeSize(), list.get(0).continuousAttributeSize());
-        for (Instance instance:list){
+        for (Instance instance : list) {
             ArrayList<Double> continuousAttributes = instance.continuousAttributes();
-            for (int i = 0; i < instance.continuousAttributeSize(); i++){
+            for (int i = 0; i < instance.continuousAttributeSize(); i++) {
                 xi = continuousAttributes.get(i);
                 mi = average.getValue(i);
-                for (int j = 0; j < instance.continuousAttributeSize(); j++){
+                for (int j = 0; j < instance.continuousAttributeSize(); j++) {
                     xj = continuousAttributes.get(j);
                     mj = average.getValue(j);
                     result.addValue(i, j, (xi - mi) * (xj - mj));
@@ -574,7 +677,12 @@ public class InstanceList implements Serializable{
         return result;
     }
 
-    public ArrayList<Instance> getInstances(){
+    /**
+     * Accessor for the instances.
+     *
+     * @return Instances.
+     */
+    public ArrayList<Instance> getInstances() {
         return list;
     }
 

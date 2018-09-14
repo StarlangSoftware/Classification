@@ -10,15 +10,16 @@ import Math.*;
 
 import java.util.HashMap;
 
-public class Qda extends Classifier{
+public class Qda extends Classifier {
 
     /**
      * Training algorithm for the quadratic discriminant analysis classifier (Introduction to Machine Learning, Alpaydin, 2015).
-     * @param trainSet Training data given to the algorithm.
+     *
+     * @param trainSet   Training data given to the algorithm.
      * @param parameters -
      */
     public void train(InstanceList trainSet, Parameter parameters) throws DiscreteFeaturesNotAllowed {
-        if (!discreteCheck(trainSet.get(0))){
+        if (!discreteCheck(trainSet.get(0))) {
             throw new DiscreteFeaturesNotAllowed();
         }
         String Ci;
@@ -30,7 +31,7 @@ public class Qda extends Classifier{
         HashMap<String, Matrix> W = new HashMap<String, Matrix>();
         Partition classLists = trainSet.divideIntoClasses();
         DiscreteDistribution priorDistribution = trainSet.classDistribution();
-        for (int i = 0; i < classLists.size(); i++){
+        for (int i = 0; i < classLists.size(); i++) {
             Ci = ((InstanceListOfSameClass) classLists.get(i)).getClassLabel();
             averageVector = new Vector(classLists.get(i).continuousAttributeAverage());
             classCovariance = classLists.get(i).covariance(averageVector);

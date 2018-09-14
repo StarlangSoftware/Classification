@@ -6,11 +6,17 @@ import Classification.Parameter.Parameter;
 
 import java.util.ArrayList;
 
-public class RandomClassifier extends Classifier{
+public class RandomClassifier extends Classifier {
 
-	@Override
-	public void train(InstanceList trainSet, Parameter parameters) {
-		model = new RandomModel(new ArrayList<String>(trainSet.classDistribution().keySet()));
-	}
+    /**
+     * Training algorithm for random classifier.
+     *
+     * @param trainSet   Training data given to the algorithm.
+     * @param parameters -
+     */
+    @Override
+    public void train(InstanceList trainSet, Parameter parameters) {
+        model = new RandomModel(new ArrayList<String>(trainSet.classDistribution().keySet()));
+    }
 
 }

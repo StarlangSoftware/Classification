@@ -8,8 +8,9 @@ import Classification.Parameter.Parameter;
 public class C45Stump extends Classifier {
 
     /**
-     * Training algorithm for C4.5Stump univariate decision tree classifier.
-     * @param trainSet Training data given to the algorithm.
+     * Training algorithm for C4.5 Stump univariate decision tree classifier.
+     *
+     * @param trainSet   Training data given to the algorithm.
      * @param parameters -
      */
     public void train(InstanceList trainSet, Parameter parameters) {
