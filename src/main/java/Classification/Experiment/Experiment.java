@@ -28,7 +28,7 @@ public class Experiment {
         return dataSet;
     }
 
-    public Experiment featureSelectedExperiment(FeatureSubSet featureSubSet){
+    public Experiment featureSelectedExperiment(FeatureSubSet featureSubSet) {
         return new Experiment(classifier, parameter, dataSet.getSubSetOfFeatures(featureSubSet));
     }
 

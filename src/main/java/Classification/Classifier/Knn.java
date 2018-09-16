@@ -9,7 +9,8 @@ public class Knn extends Classifier {
 
     /**
      * Training algorithm for K-nearest neighbor classifier.
-     * @param trainSet Training data given to the algorithm.
+     *
+     * @param trainSet   Training data given to the algorithm.
      * @param parameters K: k parameter of the K-nearest neighbor algorithm
      *                   distanceMetric: distance metric used to calculate the distance between two instances.
      */

@@ -9,57 +9,105 @@ public class DataDefinition {
 
     private ArrayList<AttributeType> attributeTypes;
 
-    public DataDefinition(){
+    /**
+     * Constructor for creating a new {@link DataDefinition}.
+     */
+    public DataDefinition() {
         attributeTypes = new ArrayList<>();
     }
 
-    public DataDefinition(ArrayList<AttributeType> attributeTypes){
+    /**
+     * Constructor for creating a new {@link DataDefinition} with given attribute types.
+     *
+     * @param attributeTypes Attribute types of the data definition.
+     */
+    public DataDefinition(ArrayList<AttributeType> attributeTypes) {
         this.attributeTypes = attributeTypes;
     }
 
-    public int attributeCount(){
+    /**
+     * Returns the number of attribute types.
+     *
+     * @return Number of attribute types.
+     */
+    public int attributeCount() {
         return attributeTypes.size();
     }
 
-    public int discreteAttributeCount(){
+    /**
+     * Counts the occurrences of binary and discrete type attributes.
+     *
+     * @return Count of binary and discrete type attributes.
+     */
+    public int discreteAttributeCount() {
         int count = 0;
-        for (AttributeType attributeType : attributeTypes){
-            if (attributeType.equals(AttributeType.DISCRETE) || attributeType.equals(AttributeType.BINARY)){
+        for (AttributeType attributeType : attributeTypes) {
+            if (attributeType.equals(AttributeType.DISCRETE) || attributeType.equals(AttributeType.BINARY)) {
                 count++;
             }
         }
         return count;
     }
 
-    public int continuousAttributeCount(){
+    /**
+     * Counts the occurrences of binary and continuous type attributes.
+     *
+     * @return Count of of binary and continuous type attributes.
+     */
+    public int continuousAttributeCount() {
         int count = 0;
-        for (AttributeType attributeType : attributeTypes){
-            if (attributeType.equals(AttributeType.CONTINUOUS)){
+        for (AttributeType attributeType : attributeTypes) {
+            if (attributeType.equals(AttributeType.CONTINUOUS)) {
                 count++;
             }
         }
         return count;
     }
 
-    public AttributeType getAttributeType(int index){
+    /**
+     * Returns the attribute type of the corresponding item at given index.
+     *
+     * @param index Index of the attribute type.
+     * @return Attribute type of the corresponding item at given index.
+     */
+    public AttributeType getAttributeType(int index) {
         return attributeTypes.get(index);
     }
 
-    public void addAttribute(AttributeType attributeType){
+    /**
+     * Adds an attribute type to the list of attribute types.
+     *
+     * @param attributeType Attribute type to add to the list of attribute types.
+     */
+    public void addAttribute(AttributeType attributeType) {
         attributeTypes.add(attributeType);
     }
 
-    public void removeAttribute(int index){
+    /**
+     * Removes the attribute type at given index from the list of attributes.
+     *
+     * @param index Index to remove attribute type from list.
+     */
+    public void removeAttribute(int index) {
         attributeTypes.remove(index);
     }
 
-    public void removeAllAttributes(){
+    /**
+     * Clears all the attribute types from list.
+     */
+    public void removeAllAttributes() {
         attributeTypes.clear();
     }
 
-    public DataDefinition getSubSetOfFeatures(FeatureSubSet featureSubSet){
+    /**
+     * Generates new subset of attribute types by using given feature subset.
+     *
+     * @param featureSubSet {@link FeatureSubSet} input.
+     * @return DataDefinition with new subset of attribute types.
+     */
+    public DataDefinition getSubSetOfFeatures(FeatureSubSet featureSubSet) {
         ArrayList<AttributeType> newAttributeTypes = new ArrayList<>();
-        for (int i = 0; i < featureSubSet.size(); i++){
+        for (int i = 0; i < featureSubSet.size(); i++) {
             newAttributeTypes.add(attributeTypes.get(featureSubSet.get(i)));
         }
         return new DataDefinition(newAttributeTypes);

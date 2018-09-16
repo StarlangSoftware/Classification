@@ -8,10 +8,17 @@ import Classification.Parameter.Parameter;
 
 import java.util.Random;
 
-public class DeepNetwork extends Classifier{
+public class DeepNetwork extends Classifier {
 
+    /**
+     * Training algorithm for deep network classifier.
+     *
+     * @param trainSet   Training data given to the algorithm.
+     * @param parameters Parameters of the deep network algorithm. crossValidationRatio and seed are used as parameters.
+     * @throws DiscreteFeaturesNotAllowed Exception for discrete features.
+     */
     public void train(InstanceList trainSet, Parameter parameters) throws DiscreteFeaturesNotAllowed {
-        if (!discreteCheck(trainSet.get(0))){
+        if (!discreteCheck(trainSet.get(0))) {
             throw new DiscreteFeaturesNotAllowed();
         }
         Partition partition = trainSet.stratifiedPartition(((DeepNetworkParameter) parameters).getCrossValidationRatio(), new Random(parameters.getSeed()));

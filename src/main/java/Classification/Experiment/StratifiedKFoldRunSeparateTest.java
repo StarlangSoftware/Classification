@@ -9,7 +9,7 @@ import Sampling.StratifiedKFoldCrossValidation;
 
 import java.util.Random;
 
-public class StratifiedKFoldRunSeparateTest extends KFoldRunSeparateTest{
+public class StratifiedKFoldRunSeparateTest extends KFoldRunSeparateTest {
     /**
      * Constructor for StratifiedKFoldRunSeparateTest class. Basically sets K parameter of the K-fold cross-validation.
      *
@@ -19,6 +19,12 @@ public class StratifiedKFoldRunSeparateTest extends KFoldRunSeparateTest{
         super(K);
     }
 
+    /**
+     * Execute Stratified K-fold cross-validation with the given classifier on the given data set using the given parameters.
+     *
+     * @param experiment Experiment to be run.
+     * @return An array of performances: result. result[i] is the performance of the classifier on the i'th fold.
+     */
     public ExperimentPerformance execute(Experiment experiment) throws DiscreteFeaturesNotAllowed {
         ExperimentPerformance result = new ExperimentPerformance();
         InstanceList instanceList = experiment.getDataSet().getInstanceList();
