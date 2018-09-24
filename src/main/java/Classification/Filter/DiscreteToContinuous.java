@@ -6,14 +6,15 @@ import Classification.DataSet.DataDefinition;
 import Classification.DataSet.DataSet;
 import Classification.Instance.Instance;
 
-public class DiscreteToContinuous extends LaryFilter{
+public class DiscreteToContinuous extends LaryFilter {
 
     /**
      * Constructor for discrete to continuous filter.
+     *
      * @param dataSet The dataSet whose instances whose discrete attributes will be converted to continuous attributes using
-     *                     1-of-L encoding.
+     *                1-of-L encoding.
      */
-    public DiscreteToContinuous(DataSet dataSet){
+    public DiscreteToContinuous(DataSet dataSet) {
         super(dataSet);
     }
 
@@ -21,15 +22,16 @@ public class DiscreteToContinuous extends LaryFilter{
      * Converts discrete attributes of a single instance to continuous version using 1-of-L encoding. For example, if
      * an attribute has values red, green, blue; this attribute will be converted to 3 continuous attributes where
      * red will have the value 100, green will have the value 010, and blue will have the value 001.
-     * @param instance The instance to be converted
+     *
+     * @param instance The instance to be converted.
      */
     protected void convertInstance(Instance instance) {
         int size = instance.attributeSize();
-        for (int i = 0; i < size; i++){
-            if (attributeDistributions.get(i).size() > 0){
+        for (int i = 0; i < size; i++) {
+            if (attributeDistributions.get(i).size() > 0) {
                 int index = attributeDistributions.get(i).getIndex(instance.getAttribute(i).toString());
-                for (int j = 0; j < attributeDistributions.get(i).size(); j++){
-                    if (j != index){
+                for (int j = 0; j < attributeDistributions.get(i).size(); j++) {
+                    if (j != index) {
                         instance.addAttribute(new ContinuousAttribute(0));
                     } else {
                         instance.addAttribute(new ContinuousAttribute(1));
@@ -47,9 +49,9 @@ public class DiscreteToContinuous extends LaryFilter{
     protected void convertDataDefinition() {
         DataDefinition dataDefinition = dataSet.getDataDefinition();
         int size = dataDefinition.attributeCount();
-        for (int i = 0; i < size; i++){
-            if (attributeDistributions.get(i).size() > 0){
-                for (int j = 0; j < attributeDistributions.get(i).size(); j++){
+        for (int i = 0; i < size; i++) {
+            if (attributeDistributions.get(i).size() > 0) {
+                for (int j = 0; j < attributeDistributions.get(i).size(); j++) {
                     dataDefinition.addAttribute(AttributeType.CONTINUOUS);
                 }
             }
