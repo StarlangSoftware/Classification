@@ -7,10 +7,17 @@ import java.util.ArrayList;
 
 public abstract class FeatureFilter {
     protected DataSet dataSet;
+
     protected abstract void convertInstance(Instance instance);
+
     protected abstract void convertDataDefinition();
 
-    public FeatureFilter(DataSet dataSet){
+    /**
+     * Constructor that sets the dataSet.
+     *
+     * @param dataSet DataSet that will bu used.
+     */
+    public FeatureFilter(DataSet dataSet) {
         this.dataSet = dataSet;
     }
 
@@ -18,9 +25,9 @@ public abstract class FeatureFilter {
      * Feature converter for a list of instances. Using the abstract method convertInstance, each instance in the
      * instance list will be converted.
      */
-    public void convert(){
+    public void convert() {
         ArrayList<Instance> instances = dataSet.getInstances();
-        for (Instance instance:instances){
+        for (Instance instance : instances) {
             convertInstance(instance);
         }
         convertDataDefinition();

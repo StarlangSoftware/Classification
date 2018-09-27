@@ -5,46 +5,91 @@ import java.util.ArrayList;
 public class FeatureSubSet {
     private ArrayList<Integer> indexList;
 
-    public FeatureSubSet(ArrayList<Integer> indexList){
+    /**
+     * A constructor that sets the indexList {@link ArrayList}.
+     *
+     * @param indexList An ArrayList consists of integer indices.
+     */
+    public FeatureSubSet(ArrayList<Integer> indexList) {
         this.indexList = indexList;
     }
 
-    public FeatureSubSet(int numberOfFeatures){
+    /**
+     * A constructor that takes number of features as input and initializes indexList with these numbers.
+     *
+     * @param numberOfFeatures Indicates the indices of indexList.
+     */
+    public FeatureSubSet(int numberOfFeatures) {
         indexList = new ArrayList<>();
-        for (int i = 0; i < numberOfFeatures; i++){
+        for (int i = 0; i < numberOfFeatures; i++) {
             indexList.add(i);
         }
     }
 
-    public FeatureSubSet(){
+    /**
+     * A constructor that creates a new ArrayList for indexList.
+     */
+    public FeatureSubSet() {
         indexList = new ArrayList<>();
     }
 
-    public FeatureSubSet clone(){
+    /**
+     * The clone method creates a new ArrayList with the elements of indexList and returns it as a new FeatureSubSet.
+     *
+     * @return A new ArrayList with the elements of indexList and returns it as a new FeatureSubSet.
+     */
+    public FeatureSubSet clone() {
         ArrayList<Integer> newIndexList = new ArrayList<>();
-        for (Integer index : indexList){
+        for (Integer index : indexList) {
             newIndexList.add(index);
         }
         return new FeatureSubSet(newIndexList);
     }
 
-    public int size(){
+    /**
+     * The size method returns the size of the indexList.
+     *
+     * @return The size of the indexList.
+     */
+    public int size() {
         return indexList.size();
     }
 
-    public int get(int index){
+    /**
+     * The get method returns the item of indexList at given index.
+     *
+     * @param index Index of the indexList to be accessed.
+     * @return The item of indexList at given index.
+     */
+    public int get(int index) {
         return indexList.get(index);
     }
 
-    public boolean contains(int featureNo){
+    /**
+     * The contains method returns True, if indexList contains given input number and False otherwise.
+     *
+     * @param featureNo Feature number that will be checked.
+     * @return True, if indexList contains given input number.
+     */
+    public boolean contains(int featureNo) {
         return indexList.contains(featureNo);
     }
 
-    public void add(Integer featureNo){
+    /**
+     * The add method adds given Integer to the indexList.
+     *
+     * @param featureNo Integer that will be added to indexList.
+     */
+    public void add(Integer featureNo) {
         indexList.add(featureNo);
     }
 
-    public void remove(int index){
+    /**
+     * The remove method removes the item of indexList at the given index.
+     *
+     * @param index Index of the item that will be removed.
+     */
+    public void remove(int index) {
         indexList.remove(index);
     }
 }

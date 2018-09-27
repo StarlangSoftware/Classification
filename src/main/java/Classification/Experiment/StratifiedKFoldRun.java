@@ -5,14 +5,13 @@ import Classification.Performance.ExperimentPerformance;
 import Classification.Instance.Instance;
 import Sampling.StratifiedKFoldCrossValidation;
 
-public class StratifiedKFoldRun extends KFoldRun {
+public class StratifiedKFoldRun extends KFoldRun{
 
     /**
-     * Constructor for StratifiedKFoldRun class. Basically sets K parameter of the K-fold cross-validation.
-     *
+     * Constructor for KFoldRun class. Basically sets K parameter of the K-fold cross-validation.
      * @param K K of the K-fold cross-validation.
      */
-    public StratifiedKFoldRun(int K) {
+    public StratifiedKFoldRun(int K){
         super(K);
     }
 

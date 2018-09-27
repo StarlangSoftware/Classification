@@ -39,5 +39,4 @@ public class StratifiedMxKFoldRunSeparateTest extends StratifiedKFoldRunSeparate
         }
         return result;
     }
-
 }

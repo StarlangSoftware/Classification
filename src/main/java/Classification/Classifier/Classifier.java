@@ -57,6 +57,7 @@ public abstract class Classifier {
      * @param trainSet  Training data to be used in training the classifier.
      * @param testSet   Test data to be tested after training the model.
      * @return The accuracy (and error) of the trained model as an instance of Performance class.
+     * @throws DiscreteFeaturesNotAllowed Exception for discrete features.
      */
     public Performance singleRun(Parameter parameter, InstanceList trainSet, InstanceList testSet) throws DiscreteFeaturesNotAllowed {
         train(trainSet, parameter);

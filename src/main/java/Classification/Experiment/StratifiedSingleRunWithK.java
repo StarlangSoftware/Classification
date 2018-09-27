@@ -24,6 +24,7 @@ public class StratifiedSingleRunWithK {
      *
      * @param experiment Experiment to be run.
      * @return An array of performances: result. result[i] is the performance of the classifier on the i'th fold.
+     * @throws DiscreteFeaturesNotAllowed Exception for discrete features.
      */
     public Performance execute(Experiment experiment) throws DiscreteFeaturesNotAllowed {
         StratifiedKFoldCrossValidation<Instance> crossValidation = new StratifiedKFoldCrossValidation<>(experiment.getDataSet().getClassInstances(), K, experiment.getParameter().getSeed());

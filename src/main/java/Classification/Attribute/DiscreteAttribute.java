@@ -2,7 +2,7 @@ package Classification.Attribute;
 
 import java.io.Serializable;
 
-public class DiscreteAttribute extends Attribute implements Serializable {
+public class DiscreteAttribute extends Attribute implements Serializable{
 
     private String value = "NULL";
 
@@ -18,7 +18,7 @@ public class DiscreteAttribute extends Attribute implements Serializable {
     /**
      * Accessor method for value.
      *
-     * @return value.
+     * @return value
      */
     public String getValue() {
         return value;

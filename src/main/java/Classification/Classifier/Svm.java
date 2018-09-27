@@ -6,6 +6,7 @@ import Classification.Parameter.Parameter;
 import Classification.Parameter.SvmParameter;
 
 public class Svm extends Classifier {
+
     /**
      * Training algorithm for Support Vector Machine classifier.
      *

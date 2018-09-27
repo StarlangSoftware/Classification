@@ -18,14 +18,14 @@ public class ContinuousAttribute extends Attribute implements Serializable {
     /**
      * Accessor method for value.
      *
-     * @return value.
+     * @return value
      */
     public double getValue() {
         return value;
     }
 
     /**
-     * Mutator method for value.
+     * Mutator method for value
      *
      * @param value New value of value.
      */
