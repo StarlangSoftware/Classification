@@ -1,5 +1,20 @@
 package Classification.Model.Svm;
 
 public enum KernelType {
-    LINEAR, POLYNOM, RBF, SIGMOID;
+    /**
+     * Linear Kernel.
+     */
+    LINEAR,
+    /**
+     * Polynomial Kernel.
+     */
+    POLYNOM,
+    /**
+     * Gaussian radial basis function Kernel.
+     */
+    RBF,
+    /**
+     * Sigmoid Kernel.
+     */
+    SIGMOID;
 }
