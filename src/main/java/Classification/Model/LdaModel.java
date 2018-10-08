@@ -6,10 +6,18 @@ import Math.*;
 import java.io.Serializable;
 import java.util.HashMap;
 
-public class LdaModel extends GaussianModel implements Serializable{
+public class LdaModel extends GaussianModel implements Serializable {
     protected HashMap<String, Double> w0;
     protected HashMap<String, Vector> w;
 
+    /**
+     * The calculateMetric method takes an {@link Instance} and a String as inputs. It returns the dot product of given Instance
+     * and w0 plus w1.
+     *
+     * @param instance {@link Instance} input.
+     * @param Ci       String input.
+     * @return The dot product of given Instance and w0 plus w1.
+     */
     @Override
     protected double calculateMetric(Instance instance, String Ci) {
         double w0i;
@@ -24,7 +32,14 @@ public class LdaModel extends GaussianModel implements Serializable{
         }
     }
 
-    public LdaModel(DiscreteDistribution priorDistribution, HashMap<String, Vector> w, HashMap<String, Double> w0){
+    /**
+     * A constructor which sets the priorDistribution, w and w1 according to given inputs.
+     *
+     * @param priorDistribution {@link DiscreteDistribution} input.
+     * @param w                 {@link HashMap} of String and Vectors.
+     * @param w0                {@link HashMap} of String and Double.
+     */
+    public LdaModel(DiscreteDistribution priorDistribution, HashMap<String, Vector> w, HashMap<String, Double> w0) {
         this.priorDistribution = priorDistribution;
         this.w = w;
         this.w0 = w0;
