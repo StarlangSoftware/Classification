@@ -27,7 +27,7 @@ public abstract class NeuralNetworkModel extends ValidatedModel implements Seria
     }
 
     /**
-     * The allocateLayerWeights method returns a new {@link Matrix} with random wights.
+     * The allocateLayerWeights method returns a new {@link Matrix} with random weights.
      *
      * @param row    Number of rows.
      * @param column Number of columns.
