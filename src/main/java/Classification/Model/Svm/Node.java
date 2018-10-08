@@ -4,20 +4,41 @@ public class Node {
     private int index;
     private double value;
 
-    public Node(int index, double value){
+    /**
+     * Constructor that sets the value of index and value.
+     *
+     * @param index Index of the node.
+     * @param value Value of the node.
+     */
+    public Node(int index, double value) {
         this.index = index;
         this.value = value;
     }
 
-    public Node clone(){
+    /**
+     * The clone method creates a new Node as a clone.
+     *
+     * @return New {@link Node}.
+     */
+    public Node clone() {
         return new Node(index, value);
     }
 
-    public int getIndex(){
+    /**
+     * The getIndex method returns the index of a Node.
+     *
+     * @return The index of a Node.
+     */
+    public int getIndex() {
         return index;
     }
 
-    public double getValue(){
+    /**
+     * The getValue method returns the value of a Node.
+     *
+     * @return The value of a Node.
+     */
+    public double getValue() {
         return value;
     }
 
