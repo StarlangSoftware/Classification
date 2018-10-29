@@ -66,19 +66,23 @@ public abstract class SubSetSelection {
         FeatureSubSet best = initialSubSet;
         processed.add(best);
         boolean betterFound = true;
-        ExperimentPerformance bestPerformance, currentPerformance;
+        ExperimentPerformance bestPerformance = null, currentPerformance;
         try {
-            bestPerformance = multipleRun.execute(experiment.featureSelectedExperiment(best));
+            if (best.size() > 0){
+                bestPerformance = multipleRun.execute(experiment.featureSelectedExperiment(best));
+            }
             while (betterFound) {
                 betterFound = false;
                 ArrayList<FeatureSubSet> candidateList = operator(best, experiment.getDataSet().getDataDefinition().attributeCount());
                 for (FeatureSubSet candidateSubSet : candidateList) {
                     if (!processed.contains(candidateSubSet)) {
-                        currentPerformance = multipleRun.execute(experiment.featureSelectedExperiment(candidateSubSet));
-                        if (currentPerformance.isBetter(bestPerformance)) {
-                            best = candidateSubSet;
-                            bestPerformance = currentPerformance;
-                            betterFound = true;
+                        if (candidateSubSet.size() > 0){
+                            currentPerformance = multipleRun.execute(experiment.featureSelectedExperiment(candidateSubSet));
+                            if (bestPerformance == null || currentPerformance.isBetter(bestPerformance)) {
+                                best = candidateSubSet;
+                                bestPerformance = currentPerformance;
+                                betterFound = true;
+                            }
                         }
                         processed.add(candidateSubSet);
                     }
