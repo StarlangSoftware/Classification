@@ -30,6 +30,9 @@ public class DiscreteAttribute extends Attribute implements Serializable{
      * @return String representation of value.
      */
     public String toString() {
+        if (value.equals(",")){
+            return "comma";
+        }
         return value;
     }
 }
