@@ -129,7 +129,7 @@ public class DecisionNode implements Serializable {
         classLabel = Classifier.getMaximum(data.getClassLabels());
         leaf = true;
         classLabels = data.getDistinctClassLabels();
-        if (classLabels.size() == -1) {
+        if (classLabels.size() == 1) {
             return;
         }
         if (isStump && condition != null) {

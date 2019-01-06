@@ -7,6 +7,7 @@ import Classification.DataSet.DataSet;
 import Classification.Experiment.Experiment;
 import Classification.Experiment.KFoldRun;
 import Classification.Experiment.StratifiedKFoldRun;
+import Classification.Filter.DiscreteToIndexed;
 import Classification.Filter.Normalize;
 import Classification.Model.Svm.KernelType;
 import Classification.Parameter.*;
@@ -146,10 +147,12 @@ public class TestClassification {
     }
 
     private static void testNlp(){
-        DataSet dataSet = new DataSet(new File("shallowparse.txt"));
+        DataSet dataSet = new DataSet(new File("semantic.txt"));
+        DiscreteToIndexed discreteToIndexed = new DiscreteToIndexed(dataSet);
+        discreteToIndexed.convert();
         KFoldRun run = new KFoldRun(10);
         try {
-            ExperimentPerformance results = run.execute(new Experiment(new RandomClassifier(), new Parameter(10), dataSet));
+            ExperimentPerformance results = run.execute(new Experiment(new C45(), new C45Parameter(1, false, 0.2), dataSet));
             System.out.println(100 * results.meanClassificationPerformance().getErrorRate() + " " + 100 * results.standardDeviationClassificationPerformance().getErrorRate());
         } catch (DiscreteFeaturesNotAllowed discreteFeaturesNotAllowed) {
             discreteFeaturesNotAllowed.printStackTrace();
