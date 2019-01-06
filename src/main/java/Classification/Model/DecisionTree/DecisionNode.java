@@ -139,7 +139,7 @@ public class DecisionNode implements Serializable {
         for (int i = 0; i < data.get(0).attributeSize(); i++) {
             indexList.add(i);
         }
-        if (parameter != null) {
+        if (parameter != null && parameter.getAttributeSubsetSize() < data.get(0).attributeSize()) {
             Collections.shuffle(indexList, new Random(parameter.getSeed()));
             size = parameter.getAttributeSubsetSize();
         } else {
