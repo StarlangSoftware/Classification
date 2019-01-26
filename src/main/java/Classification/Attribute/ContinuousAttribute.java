@@ -1,6 +1,7 @@
 package Classification.Attribute;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class ContinuousAttribute extends Attribute implements Serializable {
 
@@ -42,4 +43,15 @@ public class ContinuousAttribute extends Attribute implements Serializable {
         return "" + String.format("%.4f", value);
     }
 
+    @Override
+    public int continuousAttributeSize() {
+        return 1;
+    }
+
+    @Override
+    public ArrayList<Double> continuousAttributes() {
+        ArrayList<Double> result = new ArrayList<>();
+        result.add(value);
+        return result;
+    }
 }

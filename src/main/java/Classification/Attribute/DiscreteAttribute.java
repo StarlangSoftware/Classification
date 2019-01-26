@@ -1,6 +1,7 @@
 package Classification.Attribute;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class DiscreteAttribute extends Attribute implements Serializable{
 
@@ -34,5 +35,15 @@ public class DiscreteAttribute extends Attribute implements Serializable{
             return "comma";
         }
         return value;
+    }
+
+    @Override
+    public int continuousAttributeSize() {
+        return 0;
+    }
+
+    @Override
+    public ArrayList<Double> continuousAttributes() {
+        return new ArrayList<>();
     }
 }

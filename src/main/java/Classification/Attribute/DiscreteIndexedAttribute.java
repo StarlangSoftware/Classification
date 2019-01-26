@@ -1,6 +1,7 @@
 package Classification.Attribute;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class DiscreteIndexedAttribute extends DiscreteAttribute implements Serializable {
 
@@ -37,6 +38,24 @@ public class DiscreteIndexedAttribute extends DiscreteAttribute implements Seria
      */
     public int getMaxIndex() {
         return maxIndex;
+    }
+
+    @Override
+    public int continuousAttributeSize() {
+        return maxIndex;
+    }
+
+    @Override
+    public ArrayList<Double> continuousAttributes() {
+        ArrayList<Double> result = new ArrayList<>();
+        for (int i = 0; i < maxIndex; i++) {
+            if (i != index) {
+                result.add(0.0);
+            } else {
+                result.add(1.0);
+            }
+        }
+        return result;
     }
 
 }

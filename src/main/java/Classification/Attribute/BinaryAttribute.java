@@ -11,4 +11,5 @@ public class BinaryAttribute extends DiscreteAttribute implements Serializable{
     public BinaryAttribute(boolean value){
         super(Boolean.toString(value));
     }
+
 }

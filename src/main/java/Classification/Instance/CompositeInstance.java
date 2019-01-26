@@ -80,11 +80,11 @@ public class CompositeInstance extends Instance {
      * @return String representation of possible class labels.
      */
     public String toString() {
-        String result = super.toString();
+        StringBuilder result = new StringBuilder(super.toString());
         for (String possibleClassLabel : possibleClassLabels) {
-            result = result + ";" + possibleClassLabel;
+            result.append(";").append(possibleClassLabel);
         }
-        return result;
+        return result.toString();
     }
 
 }

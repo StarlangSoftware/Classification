@@ -48,7 +48,7 @@ public class Instance implements Serializable {
     }
 
     /**
-     * Adds a continuous attribute with the given {@link String} value.
+     * Adds a continuous attribute with the given {@link double} value.
      *
      * @param value Value of the continuous attribute.
      */
@@ -119,14 +119,7 @@ public class Instance implements Serializable {
     public int continuousAttributeSize() {
         int size = 0;
         for (Attribute attribute : attributes) {
-            if (attribute instanceof ContinuousAttribute) {
-                size++;
-            } else {
-                if (attribute instanceof DiscreteIndexedAttribute) {
-                    DiscreteIndexedAttribute discreteIndexedAttribute = (DiscreteIndexedAttribute) attribute;
-                    size += discreteIndexedAttribute.getMaxIndex();
-                }
-            }
+            size += attribute.continuousAttributeSize();
         }
         return size;
     }
@@ -141,20 +134,7 @@ public class Instance implements Serializable {
     public ArrayList<Double> continuousAttributes() {
         ArrayList<Double> result = new ArrayList<Double>();
         for (Attribute attribute : attributes) {
-            if (attribute instanceof ContinuousAttribute) {
-                result.add(((ContinuousAttribute) attribute).getValue());
-            } else {
-                if (attribute instanceof DiscreteIndexedAttribute) {
-                    DiscreteIndexedAttribute discreteIndexedAttribute = (DiscreteIndexedAttribute) attribute;
-                    for (int i = 0; i < discreteIndexedAttribute.getMaxIndex(); i++) {
-                        if (i != discreteIndexedAttribute.getIndex()) {
-                            result.add(0.0);
-                        } else {
-                            result.add(1.0);
-                        }
-                    }
-                }
-            }
+            result.addAll(attribute.continuousAttributes());
         }
         return result;
     }
@@ -204,21 +184,8 @@ public class Instance implements Serializable {
      */
     public Vector toVector() {
         ArrayList<Double> values = new ArrayList<Double>();
-        for (int i = 0; i < attributeSize(); i++) {
-            if (getAttribute(i) instanceof ContinuousAttribute) {
-                values.add(((ContinuousAttribute) getAttribute(i)).getValue());
-            } else {
-                if (getAttribute(i) instanceof DiscreteIndexedAttribute) {
-                    DiscreteIndexedAttribute discreteIndexedAttribute = (DiscreteIndexedAttribute) getAttribute(i);
-                    for (int j = 0; j < discreteIndexedAttribute.getMaxIndex(); j++) {
-                        if (j == discreteIndexedAttribute.getIndex()) {
-                            values.add(1.0);
-                        } else {
-                            values.add(0.0);
-                        }
-                    }
-                }
-            }
+        for (Attribute attribute : attributes) {
+            values.addAll(attribute.continuousAttributes());
         }
         return new Vector(values);
     }
