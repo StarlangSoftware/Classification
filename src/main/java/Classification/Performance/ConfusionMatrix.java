@@ -13,7 +13,7 @@ public class ConfusionMatrix {
      * Constructor that sets the class labels {@link ArrayList} and creates new {@link HashMap} matrix
      * .
      *
-     * @param classLabels {@link ArrayList} os String.
+     * @param classLabels {@link ArrayList} of String.
      */
     public ConfusionMatrix(ArrayList<String> classLabels) {
         this.classLabels = classLabels;

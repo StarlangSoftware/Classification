@@ -26,7 +26,7 @@ public class StratifiedKFoldRunSeparateTest extends KFoldRunSeparateTest{
      * @return An array of performances: result. result[i] is the performance of the classifier on the i'th fold.
      * @throws DiscreteFeaturesNotAllowed Exception for discrete features.
      */
-    public ExperimentPerformance s(Experiment experiment) throws DiscreteFeaturesNotAllowed {
+    public ExperimentPerformance execute(Experiment experiment) throws DiscreteFeaturesNotAllowed {
         ExperimentPerformance result = new ExperimentPerformance();
         InstanceList instanceList = experiment.getDataSet().getInstanceList();
         Partition partition = instanceList.partition(0.25, new Random(experiment.getParameter().getSeed()));
