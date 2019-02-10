@@ -19,6 +19,17 @@ public class KnnParameter extends KMeansParameter {
     }
 
     /**
+     * Parameters of the K-nearest neighbor classifier.
+     *
+     * @param seed           Seed is used for random number generation.
+     * @param k              Parameter of the K-nearest neighbor algorithm.
+     */
+    public KnnParameter(int seed, int k) {
+        super(seed);
+        this.k = k;
+    }
+
+    /**
      * Accessor for the k.
      *
      * @return Value of the k.
