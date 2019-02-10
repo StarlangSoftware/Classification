@@ -2,7 +2,7 @@ package Classification.Parameter;
 
 import Classification.DistanceMetric.DistanceMetric;
 
-public class KnnParameter extends RocchioParameter {
+public class KnnParameter extends KMeansParameter {
 
     private int k;
 

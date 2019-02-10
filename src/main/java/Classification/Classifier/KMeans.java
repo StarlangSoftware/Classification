@@ -3,7 +3,7 @@ package Classification.Classifier;
 import Classification.InstanceList.InstanceList;
 import Classification.Model.KMeansModel;
 import Classification.Parameter.Parameter;
-import Classification.Parameter.RocchioParameter;
+import Classification.Parameter.KMeansParameter;
 import Classification.InstanceList.Partition;
 import Math.DiscreteDistribution;
 
@@ -22,6 +22,6 @@ public class KMeans extends Classifier {
         for (int i = 0; i < classLists.size(); i++) {
             classMeans.add(classLists.get(i).average());
         }
-        model = new KMeansModel(priorDistribution, classMeans, ((RocchioParameter) parameters).getDistanceMetric());
+        model = new KMeansModel(priorDistribution, classMeans, ((KMeansParameter) parameters).getDistanceMetric());
     }
 }
