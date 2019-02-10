@@ -7,7 +7,7 @@ import Math.DiscreteDistribution;
 
 import java.io.Serializable;
 
-public class RocchioModel extends GaussianModel implements Serializable {
+public class KMeansModel extends GaussianModel implements Serializable {
     private InstanceList classMeans;
     private DistanceMetric distanceMetric;
 
@@ -18,7 +18,7 @@ public class RocchioModel extends GaussianModel implements Serializable {
      * @param classMeans        {@link InstanceList} of class means.
      * @param distanceMetric    {@link DistanceMetric} input.
      */
-    public RocchioModel(DiscreteDistribution priorDistribution, InstanceList classMeans, DistanceMetric distanceMetric) {
+    public KMeansModel(DiscreteDistribution priorDistribution, InstanceList classMeans, DistanceMetric distanceMetric) {
         this.classMeans = classMeans;
         this.priorDistribution = priorDistribution;
         this.distanceMetric = distanceMetric;
