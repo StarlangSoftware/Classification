@@ -38,7 +38,7 @@ public abstract class NeuralNetworkModel extends ValidatedModel implements Seria
     }
 
     /**
-     * The normalizeOutput method takes an input {@link java.util.Vector} o, gets the result for e^o of each element of o,
+     * The normalizeOutput method takes an input {@link Vector} o, gets the result for e^o of each element of o,
      * then sums them up. At the end, divides the each e^o by the summation.
      *
      * @param o Vector to normalize.

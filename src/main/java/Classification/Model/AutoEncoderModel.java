@@ -82,7 +82,7 @@ public class AutoEncoderModel extends NeuralNetworkModel implements Serializable
     }
 
     /**
-     * Th testAutoEncoder method takes an {@link InstanceList} as an input and tries to predict a value and finds the difference with the
+     * The testAutoEncoder method takes an {@link InstanceList} as an input and tries to predict a value and finds the difference with the
      * actual value for each item of that InstanceList. At the end, it returns an error rate by finding the mean of total errors.
      *
      * @param data {@link InstanceList} to use as validation set.
