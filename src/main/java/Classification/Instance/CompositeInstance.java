@@ -75,9 +75,9 @@ public class CompositeInstance extends Instance {
     }
 
     /**
-     * Converts possible class labels to {@link String}.
+     * Converts composite instance to {@link String}.
      *
-     * @return String representation of possible class labels.
+     * @return String representation of composite instance.
      */
     public String toString() {
         StringBuilder result = new StringBuilder(super.toString());

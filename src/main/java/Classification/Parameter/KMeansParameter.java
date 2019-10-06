@@ -8,7 +8,7 @@ public class KMeansParameter extends Parameter {
     protected DistanceMetric distanceMetric;
 
     /**
-     * Parameters of the Rocchio classifier.
+     * Parameters of the K Means classifier.
      *
      * @param seed Seed is used for random number generation.
      */
@@ -18,7 +18,7 @@ public class KMeansParameter extends Parameter {
     }
 
     /**
-     * * Parameters of the Rocchio classifier.
+     * * Parameters of the K Means classifier.
      *
      * @param seed           Seed is used for random number generation.
      * @param distanceMetric distance metric used to calculate the distance between two instances.
