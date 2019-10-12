@@ -75,15 +75,13 @@ public class InstanceList implements Serializable {
             }
         } catch (FileNotFoundException fileNotFoundException) {
             System.out.println("Dataset with fileName " + fileName + " not found");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     /**
-     * Mutator for the list variable.
+     * Empty constructor for an instance list. Initializes the instance list with the given instance list.
      *
      * @param list New list for the list variable.
      */
@@ -129,7 +127,7 @@ public class InstanceList implements Serializable {
     }
 
     /**
-     * Sorts attribute list according to the attribute with index 'attributeIndex'.
+     * Sorts instance list according to the attribute with index 'attributeIndex'.
      *
      * @param attributeIndex index of the attribute.
      */
@@ -139,7 +137,7 @@ public class InstanceList implements Serializable {
     }
 
     /**
-     * Sorts attributes list.
+     * Sorts instance list.
      */
     public void sort() {
         Collections.sort(list, new InstanceClassComparator());
