@@ -23,7 +23,7 @@ public class StratifiedKFoldRunSeparateTest extends KFoldRunSeparateTest{
      * Execute Stratified K-fold cross-validation with the given classifier on the given data set using the given parameters.
      *
      * @param experiment Experiment to be run.
-     * @return An array of performances: result. result[i] is the performance of the classifier on the i'th fold.
+     * @return An ExperimentPerformance instance.
      * @throws DiscreteFeaturesNotAllowed Exception for discrete features.
      */
     public ExperimentPerformance execute(Experiment experiment) throws DiscreteFeaturesNotAllowed {

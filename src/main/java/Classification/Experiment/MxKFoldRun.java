@@ -23,7 +23,7 @@ public class MxKFoldRun extends KFoldRun {
      * Execute the MxKFold run with the given classifier on the given data set using the given parameters.
      *
      * @param experiment Experiment to be run.
-     * @return An array of performances: result. result[i] is the performance of the classifier on the i'th bootstrap run.
+     * @return An ExperimentPerformance instance.
      */
     public ExperimentPerformance execute(Experiment experiment) throws DiscreteFeaturesNotAllowed {
         ExperimentPerformance result = new ExperimentPerformance();

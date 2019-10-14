@@ -5,9 +5,9 @@ public class InstanceListOfSameClass extends InstanceList {
     private String classLabel;
 
     /**
-     * Constructor for creating a new instance list with the same class labels.
+     * Constructor for creating a new instance list with the same class label.
      *
-     * @param classLabel Class labels of instance list.
+     * @param classLabel Class label of instance list.
      */
     public InstanceListOfSameClass(String classLabel) {
         super();
@@ -15,9 +15,9 @@ public class InstanceListOfSameClass extends InstanceList {
     }
 
     /**
-     * Accessor for the class labels.
+     * Accessor for the class label.
      *
-     * @return Class labels.
+     * @return Class label.
      */
     public String getClassLabel() {
         return classLabel;

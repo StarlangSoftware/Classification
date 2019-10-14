@@ -34,7 +34,7 @@ public class KFoldRunSeparateTest extends KFoldRun {
      * Execute K-fold cross-validation with separate test set with the given classifier on the given data set using the given parameters.
      *
      * @param experiment Experiment to be run.
-     * @return An array of performances: result. result[i] is the performance of the classifier on the i'th fold.
+     * @return An ExperimentPerformance instance.
      */
     public ExperimentPerformance execute(Experiment experiment) throws DiscreteFeaturesNotAllowed {
         ExperimentPerformance result = new ExperimentPerformance();
