@@ -17,7 +17,7 @@ public class ForwardSelection extends SubSetSelection{
      *
      * @param current          FeatureSubset that will be added to new ArrayList.
      * @param numberOfFeatures Indicates the indices of indexList.
-     * @return ArrayList of FeatureSubSets created from backward.
+     * @return ArrayList of FeatureSubSets created from forward.
      */
     protected ArrayList<FeatureSubSet> operator(FeatureSubSet current, int numberOfFeatures) {
         ArrayList<FeatureSubSet> result = new ArrayList<>();
