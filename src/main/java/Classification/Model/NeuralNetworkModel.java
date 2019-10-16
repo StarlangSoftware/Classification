@@ -154,7 +154,7 @@ public abstract class NeuralNetworkModel extends ValidatedModel implements Seria
      * multiplying Matrix W with {@link Vector} x. Then it returns the class label which has the maximum y value.
      *
      * @param instance Instance to predict.
-     * @return The class lable which has the maximum y.
+     * @return The class label which has the maximum y.
      */
     public String predict(Instance instance) {
         createInputVector(instance);

@@ -1,6 +1,5 @@
 package Classification.Model;
 
-import Classification.Classifier.Classifier;
 import Classification.Instance.CompositeInstance;
 import Classification.Instance.Instance;
 import Classification.InstanceList.InstanceList;
