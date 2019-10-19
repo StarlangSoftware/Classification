@@ -11,12 +11,25 @@ public class LdaModel extends GaussianModel implements Serializable {
     protected HashMap<String, Vector> w;
 
     /**
+     * A constructor which sets the priorDistribution, w and w0 according to given inputs.
+     *
+     * @param priorDistribution {@link DiscreteDistribution} input.
+     * @param w                 {@link HashMap} of String and Vectors.
+     * @param w0                {@link HashMap} of String and Double.
+     */
+    public LdaModel(DiscreteDistribution priorDistribution, HashMap<String, Vector> w, HashMap<String, Double> w0) {
+        this.priorDistribution = priorDistribution;
+        this.w = w;
+        this.w0 = w0;
+    }
+
+    /**
      * The calculateMetric method takes an {@link Instance} and a String as inputs. It returns the dot product of given Instance
-     * and w0 plus w1.
+     * and wi plus w0i.
      *
      * @param instance {@link Instance} input.
      * @param Ci       String input.
-     * @return The dot product of given Instance and w0 plus w1.
+     * @return The dot product of given Instance and wi plus w0i.
      */
     @Override
     protected double calculateMetric(Instance instance, String Ci) {
@@ -30,19 +43,6 @@ public class LdaModel extends GaussianModel implements Serializable {
         } catch (VectorSizeMismatch vectorSizeMismatch) {
             return Double.MAX_VALUE;
         }
-    }
-
-    /**
-     * A constructor which sets the priorDistribution, w and w1 according to given inputs.
-     *
-     * @param priorDistribution {@link DiscreteDistribution} input.
-     * @param w                 {@link HashMap} of String and Vectors.
-     * @param w0                {@link HashMap} of String and Double.
-     */
-    public LdaModel(DiscreteDistribution priorDistribution, HashMap<String, Vector> w, HashMap<String, Double> w0) {
-        this.priorDistribution = priorDistribution;
-        this.w = w;
-        this.w0 = w0;
     }
 
 }

@@ -12,6 +12,15 @@ public class TreeEnsembleModel extends Model implements Serializable {
     private ArrayList<DecisionTree> forest;
 
     /**
+     * A constructor which sets the {@link ArrayList} of {@link DecisionTree} with given input.
+     *
+     * @param forest An {@link ArrayList} of {@link DecisionTree}.
+     */
+    public TreeEnsembleModel(ArrayList<DecisionTree> forest) {
+        this.forest = forest;
+    }
+
+    /**
      * The predict method takes an {@link Instance} as an input and loops through the {@link ArrayList} of {@link DecisionTree}s.
      * Makes prediction for the items of that ArrayList and returns the maximum item of that ArrayList.
      *
@@ -24,15 +33,6 @@ public class TreeEnsembleModel extends Model implements Serializable {
             distribution.addItem(tree.predict(instance));
         }
         return distribution.getMaxItem();
-    }
-
-    /**
-     * A constructor which sets the {@link ArrayList} of {@link DecisionTree} with given input.
-     *
-     * @param forest An {@link ArrayList} of {@link DecisionTree}.
-     */
-    public TreeEnsembleModel(ArrayList<DecisionTree> forest) {
-        this.forest = forest;
     }
 
 }

@@ -12,6 +12,15 @@ public class DecisionTree extends ValidatedModel implements Serializable {
     private DecisionNode root;
 
     /**
+     * Constructor that sets root node of the decision tree.
+     *
+     * @param root DecisionNode type input.
+     */
+    public DecisionTree(DecisionNode root) {
+        this.root = root;
+    }
+
+    /**
      * The predict method  performs prediction on the root node of given instance, and if it is null, it returns the possible class labels.
      * Otherwise it returns the returned class labels.
      *
@@ -24,15 +33,6 @@ public class DecisionTree extends ValidatedModel implements Serializable {
             predictedClass = ((CompositeInstance) instance).getPossibleClassLabels().get(0);
         }
         return predictedClass;
-    }
-
-    /**
-     * Constructor that sets root node of the decision tree.
-     *
-     * @param root DecisionNode type input.
-     */
-    public DecisionTree(DecisionNode root) {
-        this.root = root;
     }
 
     /**

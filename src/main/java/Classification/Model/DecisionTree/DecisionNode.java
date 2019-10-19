@@ -26,75 +26,6 @@ public class DecisionNode implements Serializable {
     private DecisionCondition condition = null;
 
     /**
-     * The entropyForDiscreteAttribute method takes an attributeIndex and creates an ArrayList of DiscreteDistribution.
-     * Then loops through the distributions and calculates the total entropy.
-     *
-     * @param attributeIndex Index of the attribute.
-     * @return Total entropy for the discrete attribute.
-     */
-    private double entropyForDiscreteAttribute(int attributeIndex) {
-        double sum = 0.0;
-        ArrayList<DiscreteDistribution> distributions = data.attributeClassDistribution(attributeIndex);
-        for (DiscreteDistribution distribution : distributions) {
-            sum += (distribution.getSum() / data.size()) * distribution.entropy();
-        }
-        return sum;
-    }
-
-    /**
-     * The createChildrenForDiscreteIndexed method creates an ArrayList of DecisionNodes as children and a partition with respect to
-     * indexed attribute.
-     *
-     * @param attributeIndex Index of the attribute.
-     * @param attributeValue Value of the attribute.
-     * @param parameter      RandomForestParameter like seed, ensembleSize, attributeSubsetSize.
-     * @param isStump        Refers to decision trees with only 1 splitting rule.
-     */
-    private void createChildrenForDiscreteIndexed(int attributeIndex, int attributeValue, RandomForestParameter parameter, boolean isStump) {
-        Partition childrenData;
-        childrenData = data.divideWithRespectToIndexedAttribute(attributeIndex, attributeValue);
-        children = new ArrayList<DecisionNode>();
-        children.add(new DecisionNode(childrenData.get(0), new DecisionCondition(attributeIndex, new DiscreteIndexedAttribute("", attributeValue, ((DiscreteIndexedAttribute) data.get(0).getAttribute(attributeIndex)).getMaxIndex())), parameter, isStump));
-        children.add(new DecisionNode(childrenData.get(1), new DecisionCondition(attributeIndex, new DiscreteIndexedAttribute("", -1, ((DiscreteIndexedAttribute) data.get(0).getAttribute(attributeIndex)).getMaxIndex())), parameter, isStump));
-    }
-
-    /**
-     * The createChildrenForDiscrete method creates an ArrayList of values, a partition with respect to attributes and an ArrayList
-     * of DecisionNodes as children.
-     *
-     * @param attributeIndex Index of the attribute.
-     * @param parameter      RandomForestParameter like seed, ensembleSize, attributeSubsetSize.
-     * @param isStump        Refers to decision trees with only 1 splitting rule.
-     */
-    private void createChildrenForDiscrete(int attributeIndex, RandomForestParameter parameter, boolean isStump) {
-        Partition childrenData;
-        ArrayList<String> valueList;
-        valueList = data.getAttributeValueList(attributeIndex);
-        childrenData = data.divideWithRespectToAttribute(attributeIndex);
-        children = new ArrayList<DecisionNode>();
-        for (int i = 0; i < valueList.size(); i++) {
-            children.add(new DecisionNode(childrenData.get(i), new DecisionCondition(attributeIndex, new DiscreteAttribute(valueList.get(i))), parameter, isStump));
-        }
-    }
-
-    /**
-     * The createChildrenForContinuous method creates an ArrayList of DecisionNodes as children and a partition with respect to
-     * continious attribute and the given split value.
-     *
-     * @param attributeIndex Index of the attribute.
-     * @param parameter      RandomForestParameter like seed, ensembleSize, attributeSubsetSize.
-     * @param isStump        Refers to decision trees with only 1 splitting rule.
-     * @param splitValue     Split value is used for partitioning.
-     */
-    private void createChildrenForContinuous(int attributeIndex, double splitValue, RandomForestParameter parameter, boolean isStump) {
-        Partition childrenData;
-        childrenData = data.divideWithRespectToAttribute(attributeIndex, splitValue);
-        children = new ArrayList<DecisionNode>();
-        children.add(new DecisionNode(childrenData.get(0), new DecisionCondition(attributeIndex, '<', new ContinuousAttribute(splitValue)), parameter, isStump));
-        children.add(new DecisionNode(childrenData.get(1), new DecisionCondition(attributeIndex, '>', new ContinuousAttribute(splitValue)), parameter, isStump));
-    }
-
-    /**
      * The DecisionNode method takes {@link InstanceList} data as input and then it sets the class label parameter by finding
      * the most occurred class label of given data, it then gets distinct class labels as class labels ArrayList. Later, it adds ordered
      * indices to the indexList and shuffles them randomly. Then, it gets the class distribution of given data and finds the best entropy value
@@ -213,6 +144,75 @@ public class DecisionNode implements Serializable {
                 }
             }
         }
+    }
+
+    /**
+     * The entropyForDiscreteAttribute method takes an attributeIndex and creates an ArrayList of DiscreteDistribution.
+     * Then loops through the distributions and calculates the total entropy.
+     *
+     * @param attributeIndex Index of the attribute.
+     * @return Total entropy for the discrete attribute.
+     */
+    private double entropyForDiscreteAttribute(int attributeIndex) {
+        double sum = 0.0;
+        ArrayList<DiscreteDistribution> distributions = data.attributeClassDistribution(attributeIndex);
+        for (DiscreteDistribution distribution : distributions) {
+            sum += (distribution.getSum() / data.size()) * distribution.entropy();
+        }
+        return sum;
+    }
+
+    /**
+     * The createChildrenForDiscreteIndexed method creates an ArrayList of DecisionNodes as children and a partition with respect to
+     * indexed attribute.
+     *
+     * @param attributeIndex Index of the attribute.
+     * @param attributeValue Value of the attribute.
+     * @param parameter      RandomForestParameter like seed, ensembleSize, attributeSubsetSize.
+     * @param isStump        Refers to decision trees with only 1 splitting rule.
+     */
+    private void createChildrenForDiscreteIndexed(int attributeIndex, int attributeValue, RandomForestParameter parameter, boolean isStump) {
+        Partition childrenData;
+        childrenData = data.divideWithRespectToIndexedAttribute(attributeIndex, attributeValue);
+        children = new ArrayList<DecisionNode>();
+        children.add(new DecisionNode(childrenData.get(0), new DecisionCondition(attributeIndex, new DiscreteIndexedAttribute("", attributeValue, ((DiscreteIndexedAttribute) data.get(0).getAttribute(attributeIndex)).getMaxIndex())), parameter, isStump));
+        children.add(new DecisionNode(childrenData.get(1), new DecisionCondition(attributeIndex, new DiscreteIndexedAttribute("", -1, ((DiscreteIndexedAttribute) data.get(0).getAttribute(attributeIndex)).getMaxIndex())), parameter, isStump));
+    }
+
+    /**
+     * The createChildrenForDiscrete method creates an ArrayList of values, a partition with respect to attributes and an ArrayList
+     * of DecisionNodes as children.
+     *
+     * @param attributeIndex Index of the attribute.
+     * @param parameter      RandomForestParameter like seed, ensembleSize, attributeSubsetSize.
+     * @param isStump        Refers to decision trees with only 1 splitting rule.
+     */
+    private void createChildrenForDiscrete(int attributeIndex, RandomForestParameter parameter, boolean isStump) {
+        Partition childrenData;
+        ArrayList<String> valueList;
+        valueList = data.getAttributeValueList(attributeIndex);
+        childrenData = data.divideWithRespectToAttribute(attributeIndex);
+        children = new ArrayList<DecisionNode>();
+        for (int i = 0; i < valueList.size(); i++) {
+            children.add(new DecisionNode(childrenData.get(i), new DecisionCondition(attributeIndex, new DiscreteAttribute(valueList.get(i))), parameter, isStump));
+        }
+    }
+
+    /**
+     * The createChildrenForContinuous method creates an ArrayList of DecisionNodes as children and a partition with respect to
+     * continuous attribute and the given split value.
+     *
+     * @param attributeIndex Index of the attribute.
+     * @param parameter      RandomForestParameter like seed, ensembleSize, attributeSubsetSize.
+     * @param isStump        Refers to decision trees with only 1 splitting rule.
+     * @param splitValue     Split value is used for partitioning.
+     */
+    private void createChildrenForContinuous(int attributeIndex, double splitValue, RandomForestParameter parameter, boolean isStump) {
+        Partition childrenData;
+        childrenData = data.divideWithRespectToAttribute(attributeIndex, splitValue);
+        children = new ArrayList<DecisionNode>();
+        children.add(new DecisionNode(childrenData.get(0), new DecisionCondition(attributeIndex, '<', new ContinuousAttribute(splitValue)), parameter, isStump));
+        children.add(new DecisionNode(childrenData.get(1), new DecisionCondition(attributeIndex, '>', new ContinuousAttribute(splitValue)), parameter, isStump));
     }
 
     /**

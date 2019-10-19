@@ -10,7 +10,7 @@ import Math.DiscreteDistribution;
 public class KMeans extends Classifier {
 
     /**
-     * Training algorithm for Rocchio classifier. Rocchio finds the mean of each class for training.
+     * Training algorithm for K-Means classifier. K-Means finds the mean of each class for training.
      *
      * @param trainSet   Training data given to the algorithm.
      * @param parameters distanceMetric: distance metric used to calculate the distance between two instances.

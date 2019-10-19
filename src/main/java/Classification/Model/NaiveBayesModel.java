@@ -16,6 +16,30 @@ public class NaiveBayesModel extends GaussianModel implements Serializable {
     private HashMap<String, ArrayList<DiscreteDistribution>> classAttributeDistributions = null;
 
     /**
+     * A constructor that sets the priorDistribution, classMeans and classDeviations.
+     *
+     * @param priorDistribution {@link DiscreteDistribution} input.
+     * @param classMeans        A {@link HashMap} of String and {@link Vector}.
+     * @param classDeviations   A {@link HashMap} of String and {@link Vector}.
+     */
+    public NaiveBayesModel(DiscreteDistribution priorDistribution, HashMap<String, Vector> classMeans, HashMap<String, Vector> classDeviations) {
+        this.priorDistribution = priorDistribution;
+        this.classMeans = classMeans;
+        this.classDeviations = classDeviations;
+    }
+
+    /**
+     * A constructor that sets the priorDistribution and classAttributeDistributions.
+     *
+     * @param priorDistribution           {@link DiscreteDistribution} input.
+     * @param classAttributeDistributions {@link HashMap} of String and {@link ArrayList} of {@link DiscreteDistribution}s.
+     */
+    public NaiveBayesModel(DiscreteDistribution priorDistribution, HashMap<String, ArrayList<DiscreteDistribution>> classAttributeDistributions) {
+        this.priorDistribution = priorDistribution;
+        this.classAttributeDistributions = classAttributeDistributions;
+    }
+
+    /**
      * The calculateMetric method takes an {@link Instance} and a String as inputs and it returns the log likelihood of
      * these inputs.
      *
@@ -73,29 +97,4 @@ public class NaiveBayesModel extends GaussianModel implements Serializable {
         }
         return logLikelihood;
     }
-
-    /**
-     * A constructor that sets the priorDistribution, classMeans and classDeviations.
-     *
-     * @param priorDistribution {@link DiscreteDistribution} input.
-     * @param classMeans        A {@link HashMap} of String and {@link Vector}.
-     * @param classDeviations   A {@link HashMap} of String and {@link Vector}.
-     */
-    public NaiveBayesModel(DiscreteDistribution priorDistribution, HashMap<String, Vector> classMeans, HashMap<String, Vector> classDeviations) {
-        this.priorDistribution = priorDistribution;
-        this.classMeans = classMeans;
-        this.classDeviations = classDeviations;
-    }
-
-    /**
-     * A constructor that sets the priorDistribution and classAttributeDistributions.
-     *
-     * @param priorDistribution           {@link DiscreteDistribution} input.
-     * @param classAttributeDistributions {@link HashMap} of String and {@link ArrayList} of {@link DiscreteDistribution}s.
-     */
-    public NaiveBayesModel(DiscreteDistribution priorDistribution, HashMap<String, ArrayList<DiscreteDistribution>> classAttributeDistributions) {
-        this.priorDistribution = priorDistribution;
-        this.classAttributeDistributions = classAttributeDistributions;
-    }
-
 }
