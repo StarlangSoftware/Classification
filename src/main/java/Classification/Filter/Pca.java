@@ -101,6 +101,7 @@ public class Pca extends TrainedFeatureFilter {
                 removeUnnecessaryEigenvectors();
             }
         } catch (MatrixNotSymmetric matrixNotSymmetric) {
+        } catch (MatrixNotSquare matrixNotSquare){
         }
     }
 

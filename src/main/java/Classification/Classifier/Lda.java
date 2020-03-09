@@ -44,6 +44,7 @@ public class Lda extends Classifier {
             covariance.inverse();
         } catch (DeterminantZero determinantZero) {
             System.out.println(determinantZero.toString());
+        } catch (MatrixNotSquare matrixNotSquare) {
         }
         for (int i = 0; i < classLists.size(); i++) {
             Ci = ((InstanceListOfSameClass) classLists.get(i)).getClassLabel();

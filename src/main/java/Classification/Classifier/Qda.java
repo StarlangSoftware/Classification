@@ -23,7 +23,7 @@ public class Qda extends Classifier {
             throw new DiscreteFeaturesNotAllowed();
         }
         String Ci;
-        double determinant, w0i;
+        double determinant = 0, w0i;
         Matrix classCovariance, Wi;
         Vector averageVector, wi;
         HashMap<String, Double> w0 = new HashMap<String, Double>();
@@ -35,11 +35,12 @@ public class Qda extends Classifier {
             Ci = ((InstanceListOfSameClass) classLists.get(i)).getClassLabel();
             averageVector = new Vector(classLists.get(i).continuousAttributeAverage());
             classCovariance = classLists.get(i).covariance(averageVector);
-            determinant = classCovariance.determinant();
             try {
+                determinant = classCovariance.determinant();
                 classCovariance.inverse();
             } catch (DeterminantZero determinantZero) {
                 System.out.println(determinantZero.toString());
+            } catch (MatrixNotSquare matrixNotSquare){
             }
             Wi = classCovariance.clone();
             Wi.multiplyWithConstant(-0.5);
