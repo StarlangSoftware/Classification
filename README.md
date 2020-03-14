@@ -100,7 +100,7 @@ Detailed Description
 ============
 + [Classification Algorithms](#classification-algorithms)
 + [Sampling Strategies](#sampling-strategies)
-+ [Feature Selection/Extraction](#feature-selection/extraction)
++ [Feature Selection](#feature-selection)
 + [Statistical Tests](#statistical-tests)
 
 ## Classification Algorithms
@@ -149,7 +149,7 @@ StratifiedMxKFoldRun, StratifiedMxKFoldRunSeparateTest
 
 Bootstrap tipi deney yapmak için BootstrapRun
 
-## Feature Selection/Extraction
+## Feature Selection
 
 Pca tabanlı boyut azaltma için Pca sınıfı
 
