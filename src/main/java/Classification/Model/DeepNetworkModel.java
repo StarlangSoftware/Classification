@@ -7,6 +7,7 @@ import Math.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class DeepNetworkModel extends NeuralNetworkModel implements Serializable {
     private ArrayList<Matrix> weights;
@@ -21,11 +22,11 @@ public class DeepNetworkModel extends NeuralNetworkModel implements Serializable
      */
     private void allocateWeights(DeepNetworkParameter parameters) {
         weights = new ArrayList<>();
-        weights.add(allocateLayerWeights(parameters.getHiddenNodes(0), d + 1));
+        weights.add(allocateLayerWeights(parameters.getHiddenNodes(0), d + 1, new Random(parameters.getSeed())));
         for (int i = 0; i < parameters.layerSize() - 1; i++) {
-            weights.add(allocateLayerWeights(parameters.getHiddenNodes(i + 1), parameters.getHiddenNodes(i) + 1));
+            weights.add(allocateLayerWeights(parameters.getHiddenNodes(i + 1), parameters.getHiddenNodes(i) + 1, new Random(parameters.getSeed())));
         }
-        weights.add(allocateLayerWeights(K, parameters.getHiddenNodes(parameters.layerSize() - 1) + 1));
+        weights.add(allocateLayerWeights(K, parameters.getHiddenNodes(parameters.layerSize() - 1) + 1, new Random(parameters.getSeed())));
         hiddenLayerSize = parameters.layerSize();
     }
 

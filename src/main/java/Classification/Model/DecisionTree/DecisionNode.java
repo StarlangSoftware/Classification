@@ -20,6 +20,7 @@ import java.util.Random;
 public class DecisionNode implements Serializable {
 
     private ArrayList<DecisionNode> children = null;
+    private final double EPSILON = 0.0000000001;
     private InstanceList data = null;
     private String classLabel = null;
     private boolean leaf = false;
@@ -86,7 +87,7 @@ public class DecisionNode implements Serializable {
                     if (distribution.getSum() > 0) {
                         classDistribution.removeDistribution(distribution);
                         entropy = (classDistribution.entropy() * classDistribution.getSum() + distribution.entropy() * distribution.getSum()) / data.size();
-                        if (entropy < bestEntropy) {
+                        if (entropy + EPSILON < bestEntropy) {
                             bestEntropy = entropy;
                             bestAttribute = index;
                             bestSplitValue = k;
@@ -97,7 +98,7 @@ public class DecisionNode implements Serializable {
             } else {
                 if (data.get(0).getAttribute(index) instanceof DiscreteAttribute) {
                     entropy = entropyForDiscreteAttribute(index);
-                    if (entropy < bestEntropy) {
+                    if (entropy + EPSILON < bestEntropy) {
                         bestEntropy = entropy;
                         bestAttribute = index;
                     }
@@ -116,7 +117,7 @@ public class DecisionNode implements Serializable {
                                     splitValue = (previousValue + ((ContinuousAttribute) instance.getAttribute(index)).getValue()) / 2;
                                     previousValue = ((ContinuousAttribute) instance.getAttribute(index)).getValue();
                                     entropy = (leftDistribution.getSum() / data.size()) * leftDistribution.entropy() + (rightDistribution.getSum() / data.size()) * rightDistribution.entropy();
-                                    if (entropy < bestEntropy) {
+                                    if (entropy + EPSILON < bestEntropy) {
                                         bestEntropy = entropy;
                                         bestSplitValue = splitValue;
                                         bestAttribute = index;

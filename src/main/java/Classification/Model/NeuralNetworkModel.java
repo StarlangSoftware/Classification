@@ -2,6 +2,7 @@ package Classification.Model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Random;
 
 import Classification.Instance.CompositeInstance;
 import Classification.Instance.Instance;
@@ -31,10 +32,11 @@ public abstract class NeuralNetworkModel extends ValidatedModel implements Seria
      *
      * @param row    Number of rows.
      * @param column Number of columns.
+     * @param random Random function to set weights.
      * @return Matrix with random weights.
      */
-    protected Matrix allocateLayerWeights(int row, int column) {
-        return new Matrix(row, column, -0.01, +0.01);
+    protected Matrix allocateLayerWeights(int row, int column, Random random) {
+        return new Matrix(row, column, -0.01, +0.01, random);
     }
 
     /**

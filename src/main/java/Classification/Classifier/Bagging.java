@@ -25,14 +25,11 @@ public class Bagging extends Classifier {
      * @param parameters Parameters of the bagging trees algorithm. ensembleSize returns the number of trees in the bagged forest.
      */
     public void train(InstanceList trainSet, Parameter parameters) {
-        Partition partition = trainSet.stratifiedPartition(0.2, new Random(parameters.getSeed()));
         int forestSize = ((BaggingParameter) parameters).getEnsembleSize();
         ArrayList<DecisionTree> forest = new ArrayList<DecisionTree>();
         for (int i = 0; i < forestSize; i++) {
-            Bootstrap bootstrapTrain = partition.get(1).bootstrap(i);
-            Bootstrap bootstrapPrune = partition.get(0).bootstrap(i);
-            DecisionTree tree = new DecisionTree(new DecisionNode(new InstanceList(bootstrapTrain.getSample()), null, null, false));
-            tree.prune(new InstanceList(bootstrapPrune.getSample()));
+            Bootstrap bootstrap = trainSet.bootstrap(i);
+            DecisionTree tree = new DecisionTree(new DecisionNode(new InstanceList(bootstrap.getSample()), null, null, false));
             forest.add(tree);
         }
         model = new TreeEnsembleModel(forest);

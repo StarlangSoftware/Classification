@@ -24,7 +24,8 @@ public class RandomForest extends Classifier{
         ArrayList<DecisionTree> forest = new ArrayList<DecisionTree>();
         for (int i = 0; i < forestSize; i++){
             Bootstrap bootstrap = trainSet.bootstrap(i);
-            forest.add(new DecisionTree(new DecisionNode(new InstanceList(bootstrap.getSample()), null, (RandomForestParameter) parameters, false)));
+            DecisionTree tree = new DecisionTree(new DecisionNode(new InstanceList(bootstrap.getSample()), null, (RandomForestParameter) parameters, false));
+            forest.add(tree);
         }
         model = new TreeEnsembleModel(forest);
     }

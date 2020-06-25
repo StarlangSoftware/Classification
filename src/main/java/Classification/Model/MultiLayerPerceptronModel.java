@@ -6,18 +6,21 @@ import Classification.Performance.ClassificationPerformance;
 import Math.*;
 
 import java.io.Serializable;
+import java.util.Random;
 
 public class MultiLayerPerceptronModel extends LinearPerceptronModel implements Serializable {
     private Matrix V;
+
 
     /**
      * The allocateWeights method allocates layers' weights of Matrix W and V.
      *
      * @param H Integer value for weights.
+     * @param random Random function to set weights.
      */
-    private void allocateWeights(int H) {
-        W = allocateLayerWeights(H, d + 1);
-        V = allocateLayerWeights(K, H + 1);
+    private void allocateWeights(int H, Random random) {
+        W = allocateLayerWeights(H, d + 1, random);
+        V = allocateLayerWeights(K, H + 1, random);
     }
 
     /**
@@ -37,7 +40,7 @@ public class MultiLayerPerceptronModel extends LinearPerceptronModel implements 
         double learningRate;
         Matrix deltaW, deltaV, bestW, bestV;
         ClassificationPerformance currentClassificationPerformance, bestClassificationPerformance;
-        allocateWeights(parameters.getHiddenNodes());
+        allocateWeights(parameters.getHiddenNodes(), new Random(parameters.getSeed()));
         bestW = W.clone();
         bestV = V.clone();
         bestClassificationPerformance = new ClassificationPerformance(0.0);

@@ -6,6 +6,7 @@ import Classification.Performance.ClassificationPerformance;
 import Math.*;
 
 import java.io.Serializable;
+import java.util.Random;
 
 public class LinearPerceptronModel extends NeuralNetworkModel implements Serializable {
 
@@ -36,7 +37,7 @@ public class LinearPerceptronModel extends NeuralNetworkModel implements Seriali
         double learningRate;
         Matrix deltaW, bestW;
         ClassificationPerformance currentClassificationPerformance, bestClassificationPerformance;
-        W = allocateLayerWeights(K, d + 1);
+        W = allocateLayerWeights(K, d + 1, new Random(parameters.getSeed()));
         bestW = W.clone();
         bestClassificationPerformance = new ClassificationPerformance(0.0);
         epoch = parameters.getEpoch();

@@ -7,6 +7,7 @@ import Classification.Performance.Performance;
 import Math.*;
 
 import java.io.Serializable;
+import java.util.Random;
 
 public class AutoEncoderModel extends NeuralNetworkModel implements Serializable {
     private Matrix V, W;
@@ -15,10 +16,11 @@ public class AutoEncoderModel extends NeuralNetworkModel implements Serializable
      * The allocateWeights method takes an integer number and sets layer weights of W and V matrices according to given number.
      *
      * @param H Integer input.
+     * @param random Random function to set seed.
      */
-    private void allocateWeights(int H) {
-        W = allocateLayerWeights(H, d + 1);
-        V = allocateLayerWeights(K, H + 1);
+    private void allocateWeights(int H, Random random) {
+        W = allocateLayerWeights(H, d + 1, random);
+        V = allocateLayerWeights(K, H + 1, random);
     }
 
     /**
@@ -40,7 +42,7 @@ public class AutoEncoderModel extends NeuralNetworkModel implements Serializable
         double learningRate;
         Performance currentPerformance, bestPerformance;
         K = trainSet.get(0).continuousAttributeSize();
-        allocateWeights(parameters.getHiddenNodes());
+        allocateWeights(parameters.getHiddenNodes(), new Random(parameters.getSeed()));
         bestW = W.clone();
         bestV = V.clone();
         bestPerformance = new Performance(Double.MAX_VALUE);
