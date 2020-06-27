@@ -39,7 +39,7 @@ public class KFoldRunSeparateTest extends KFoldRun {
     public ExperimentPerformance execute(Experiment experiment) throws DiscreteFeaturesNotAllowed {
         ExperimentPerformance result = new ExperimentPerformance();
         InstanceList instanceList = experiment.getDataSet().getInstanceList();
-        Partition partition = instanceList.partition(0.25, new Random(experiment.getParameter().getSeed()));
+        Partition partition = new Partition(instanceList, 0.25, new Random(experiment.getParameter().getSeed()), true);
         KFoldCrossValidation<Instance> crossValidation = new KFoldCrossValidation<>(partition.get(1).getInstances(), K, experiment.getParameter().getSeed());
         runExperiment(experiment.getClassifier(), experiment.getParameter(), result, crossValidation, partition.get(0));
         return result;

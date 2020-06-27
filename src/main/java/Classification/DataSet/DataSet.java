@@ -5,6 +5,7 @@ import Classification.FeatureSelection.FeatureSubSet;
 import Classification.Instance.CompositeInstance;
 import Classification.Instance.Instance;
 import Classification.InstanceList.InstanceList;
+import Classification.InstanceList.Partition;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -296,7 +297,7 @@ public class DataSet {
      * @return Instances of the items at the list of instance lists from the partitions.
      */
     public ArrayList<Instance>[] getClassInstances() {
-        return instances.divideIntoClasses().getLists();
+        return new Partition(instances).getLists();
     }
 
     /**

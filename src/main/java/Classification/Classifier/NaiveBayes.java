@@ -54,7 +54,7 @@ public class NaiveBayes extends Classifier{
      */
     public void train(InstanceList trainSet, Parameter parameters) {
         DiscreteDistribution priorDistribution = trainSet.classDistribution();
-        Partition classLists = trainSet.divideIntoClasses();
+        Partition classLists = new Partition(trainSet);
         if (classLists.get(0).get(0).getAttribute(0) instanceof DiscreteAttribute){
             trainDiscreteVersion(priorDistribution, classLists);
         } else {

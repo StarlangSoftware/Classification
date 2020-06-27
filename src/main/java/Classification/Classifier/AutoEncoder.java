@@ -21,7 +21,7 @@ public class AutoEncoder extends Classifier {
         if (!discreteCheck(trainSet.get(0))){
             throw new DiscreteFeaturesNotAllowed();
         }
-        Partition partition = trainSet.stratifiedPartition(0.2, new Random(parameters.getSeed()));
+        Partition partition = new Partition(trainSet, 0.2, new Random(parameters.getSeed()), true);
         model = new AutoEncoderModel(partition.get(1), partition.get(0), (MultiLayerPerceptronParameter) parameters);
     }
 

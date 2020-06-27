@@ -21,7 +21,7 @@ public class DeepNetwork extends Classifier {
         if (!discreteCheck(trainSet.get(0))) {
             throw new DiscreteFeaturesNotAllowed();
         }
-        Partition partition = trainSet.stratifiedPartition(((DeepNetworkParameter) parameters).getCrossValidationRatio(), new Random(parameters.getSeed()));
+        Partition partition = new Partition(trainSet, ((DeepNetworkParameter) parameters).getCrossValidationRatio(), new Random(parameters.getSeed()), true);
         model = new DeepNetworkModel(partition.get(1), partition.get(0), (DeepNetworkParameter) parameters);
     }
 

@@ -22,7 +22,7 @@ public class LinearPerceptron extends Classifier {
         if (!discreteCheck(trainSet.get(0))) {
             throw new DiscreteFeaturesNotAllowed();
         }
-        Partition partition = trainSet.stratifiedPartition(((LinearPerceptronParameter) parameters).getCrossValidationRatio(), new Random(parameters.getSeed()));
+        Partition partition = new Partition(trainSet, ((LinearPerceptronParameter) parameters).getCrossValidationRatio(), new Random(parameters.getSeed()), true);
         model = new LinearPerceptronModel(partition.get(1), partition.get(0), (LinearPerceptronParameter) parameters);
     }
 }

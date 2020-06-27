@@ -29,7 +29,7 @@ public class Qda extends Classifier {
         HashMap<String, Double> w0 = new HashMap<String, Double>();
         HashMap<String, Vector> w = new HashMap<String, Vector>();
         HashMap<String, Matrix> W = new HashMap<String, Matrix>();
-        Partition classLists = trainSet.divideIntoClasses();
+        Partition classLists = new Partition(trainSet);
         DiscreteDistribution priorDistribution = trainSet.classDistribution();
         for (int i = 0; i < classLists.size(); i++) {
             Ci = ((InstanceListOfSameClass) classLists.get(i)).getClassLabel();

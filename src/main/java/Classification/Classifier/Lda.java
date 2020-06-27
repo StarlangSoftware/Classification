@@ -28,7 +28,7 @@ public class Lda extends Classifier {
         HashMap<String, Double> w0 = new HashMap<String, Double>();
         HashMap<String, Vector> w = new HashMap<String, Vector>();
         DiscreteDistribution priorDistribution = trainSet.classDistribution();
-        Partition classLists = trainSet.divideIntoClasses();
+        Partition classLists = new Partition(trainSet);
         covariance = new Matrix(trainSet.get(0).continuousAttributeSize(), trainSet.get(0).continuousAttributeSize());
         for (int i = 0; i < classLists.size(); i++) {
             averageVector = new Vector(classLists.get(i).continuousAttributeAverage());

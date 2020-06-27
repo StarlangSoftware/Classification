@@ -43,7 +43,7 @@ public class KnnModel extends Model implements Serializable {
         if (instance instanceof CompositeInstance && nearestNeighbors.size() == 0) {
             predictedClass = ((CompositeInstance) instance).getPossibleClassLabels().get(0);
         } else {
-            predictedClass = Classifier.getMaximum(nearestNeighbors.getClassLabels());
+            predictedClass = Model.getMaximum(nearestNeighbors.getClassLabels());
         }
         return predictedClass;
     }

@@ -21,7 +21,7 @@ public class C45 extends Classifier {
     public void train(InstanceList trainSet, Parameter parameters) {
         DecisionTree tree;
         if (((C45Parameter) parameters).isPrune()) {
-            Partition partition = trainSet.stratifiedPartition(((C45Parameter) parameters).getCrossValidationRatio(), new Random(parameters.getSeed()));
+            Partition partition = new Partition(trainSet, ((C45Parameter) parameters).getCrossValidationRatio(), new Random(parameters.getSeed()), true);
             tree = new DecisionTree(new DecisionNode(partition.get(1), null, null, false));
             tree.prune(partition.get(0));
         } else {

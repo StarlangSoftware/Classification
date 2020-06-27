@@ -1,12 +1,12 @@
 package Classification.InstanceList;
 
 import Classification.Attribute.*;
-import Classification.Classifier.Classifier;
 import Classification.DataSet.DataDefinition;
 import Classification.Instance.CompositeInstance;
 import Classification.Instance.Instance;
 import Classification.Instance.InstanceClassComparator;
 import Classification.Instance.InstanceComparator;
+import Classification.Model.Model;
 import Math.DiscreteDistribution;
 import Math.Vector;
 import Math.Matrix;
@@ -152,6 +152,14 @@ public class InstanceList implements Serializable {
     }
 
     /**
+     * Shuffles the instance list.
+     * @param random Random function.
+     */
+    public void shuffle(Random random) {
+        Collections.shuffle(list, random);
+    }
+
+    /**
      * Creates a bootstrap sample from the current instance list.
      *
      * @param seed To create a different bootstrap sample, we need a new seed for each sample.
@@ -214,23 +222,6 @@ public class InstanceList implements Serializable {
     }
 
     /**
-     * Divides the instances in the instance list into partitions so that all instances of a class are grouped in a
-     * single partition.
-     *
-     * @return Groups of instances according to their class labels.
-     */
-    public Partition divideIntoClasses() {
-        ArrayList<String> classLabels = getDistinctClassLabels();
-        Partition result = new Partition();
-        for (String classLabel : classLabels)
-            result.add(new InstanceListOfSameClass(classLabel));
-        for (Instance instance : list) {
-            result.get(classLabels.indexOf(instance.getClassLabel())).add(instance);
-        }
-        return result;
-    }
-
-    /**
      * Extracts distinct discrete values of a given attribute as an array of strings.
      *
      * @param attributeIndex Index of the discrete attribute.
@@ -245,132 +236,7 @@ public class InstanceList implements Serializable {
         }
         return valueList;
     }
-
-    /**
-     * Creates a stratified partition of the current instance list. In a stratified partition, the percentage of each
-     * class is preserved. For example, let's say there are three classes in the instance list, and let the percentages of
-     * these classes be %20, %30, and %50; then the percentages of these classes in the stratified partitions are the
-     * same, that is, %20, %30, and %50.
-     *
-     * @param ratio Ratio of the stratified partition. Ratio is between 0 and 1. If the ratio is 0.2, then 20 percent
-     *              of the instances are put in the first group, 80 percent of the instances are put in the second group.
-     * @param random random is used as a random number.
-     * @return 2 group stratified partition of the instances in this instance list.
-     */
-    public Partition stratifiedPartition(double ratio, Random random) {
-        int[] counts;
-        DiscreteDistribution distribution;
-        Partition partition = new Partition();
-        partition.add(new InstanceList());
-        partition.add(new InstanceList());
-        distribution = classDistribution();
-        counts = new int[distribution.size()];
-        ArrayList<Integer> randomArray = new ArrayList<Integer>();
-        for (int i = 0; i < size(); i++)
-            randomArray.add(i);
-        Collections.shuffle(randomArray, random);
-        for (int i = 0; i < size(); i++) {
-            Instance instance = list.get(randomArray.get(i));
-            int classIndex = distribution.getIndex(instance.getClassLabel());
-            if (counts[classIndex] < size() * ratio * distribution.getProbability(instance.getClassLabel())) {
-                partition.get(0).add(instance);
-            } else {
-                partition.get(1).add(instance);
-            }
-            counts[classIndex]++;
-        }
-        return partition;
-    }
-
-    /**
-     * Creates a partition of the current instance list.
-     *
-     * @param ratio Ratio of the partition. Ratio is between 0 and 1. If the ratio is 0.2, then 20 percent
-     *              of the instances are put in the first group, 80 percent of the instances are put in the second group.
-     * @param random random is used as a random number.
-     * @return 2 group partition of the instances in this instance list.
-     */
-    public Partition partition(double ratio, Random random) {
-        Partition partition = new Partition();
-        partition.add(new InstanceList());
-        partition.add(new InstanceList());
-        Collections.shuffle(list, random);
-        for (int i = 0; i < size(); i++) {
-            Instance instance = list.get(i);
-            if (i < size() * ratio) {
-                partition.get(0).add(instance);
-            } else {
-                partition.get(1).add(instance);
-            }
-        }
-        return partition;
-    }
-
-    /**
-     * Creates a partition depending on the distinct values of a discrete attribute. If the discrete attribute has 4
-     * distinct values, the resulting partition will have 4 groups, where each group contain instance whose
-     * values of that discrete attribute are the same.
-     *
-     * @param attributeIndex Index of the discrete attribute.
-     * @return L groups of instances, where L is the number of distinct values of the discrete attribute with index
-     * attributeIndex.
-     */
-    public Partition divideWithRespectToAttribute(int attributeIndex) {
-        ArrayList<String> valueList = getAttributeValueList(attributeIndex);
-        Partition result = new Partition();
-        for (String value : valueList) {
-            result.add(new InstanceList());
-        }
-        for (Instance instance : list) {
-            result.get(valueList.indexOf(((DiscreteAttribute) instance.getAttribute(attributeIndex)).getValue())).add(instance);
-        }
-        return result;
-    }
-
-    /**
-     * Creates a partition depending on the distinct values of a discrete indexed attribute.
-     *
-     * @param attributeIndex Index of the discrete indexed attribute.
-     * @param attributeValue Value of the attribute.
-     * @return L groups of instances, where L is the number of distinct values of the discrete indexed attribute with index
-     * attributeIndex and value attributeValue.
-     */
-    public Partition divideWithRespectToIndexedAttribute(int attributeIndex, int attributeValue) {
-        Partition result = new Partition();
-        result.add(new InstanceList());
-        result.add(new InstanceList());
-        for (Instance instance : list) {
-            if (((DiscreteIndexedAttribute) instance.getAttribute(attributeIndex)).getIndex() == attributeValue) {
-                result.get(0).add(instance);
-            } else {
-                result.get(1).add(instance);
-            }
-        }
-        return result;
-    }
-
-    /**
-     * Creates a two group partition depending on the values of a continuous attribute. If the value of the attribute is
-     * less than splitValue, the instance is forwarded to the first group, else it is forwarded to the second group.
-     *
-     * @param attributeIndex Index of the continuous attribute
-     * @param splitValue     Threshold to divide instances
-     * @return Two groups of instances as a partition.
-     */
-    public Partition divideWithRespectToAttribute(int attributeIndex, double splitValue) {
-        Partition result = new Partition();
-        result.add(new InstanceList());
-        result.add(new InstanceList());
-        for (Instance instance : list) {
-            if (((ContinuousAttribute) instance.getAttribute(attributeIndex)).getValue() <= splitValue) {
-                result.get(0).add(instance);
-            } else {
-                result.get(1).add(instance);
-            }
-        }
-        return result;
-    }
-
+    
     /**
      * Calculates the mean of a single attribute for this instance list (m_i). If the attribute is discrete, the maximum
      * occurring value for that attribute is returned. If the attribute is continuous, the mean value of the values of
@@ -385,7 +251,7 @@ public class InstanceList implements Serializable {
             for (Instance instance : list) {
                 values.add(((DiscreteAttribute) instance.getAttribute(index)).getValue());
             }
-            return new DiscreteAttribute(Classifier.getMaximum(values));
+            return new DiscreteAttribute(Model.getMaximum(values));
         } else {
             if (list.get(0).getAttribute(index) instanceof ContinuousAttribute) {
                 double sum = 0.0;

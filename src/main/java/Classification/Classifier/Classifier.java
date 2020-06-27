@@ -73,18 +73,4 @@ public abstract class Classifier {
         return model;
     }
 
-    /**
-     * Given an array of class labels, returns the maximum occurred one.
-     *
-     * @param classLabels An array of class labels.
-     * @return The class label that occurs most in the array of class labels (mod of class label list).
-     */
-    public static String getMaximum(ArrayList<String> classLabels) {
-        CounterHashMap<String> frequencies = new CounterHashMap<>();
-        for (String label : classLabels) {
-            frequencies.put(label);
-        }
-        return frequencies.max();
-    }
-
 }

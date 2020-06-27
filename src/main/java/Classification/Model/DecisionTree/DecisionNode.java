@@ -8,6 +8,7 @@ import Classification.Instance.CompositeInstance;
 import Classification.Instance.Instance;
 import Classification.InstanceList.InstanceList;
 import Classification.InstanceList.Partition;
+import Classification.Model.Model;
 import Classification.Parameter.RandomForestParameter;
 import Classification.Performance.ClassificationPerformance;
 import Math.DiscreteDistribution;
@@ -58,7 +59,7 @@ public class DecisionNode implements Serializable {
         ArrayList<String> classLabels;
         this.condition = condition;
         this.data = data;
-        classLabel = Classifier.getMaximum(data.getClassLabels());
+        classLabel = Model.getMaximum(data.getClassLabels());
         leaf = true;
         classLabels = data.getDistinctClassLabels();
         if (classLabels.size() == 1) {
@@ -174,7 +175,7 @@ public class DecisionNode implements Serializable {
      */
     private void createChildrenForDiscreteIndexed(int attributeIndex, int attributeValue, RandomForestParameter parameter, boolean isStump) {
         Partition childrenData;
-        childrenData = data.divideWithRespectToIndexedAttribute(attributeIndex, attributeValue);
+        childrenData = new Partition(data, attributeIndex, attributeValue);
         children = new ArrayList<DecisionNode>();
         children.add(new DecisionNode(childrenData.get(0), new DecisionCondition(attributeIndex, new DiscreteIndexedAttribute("", attributeValue, ((DiscreteIndexedAttribute) data.get(0).getAttribute(attributeIndex)).getMaxIndex())), parameter, isStump));
         children.add(new DecisionNode(childrenData.get(1), new DecisionCondition(attributeIndex, new DiscreteIndexedAttribute("", -1, ((DiscreteIndexedAttribute) data.get(0).getAttribute(attributeIndex)).getMaxIndex())), parameter, isStump));
@@ -192,7 +193,7 @@ public class DecisionNode implements Serializable {
         Partition childrenData;
         ArrayList<String> valueList;
         valueList = data.getAttributeValueList(attributeIndex);
-        childrenData = data.divideWithRespectToAttribute(attributeIndex);
+        childrenData = new Partition(data, attributeIndex);
         children = new ArrayList<DecisionNode>();
         for (int i = 0; i < valueList.size(); i++) {
             children.add(new DecisionNode(childrenData.get(i), new DecisionCondition(attributeIndex, new DiscreteAttribute(valueList.get(i))), parameter, isStump));
@@ -210,7 +211,7 @@ public class DecisionNode implements Serializable {
      */
     private void createChildrenForContinuous(int attributeIndex, double splitValue, RandomForestParameter parameter, boolean isStump) {
         Partition childrenData;
-        childrenData = data.divideWithRespectToAttribute(attributeIndex, splitValue);
+        childrenData = new Partition(data, attributeIndex, splitValue);
         children = new ArrayList<DecisionNode>();
         children.add(new DecisionNode(childrenData.get(0), new DecisionCondition(attributeIndex, '<', new ContinuousAttribute(splitValue)), parameter, isStump));
         children.add(new DecisionNode(childrenData.get(1), new DecisionCondition(attributeIndex, '>', new ContinuousAttribute(splitValue)), parameter, isStump));

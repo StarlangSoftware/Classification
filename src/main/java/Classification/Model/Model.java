@@ -1,8 +1,10 @@
 package Classification.Model;
 
 import Classification.Instance.Instance;
+import DataStructure.CounterHashMap;
 
 import java.io.*;
+import java.util.ArrayList;
 
 public abstract class Model implements Serializable {
 
@@ -29,6 +31,20 @@ public abstract class Model implements Serializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Given an array of class labels, returns the maximum occurred one.
+     *
+     * @param classLabels An array of class labels.
+     * @return The class label that occurs most in the array of class labels (mod of class label list).
+     */
+    public static String getMaximum(ArrayList<String> classLabels) {
+        CounterHashMap<String> frequencies = new CounterHashMap<>();
+        for (String label : classLabels) {
+            frequencies.put(label);
+        }
+        return frequencies.max();
     }
 
 }

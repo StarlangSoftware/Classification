@@ -18,7 +18,7 @@ public class KMeans extends Classifier {
     public void train(InstanceList trainSet, Parameter parameters) {
         DiscreteDistribution priorDistribution = trainSet.classDistribution();
         InstanceList classMeans = new InstanceList();
-        Partition classLists = trainSet.divideIntoClasses();
+        Partition classLists = new Partition(trainSet);
         for (int i = 0; i < classLists.size(); i++) {
             classMeans.add(classLists.get(i).average());
         }
