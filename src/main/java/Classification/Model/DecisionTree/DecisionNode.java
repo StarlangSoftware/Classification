@@ -20,11 +20,11 @@ import java.util.Random;
 
 public class DecisionNode implements Serializable {
 
-    private ArrayList<DecisionNode> children = null;
+    ArrayList<DecisionNode> children = null;
     private final double EPSILON = 0.0000000001;
     private InstanceList data = null;
     private String classLabel = null;
-    private boolean leaf = false;
+    boolean leaf = false;
     private DecisionCondition condition = null;
 
     /**
@@ -215,29 +215,6 @@ public class DecisionNode implements Serializable {
         children = new ArrayList<DecisionNode>();
         children.add(new DecisionNode(childrenData.get(0), new DecisionCondition(attributeIndex, '<', new ContinuousAttribute(splitValue)), parameter, isStump));
         children.add(new DecisionNode(childrenData.get(1), new DecisionCondition(attributeIndex, '>', new ContinuousAttribute(splitValue)), parameter, isStump));
-    }
-
-    /**
-     * The prune method takes a {@link DecisionTree} and an {@link InstanceList} as inputs. It checks the classification performance
-     * of given InstanceList before pruning, i.e making a node leaf, and after pruning. If the after performance is better than the
-     * before performance it prune the given InstanceList from the tree.
-     *
-     * @param tree     DecisionTree that will be pruned if conditions hold.
-     * @param pruneSet Small subset of tree that will be removed from tree.
-     */
-    public void prune(DecisionTree tree, InstanceList pruneSet) {
-        ClassificationPerformance before, after;
-        if (leaf)
-            return;
-        before = tree.testClassifier(pruneSet);
-        leaf = true;
-        after = tree.testClassifier(pruneSet);
-        if (after.getAccuracy() < before.getAccuracy()) {
-            leaf = false;
-            for (DecisionNode node : children) {
-                node.prune(tree, pruneSet);
-            }
-        }
     }
 
     /**

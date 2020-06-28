@@ -72,7 +72,9 @@ public class NaiveBayesModel extends GaussianModel implements Serializable {
             xi = ((ContinuousAttribute) instance.getAttribute(i)).getValue();
             mi = classMeans.get(classLabel).getValue(i);
             si = classDeviations.get(classLabel).getValue(i);
-            logLikelihood += -0.5 * Math.pow((xi - mi) / si, 2);
+            if (si != 0){
+                logLikelihood += -0.5 * Math.pow((xi - mi) / si, 2);
+            }
         }
         return logLikelihood;
     }
