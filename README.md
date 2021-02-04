@@ -1,7 +1,7 @@
 For Developers
 ============
 
-You can also see [Python](https://github.com/olcaytaner/Classification-Py), [Cython](https://github.com/olcaytaner/Classification-Cy), [C++](https://github.com/olcaytaner/Classification-CPP), or [C#](https://github.com/olcaytaner/Classification-CS) repository.
+You can also see [Python](https://github.com/olcaytaner/Classification-Py), [C++](https://github.com/olcaytaner/Classification-CPP), or [C#](https://github.com/olcaytaner/Classification-CS) repository.
 
 ## Requirements
 
