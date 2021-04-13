@@ -1,11 +1,12 @@
 package Classification.Model;
 
-import Classification.Classifier.Classifier;
 import Classification.DistanceMetric.DistanceMetric;
 import Classification.Instance.CompositeInstance;
 import Classification.Instance.Instance;
 import Classification.InstanceList.InstanceList;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -46,6 +47,52 @@ public class KnnModel extends Model implements Serializable {
             predictedClass = Model.getMaximum(nearestNeighbors.getClassLabels());
         }
         return predictedClass;
+    }
+
+    public void generateTestCode(String codeFileName, String inputFileName){
+        try {
+            int attributeCount = data.get(0).attributeSize();
+            PrintWriter output = new PrintWriter(codeFileName);
+            output.println("public static String testKnn(String[] testData) throws FileNotFoundException{");
+            output.println("\tCounterHashMap<String> counts = new CounterHashMap<>();");
+            output.println("\tString[][] trainData = new String[" + data.size() + "][" + (attributeCount + 1) + "];");
+            output.println("\tScanner input = new Scanner(new File(\"" + inputFileName + "\"));");
+            output.println("\tfor (int i = 0; i < " + data.size() + "; i++){");
+            output.println("\t\tString[] items = input.nextLine().split(\" \");");
+            output.println("\t\tfor (int j = 0; j < " + (attributeCount + 1) + "; j++){");
+            output.println("\t\t\ttrainData[i][j] = items[j];");
+            output.println("\t\t}");
+            output.println("\t}");
+            output.println("\tinput.close();");
+            output.println("\tint minDistance = " + attributeCount + ";");
+            output.println("\tfor (int i = 0; i < " + data.size() + "; i++){");
+            output.println("\t\tint count = 0;");
+            output.println("\t\tfor (int j = 0; j < " + attributeCount + "; j++){");
+            output.println("\t\t\tif (!testData[j].equals(trainData[i][j])){");
+            output.println("\t\t\t\tcount++;");
+            output.println("\t\t\t}");
+            output.println("\t\t}");
+            output.println("\t\tif (count < minDistance){");
+            output.println("\t\t\tminDistance = count;");
+            output.println("\t\t}");
+            output.println("\t}");
+            output.println("\tfor (int i = 0; i < " + data.size() + "; i++){");
+            output.println("\t\tint count = 0;");
+            output.println("\t\tfor (int j = 0; j < " + attributeCount + "; j++){");
+            output.println("\t\t\tif (!testData[j].equals(trainData[i][j])){");
+            output.println("\t\t\t\tcount++;");
+            output.println("\t\t\t}");
+            output.println("\t\t}");
+            output.println("\t\tif (count == minDistance){");
+            output.println("\t\t\tcounts.put(trainData[i][" + attributeCount + "]);");
+            output.println("\t\t}");
+            output.println("\t}");
+            output.println("\treturn counts.max();");
+            output.println("}");
+            output.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
