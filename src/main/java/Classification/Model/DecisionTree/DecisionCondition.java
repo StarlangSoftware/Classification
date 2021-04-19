@@ -39,6 +39,14 @@ public class DecisionCondition implements Serializable {
         this.value = value;
     }
 
+    public int getAttributeIndex(){
+        return attributeIndex;
+    }
+
+    public Attribute getValue(){
+        return value;
+    }
+
     /**
      * The satisfy method takes an {@link Instance} as an input.
      * <p>

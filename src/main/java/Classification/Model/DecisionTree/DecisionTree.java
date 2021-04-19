@@ -6,6 +6,8 @@ import Classification.InstanceList.InstanceList;
 import Classification.Model.ValidatedModel;
 import Classification.Performance.ClassificationPerformance;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.io.Serializable;
 
 public class DecisionTree extends ValidatedModel implements Serializable {
@@ -56,6 +58,19 @@ public class DecisionTree extends ValidatedModel implements Serializable {
             for (DecisionNode child : node.children) {
                 pruneNode(child, pruneSet);
             }
+        }
+    }
+
+    public void generateTestCode(String codeFileName){
+        try {
+            PrintWriter output = new PrintWriter(codeFileName);
+            output.println("public static String testC45(String[] testData){");
+            root.generateTestCode(output, 1);
+            output.println("\treturn \"\";");
+            output.println("}");
+            output.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
     }
 

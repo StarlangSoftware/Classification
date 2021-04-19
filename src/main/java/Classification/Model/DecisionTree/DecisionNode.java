@@ -13,6 +13,7 @@ import Classification.Parameter.RandomForestParameter;
 import Classification.Performance.ClassificationPerformance;
 import Math.DiscreteDistribution;
 
+import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -215,6 +216,31 @@ public class DecisionNode implements Serializable {
         children = new ArrayList<DecisionNode>();
         children.add(new DecisionNode(childrenData.get(0), new DecisionCondition(attributeIndex, '<', new ContinuousAttribute(splitValue)), parameter, isStump));
         children.add(new DecisionNode(childrenData.get(1), new DecisionCondition(attributeIndex, '>', new ContinuousAttribute(splitValue)), parameter, isStump));
+    }
+
+    private void printOutput(PrintWriter output, int depth, String line){
+        for (int i = 0; i < depth; i++){
+            output.print("\t");
+        }
+        output.println(line);
+    }
+
+    public boolean generateTestCode(PrintWriter output, int depth){
+        if (leaf){
+            printOutput(output, depth, "return \"" + classLabel + "\";");
+            return true;
+        } else {
+            printOutput(output, depth, "switch (testData[" + children.get(0).condition.getAttributeIndex() + "]){");
+            for (int i = 0; i < children.size(); i++){
+                printOutput(output, depth + 1, "case \"" + ((DiscreteAttribute) children.get(i).condition.getValue()).getValue() + "\":");
+                boolean isLeaf = children.get(i).generateTestCode(output, depth + 2);
+                if (!isLeaf){
+                    printOutput(output, depth + 2, "break;");
+                }
+            }
+            printOutput(output, depth, "}");
+            return false;
+        }
     }
 
     /**
