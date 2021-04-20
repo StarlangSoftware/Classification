@@ -61,10 +61,10 @@ public class DecisionTree extends ValidatedModel implements Serializable {
         }
     }
 
-    public void generateTestCode(String codeFileName){
+    public void generateTestCode(String codeFileName, String methodName){
         try {
             PrintWriter output = new PrintWriter(codeFileName);
-            output.println("public static String testC45(String[] testData){");
+            output.println("public static String " + methodName + "(String[] testData){");
             root.generateTestCode(output, 1);
             output.println("\treturn \"\";");
             output.println("}");

@@ -49,11 +49,11 @@ public class KnnModel extends Model implements Serializable {
         return predictedClass;
     }
 
-    public void generateTestCode(String codeFileName, String inputFileName){
+    public void generateTestCode(String codeFileName, String methodName, String inputFileName){
         try {
             int attributeCount = data.get(0).attributeSize();
             PrintWriter output = new PrintWriter(codeFileName);
-            output.println("public static String testKnn(String[] testData) throws FileNotFoundException{");
+            output.println("public static String " + methodName + "(String[] testData) throws FileNotFoundException{");
             output.println("\tCounterHashMap<String> counts = new CounterHashMap<>();");
             output.println("\tString[][] trainData = new String[" + data.size() + "][" + (attributeCount + 1) + "];");
             output.println("\tScanner input = new Scanner(new File(\"" + inputFileName + "\"));");
