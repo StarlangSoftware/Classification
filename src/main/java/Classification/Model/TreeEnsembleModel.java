@@ -40,7 +40,7 @@ public class TreeEnsembleModel extends Model implements Serializable {
     public void generateTestCode(String codeFileName, String methodName){
         int j = 1;
         for (DecisionTree tree : forest){
-            tree.generateTestCode(codeFileName + "-" + j + ".txt", "testC45-" + j);
+            tree.generateTestCode(codeFileName + "-" + j + ".txt", "testC45_" + j);
             j++;
         }
         try {
@@ -51,7 +51,7 @@ public class TreeEnsembleModel extends Model implements Serializable {
             output.println("\t\tswitch (i){");
             for (int i = 1; i <= forest.size(); i++){
                 output.println("\t\t\tcase " + i + ":");
-                output.println("\t\t\t\tcounts.put(testC45-" + i +  "(testData));");
+                output.println("\t\t\t\tcounts.put(testC45_" + i +  "(testData));");
                 output.println("\t\t\t\tbreak;");
             }
             output.println("\t\t}");
