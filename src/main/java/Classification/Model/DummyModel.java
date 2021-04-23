@@ -7,6 +7,7 @@ import Math.DiscreteDistribution;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class DummyModel extends Model implements Serializable {
 
@@ -36,4 +37,8 @@ public class DummyModel extends Model implements Serializable {
         }
     }
 
+    @Override
+    public HashMap<String, Double> predictProbability(Instance instance) {
+        return distribution.getProbabilityDistribution();
+    }
 }

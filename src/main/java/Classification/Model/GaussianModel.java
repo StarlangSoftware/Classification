@@ -4,6 +4,7 @@ import Classification.Instance.CompositeInstance;
 import Classification.Instance.Instance;
 
 import java.io.Serializable;
+import java.util.HashMap;
 
 import Math.DiscreteDistribution;
 
@@ -55,5 +56,10 @@ public abstract class GaussianModel extends ValidatedModel implements Serializab
             }
         }
         return predictedClass;
+    }
+
+    @Override
+    public HashMap<String, Double> predictProbability(Instance instance) {
+        return null;
     }
 }

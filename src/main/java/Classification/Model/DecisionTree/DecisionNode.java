@@ -17,6 +17,7 @@ import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Random;
 
 public class DecisionNode implements Serializable {
@@ -283,4 +284,18 @@ public class DecisionNode implements Serializable {
             }
         }
     }
+
+    public HashMap<String, Double> predictProbabilityDistribution(Instance instance) {
+        if (leaf) {
+            return data.classDistribution().getProbabilityDistribution();
+        } else {
+            for (DecisionNode node : children) {
+                if (node.condition.satisfy(instance)) {
+                    return node.predictProbabilityDistribution(instance);
+                }
+            }
+            return data.classDistribution().getProbabilityDistribution();
+        }
+    }
+
 }

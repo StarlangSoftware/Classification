@@ -5,8 +5,10 @@ import Classification.InstanceList.InstanceList;
 import Classification.Model.ValidatedModel;
 import Classification.Parameter.SvmParameter;
 import Math.DiscreteDistribution;
+import Math.Vector;
 
 import java.io.Serializable;
+import java.util.HashMap;
 
 public class SvmModel extends ValidatedModel implements Serializable{
     private DiscreteDistribution classDistribution;
@@ -236,5 +238,10 @@ public class SvmModel extends ValidatedModel implements Serializable{
             }
         }
         return classDistribution.getItem(maxIndex);
+    }
+
+    @Override
+    public HashMap<String, Double> predictProbability(Instance instance) {
+        return null;
     }
 }

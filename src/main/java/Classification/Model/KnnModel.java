@@ -4,6 +4,7 @@ import Classification.DistanceMetric.DistanceMetric;
 import Classification.Instance.CompositeInstance;
 import Classification.Instance.Instance;
 import Classification.InstanceList.InstanceList;
+import Math.Vector;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -11,6 +12,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 
 public class KnnModel extends Model implements Serializable {
 
@@ -47,6 +49,12 @@ public class KnnModel extends Model implements Serializable {
             predictedClass = Model.getMaximum(nearestNeighbors.getClassLabels());
         }
         return predictedClass;
+    }
+
+    @Override
+    public HashMap<String, Double> predictProbability(Instance instance) {
+        InstanceList nearestNeighbors = nearestNeighbors(instance);
+        return nearestNeighbors.classDistribution().getProbabilityDistribution();
     }
 
     public void generateTestCode(String codeFileName, String methodName, String inputFileName){

@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class TreeEnsembleModel extends Model implements Serializable {
 
@@ -35,6 +36,15 @@ public class TreeEnsembleModel extends Model implements Serializable {
             distribution.addItem(tree.predict(instance));
         }
         return distribution.getMaxItem();
+    }
+
+    @Override
+    public HashMap<String, Double> predictProbability(Instance instance) {
+        DiscreteDistribution distribution = new DiscreteDistribution();
+        for (DecisionTree tree : forest) {
+            distribution.addItem(tree.predict(instance));
+        }
+        return distribution.getProbabilityDistribution();
     }
 
     public void generateTestCode(String codeFileName, String methodName){

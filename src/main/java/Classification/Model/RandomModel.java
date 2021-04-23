@@ -2,12 +2,14 @@ package Classification.Model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
 
 import Classification.Classifier.Classifier;
 import Classification.Instance.CompositeInstance;
 import Classification.Instance.Instance;
+import Math.Vector;
 
 public class RandomModel extends Model implements Serializable {
     private ArrayList<String> classLabels;
@@ -42,5 +44,14 @@ public class RandomModel extends Model implements Serializable {
             int index = random.nextInt(size);
             return classLabels.get(index);
         }
+    }
+
+    @Override
+    public HashMap<String, Double> predictProbability(Instance instance) {
+        HashMap<String, Double> result = new HashMap<>();
+        for (String classLabel : classLabels){
+            result.put(classLabel, 1.0 / classLabels.size());
+        }
+        return result;
     }
 }

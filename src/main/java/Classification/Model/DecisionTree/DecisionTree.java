@@ -5,10 +5,12 @@ import Classification.Instance.Instance;
 import Classification.InstanceList.InstanceList;
 import Classification.Model.ValidatedModel;
 import Classification.Performance.ClassificationPerformance;
+import Math.Vector;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.Serializable;
+import java.util.HashMap;
 
 public class DecisionTree extends ValidatedModel implements Serializable {
 
@@ -36,6 +38,11 @@ public class DecisionTree extends ValidatedModel implements Serializable {
             predictedClass = ((CompositeInstance) instance).getPossibleClassLabels().get(0);
         }
         return predictedClass;
+    }
+
+    @Override
+    public HashMap<String, Double> predictProbability(Instance instance) {
+        return root.predictProbabilityDistribution(instance);
     }
 
     /**

@@ -2,6 +2,7 @@ package Classification.Model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 import Classification.Instance.CompositeInstance;
@@ -166,6 +167,15 @@ public abstract class NeuralNetworkModel extends ValidatedModel implements Seria
         } else {
             return classLabels.get(y.maxIndex());
         }
+    }
+
+    @Override
+    public HashMap<String, Double> predictProbability(Instance instance) {
+        HashMap<String, Double> result = new HashMap<>();
+        for (int i = 0; i < classLabels.size(); i++){
+            result.put(classLabels.get(i), y.getValue(i));
+        }
+        return result;
     }
 
 }

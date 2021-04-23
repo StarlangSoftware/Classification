@@ -5,6 +5,7 @@ import DataStructure.CounterHashMap;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public abstract class Model implements Serializable {
 
@@ -15,6 +16,8 @@ public abstract class Model implements Serializable {
      * @return The class label as a String.
      */
     public abstract String predict(Instance instance);
+
+    public abstract HashMap<String, Double> predictProbability(Instance instance);
 
     /**
      * The save metohd takes a file name as an input and writes model to that file.
