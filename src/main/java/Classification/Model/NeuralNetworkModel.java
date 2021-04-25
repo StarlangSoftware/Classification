@@ -171,6 +171,8 @@ public abstract class NeuralNetworkModel extends ValidatedModel implements Seria
 
     @Override
     public HashMap<String, Double> predictProbability(Instance instance) {
+        createInputVector(instance);
+        calculateOutput();
         HashMap<String, Double> result = new HashMap<>();
         for (int i = 0; i < classLabels.size(); i++){
             result.put(classLabels.get(i), y.getValue(i));
