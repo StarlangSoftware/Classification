@@ -8,6 +8,7 @@ import java.util.Random;
 import Classification.Instance.CompositeInstance;
 import Classification.Instance.Instance;
 import Classification.InstanceList.InstanceList;
+import Classification.Parameter.ActivationFunction;
 import Math.*;
 
 public abstract class NeuralNetworkModel extends ValidatedModel implements Serializable {
@@ -77,10 +78,21 @@ public abstract class NeuralNetworkModel extends ValidatedModel implements Seria
      * @return Result of sigmoid function.
      * @throws MatrixColumnMismatch Returns: Number of columns of the matrix should be equal to the size of the vector.
      */
-    protected Vector calculateHidden(Vector input, Matrix weights) throws MatrixColumnMismatch {
+    protected Vector calculateHidden(Vector input, Matrix weights, ActivationFunction activationFunction) throws MatrixColumnMismatch {
         Vector z;
         z = weights.multiplyWithVectorFromRight(input);
-        z.sigmoid();
+        switch (activationFunction){
+            case SIGMOID:
+            default:
+                z.sigmoid();
+                break;
+            case TANH:
+                z.tanh();
+                break;
+            case RELU:
+                z.relu();
+                break;
+        }
         return z;
     }
 
@@ -106,9 +118,9 @@ public abstract class NeuralNetworkModel extends ValidatedModel implements Seria
      * @param V Matrix to multiply.
      * @throws MatrixColumnMismatch Returns: Number of columns of the matrix should be equal to the size of the vector.
      */
-    protected void calculateForwardSingleHiddenLayer(Matrix W, Matrix V) throws MatrixColumnMismatch {
+    protected void calculateForwardSingleHiddenLayer(Matrix W, Matrix V, ActivationFunction activationFunction) throws MatrixColumnMismatch {
         Vector hidden, hiddenBiased;
-        hidden = calculateHidden(x, W);
+        hidden = calculateHidden(x, W, activationFunction);
         hiddenBiased = hidden.biased();
         y = V.multiplyWithVectorFromRight(hiddenBiased);
     }

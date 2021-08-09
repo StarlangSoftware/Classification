@@ -1,5 +1,6 @@
 package Classification.Model;
 
+import Classification.Parameter.ActivationFunction;
 import Classification.Performance.ClassificationPerformance;
 import Classification.InstanceList.InstanceList;
 import Classification.Parameter.DeepNetworkParameter;
@@ -12,6 +13,7 @@ import java.util.Random;
 public class DeepNetworkModel extends NeuralNetworkModel implements Serializable {
     private ArrayList<Matrix> weights;
     private int hiddenLayerSize;
+    private ActivationFunction activationFunction;
 
     /**
      * The allocateWeights method takes {@link DeepNetworkParameter}s as an input. First it adds random weights to the {@link ArrayList}
@@ -61,12 +63,13 @@ public class DeepNetworkModel extends NeuralNetworkModel implements Serializable
         super(trainSet);
         int epoch;
         double learningRate;
-        Vector rMinusY, oneMinusHidden, tmpHidden, tmph;
+        Vector rMinusY, oneMinusHidden, tmpHidden = new Vector(0, 0), tmph, activationDerivative;
         ClassificationPerformance currentClassificationPerformance, bestClassificationPerformance;
         ArrayList<Matrix> bestWeights;
         ArrayList<Matrix> deltaWeights = new ArrayList<>();
         ArrayList<Vector> hidden = new ArrayList<>();
         ArrayList<Vector> hiddenBiased = new ArrayList<>();
+        activationFunction = parameters.getActivationFunction();
         allocateWeights(parameters);
         bestWeights = setBestWeights();
         bestClassificationPerformance = new ClassificationPerformance(0.0);
@@ -82,19 +85,38 @@ public class DeepNetworkModel extends NeuralNetworkModel implements Serializable
                     deltaWeights.clear();
                     for (int k = 0; k < hiddenLayerSize; k++) {
                         if (k == 0) {
-                            hidden.add(calculateHidden(x, weights.get(k)));
+                            hidden.add(calculateHidden(x, weights.get(k), activationFunction));
                         } else {
-                            hidden.add(calculateHidden(hiddenBiased.get(k - 1), weights.get(k)));
+                            hidden.add(calculateHidden(hiddenBiased.get(k - 1), weights.get(k), activationFunction));
                         }
                         hiddenBiased.add(hidden.get(k).biased());
                     }
                     rMinusY = calculateRMinusY(trainSet.get(j), hiddenBiased.get(hiddenLayerSize - 1), weights.get(weights.size() - 1));
                     deltaWeights.add(0, rMinusY.multiply(hiddenBiased.get(hiddenLayerSize - 1)));
                     for (int k = weights.size() - 2; k >= 0; k--) {
-                        oneMinusHidden = calculateOneMinusHidden(hidden.get(k));
-                        tmph = deltaWeights.get(0).elementProduct(weights.get(k + 1)).sumOfRows();
+                        if (k == weights.size() - 2){
+                            tmph = weights.get(k + 1).multiplyWithVectorFromLeft(rMinusY);
+                        } else {
+                            tmph = weights.get(k + 1).multiplyWithVectorFromLeft(tmpHidden);
+                        }
                         tmph.remove(0);
-                        tmpHidden = oneMinusHidden.elementProduct(tmph);
+                        switch (activationFunction){
+                            case SIGMOID:
+                            default:
+                                oneMinusHidden = calculateOneMinusHidden(hidden.get(k));
+                                activationDerivative = oneMinusHidden.elementProduct(hidden.get(k));
+                                break;
+                            case TANH:
+                                Vector one = new Vector(hidden.size(), 1.0);
+                                hidden.get(k).tanh();
+                                activationDerivative = one.difference(hidden.get(k).elementProduct(hidden.get(k)));
+                                break;
+                            case RELU:
+                                hidden.get(k).reluDerivative();
+                                activationDerivative = hidden.get(k);
+                                break;
+                        }
+                        tmpHidden = tmph.elementProduct(activationDerivative);
                         if (k == 0) {
                             deltaWeights.add(0, tmpHidden.multiply(x));
                         } else {
@@ -105,7 +127,7 @@ public class DeepNetworkModel extends NeuralNetworkModel implements Serializable
                         deltaWeights.get(k).multiplyWithConstant(learningRate);
                         weights.get(k).add(deltaWeights.get(k));
                     }
-                } catch (MatrixColumnMismatch | VectorSizeMismatch | MatrixDimensionMismatch mismatch) {
+                } catch (MatrixColumnMismatch | VectorSizeMismatch | MatrixDimensionMismatch | MatrixRowMismatch mismatch) {
                     System.out.println("Error");
                 }
             }
@@ -131,9 +153,9 @@ public class DeepNetworkModel extends NeuralNetworkModel implements Serializable
         try {
             for (int i = 0; i < weights.size() - 1; i++) {
                 if (i == 0) {
-                    hidden = calculateHidden(x, weights.get(i));
+                    hidden = calculateHidden(x, weights.get(i), activationFunction);
                 } else {
-                    hidden = calculateHidden(hiddenBiased, weights.get(i));
+                    hidden = calculateHidden(hiddenBiased, weights.get(i), activationFunction);
                 }
                 hiddenBiased = hidden.biased();
             }

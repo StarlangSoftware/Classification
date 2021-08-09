@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class DeepNetworkParameter extends LinearPerceptronParameter {
     private ArrayList<Integer> hiddenLayers;
+    private ActivationFunction activationFunction;
 
     /**
      * Parameters of the deep network classifier.
@@ -15,9 +16,10 @@ public class DeepNetworkParameter extends LinearPerceptronParameter {
      * @param epoch                Integer value for epoch number of the algorithm.
      * @param hiddenLayers         An integer {@link ArrayList} for hidden layers of the algorithm.
      */
-    public DeepNetworkParameter(int seed, double learningRate, double etaDecrease, double crossValidationRatio, int epoch, ArrayList<Integer> hiddenLayers) {
+    public DeepNetworkParameter(int seed, double learningRate, double etaDecrease, double crossValidationRatio, int epoch, ArrayList<Integer> hiddenLayers, ActivationFunction activationFunction) {
         super(seed, learningRate, etaDecrease, crossValidationRatio, epoch);
         this.hiddenLayers = hiddenLayers;
+        this.activationFunction = activationFunction;
     }
 
     /**
@@ -39,4 +41,14 @@ public class DeepNetworkParameter extends LinearPerceptronParameter {
     public int getHiddenNodes(int layerIndex) {
         return hiddenLayers.get(layerIndex);
     }
+
+    /**
+     * Accessor for the activation function.
+     *
+     * @return The activation function.
+     */
+    public ActivationFunction getActivationFunction(){
+        return activationFunction;
+    }
+
 }

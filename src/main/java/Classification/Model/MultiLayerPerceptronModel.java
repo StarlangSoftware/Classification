@@ -1,6 +1,7 @@
 package Classification.Model;
 
 import Classification.InstanceList.InstanceList;
+import Classification.Parameter.ActivationFunction;
 import Classification.Parameter.MultiLayerPerceptronParameter;
 import Classification.Performance.ClassificationPerformance;
 import Math.*;
@@ -10,6 +11,7 @@ import java.util.Random;
 
 public class MultiLayerPerceptronModel extends LinearPerceptronModel implements Serializable {
     private Matrix V;
+    private ActivationFunction activationFunction;
 
 
     /**
@@ -35,11 +37,12 @@ public class MultiLayerPerceptronModel extends LinearPerceptronModel implements 
      */
     public MultiLayerPerceptronModel(InstanceList trainSet, InstanceList validationSet, MultiLayerPerceptronParameter parameters) {
         super(trainSet);
-        Vector rMinusY, hidden, hiddenBiased, oneMinusHidden, tmph, tmpHidden;
+        Vector rMinusY, hidden, hiddenBiased, oneMinusHidden, tmph, tmpHidden, activationDerivative;
         int epoch;
         double learningRate;
         Matrix deltaW, deltaV, bestW, bestV;
         ClassificationPerformance currentClassificationPerformance, bestClassificationPerformance;
+        activationFunction = parameters.getActivationFunction();
         allocateWeights(parameters.getHiddenNodes(), new Random(parameters.getSeed()));
         bestW = W.clone();
         bestV = V.clone();
@@ -51,14 +54,29 @@ public class MultiLayerPerceptronModel extends LinearPerceptronModel implements 
             for (int j = 0; j < trainSet.size(); j++) {
                 createInputVector(trainSet.get(j));
                 try {
-                    hidden = calculateHidden(x, W);
+                    hidden = calculateHidden(x, W, activationFunction);
                     hiddenBiased = hidden.biased();
                     rMinusY = calculateRMinusY(trainSet.get(j), hiddenBiased, V);
                     deltaV = rMinusY.multiply(hiddenBiased);
-                    oneMinusHidden = calculateOneMinusHidden(hidden);
                     tmph = V.multiplyWithVectorFromLeft(rMinusY);
                     tmph.remove(0);
-                    tmpHidden = oneMinusHidden.elementProduct(hidden.elementProduct(tmph));
+                    switch (activationFunction){
+                        case SIGMOID:
+                        default:
+                            oneMinusHidden = calculateOneMinusHidden(hidden);
+                            activationDerivative = oneMinusHidden.elementProduct(hidden);
+                            break;
+                        case TANH:
+                            Vector one = new Vector(hidden.size(), 1.0);
+                            hidden.tanh();
+                            activationDerivative = one.difference(hidden.elementProduct(hidden));
+                            break;
+                        case RELU:
+                            hidden.reluDerivative();
+                            activationDerivative = hidden;
+                            break;
+                    }
+                    tmpHidden = tmph.elementProduct(activationDerivative);
                     deltaW = tmpHidden.multiply(x);
                     deltaV.multiplyWithConstant(learningRate);
                     V.add(deltaV);
@@ -84,7 +102,7 @@ public class MultiLayerPerceptronModel extends LinearPerceptronModel implements 
      */
     protected void calculateOutput() {
         try {
-            calculateForwardSingleHiddenLayer(W, V);
+            calculateForwardSingleHiddenLayer(W, V, activationFunction);
         } catch (MatrixColumnMismatch matrixColumnMismatch) {
         }
     }

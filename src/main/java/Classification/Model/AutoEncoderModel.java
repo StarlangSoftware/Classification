@@ -2,6 +2,7 @@ package Classification.Model;
 
 import Classification.Instance.Instance;
 import Classification.InstanceList.InstanceList;
+import Classification.Parameter.ActivationFunction;
 import Classification.Parameter.MultiLayerPerceptronParameter;
 import Classification.Performance.Performance;
 import Math.*;
@@ -54,7 +55,7 @@ public class AutoEncoderModel extends NeuralNetworkModel implements Serializable
                 createInputVector(trainSet.get(j));
                 r = trainSet.get(j).toVector();
                 try {
-                    hidden = calculateHidden(x, W);
+                    hidden = calculateHidden(x, W, ActivationFunction.SIGMOID);
                     hiddenBiased = hidden.biased();
                     y = V.multiplyWithVectorFromRight(hiddenBiased);
                     rMinusY = r.difference(y);
@@ -113,7 +114,7 @@ public class AutoEncoderModel extends NeuralNetworkModel implements Serializable
     private Vector predictInput(Instance instance) {
         createInputVector(instance);
         try {
-            calculateForwardSingleHiddenLayer(W, V);
+            calculateForwardSingleHiddenLayer(W, V, ActivationFunction.SIGMOID);
             return y;
         } catch (MatrixColumnMismatch matrixColumnMismatch) {
             return null;
@@ -126,7 +127,7 @@ public class AutoEncoderModel extends NeuralNetworkModel implements Serializable
     @Override
     protected void calculateOutput() {
         try {
-            calculateForwardSingleHiddenLayer(W, V);
+            calculateForwardSingleHiddenLayer(W, V, ActivationFunction.SIGMOID);
         } catch (MatrixColumnMismatch matrixColumnMismatch) {
         }
     }

@@ -2,10 +2,7 @@ package Classification.Filter;
 
 import Classification.Classifier.*;
 import Classification.DistanceMetric.EuclidianDistance;
-import Classification.Parameter.KMeansParameter;
-import Classification.Parameter.KnnParameter;
-import Classification.Parameter.LinearPerceptronParameter;
-import Classification.Parameter.MultiLayerPerceptronParameter;
+import Classification.Parameter.*;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -33,17 +30,17 @@ public class NormalizeTest extends ClassifierTest {
     @Test
     public void testMultiLayerPerceptron() throws DiscreteFeaturesNotAllowed {
         MultiLayerPerceptron multiLayerPerceptron = new MultiLayerPerceptron();
-        MultiLayerPerceptronParameter multiLayerPerceptronParameter = new MultiLayerPerceptronParameter(1, 1, 0.99, 0.2, 100, 3);
+        MultiLayerPerceptronParameter multiLayerPerceptronParameter = new MultiLayerPerceptronParameter(1, 1, 0.99, 0.2, 100, 3, ActivationFunction.SIGMOID);
         Normalize normalize = new Normalize(iris);
         normalize.convert();
         multiLayerPerceptron.train(iris.getInstanceList(), multiLayerPerceptronParameter);
         assertEquals(3.33, 100 * multiLayerPerceptron.test(iris.getInstanceList()).getErrorRate(), 0.01);
-        multiLayerPerceptronParameter = new MultiLayerPerceptronParameter(1, 0.5, 0.99, 0.2, 100, 30);
+        multiLayerPerceptronParameter = new MultiLayerPerceptronParameter(1, 0.5, 0.99, 0.2, 100, 30, ActivationFunction.SIGMOID);
         normalize = new Normalize(bupa);
         normalize.convert();
         multiLayerPerceptron.train(bupa.getInstanceList(), multiLayerPerceptronParameter);
         assertEquals(25.22, 100 * multiLayerPerceptron.test(bupa.getInstanceList()).getErrorRate(), 0.01);
-        multiLayerPerceptronParameter = new MultiLayerPerceptronParameter(1, 0.1, 0.99, 0.2, 100, 20);
+        multiLayerPerceptronParameter = new MultiLayerPerceptronParameter(1, 0.1, 0.99, 0.2, 100, 20, ActivationFunction.SIGMOID);
         normalize = new Normalize(dermatology);
         normalize.convert();
         multiLayerPerceptron.train(dermatology.getInstanceList(), multiLayerPerceptronParameter);
