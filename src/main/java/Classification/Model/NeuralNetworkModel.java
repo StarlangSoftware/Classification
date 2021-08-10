@@ -75,6 +75,7 @@ public abstract class NeuralNetworkModel extends ValidatedModel implements Seria
      *
      * @param input   Vector to multiply weights.
      * @param weights Matrix is multiplied with input Vector.
+     * @param activationFunction Activation function.
      * @return Result of sigmoid function.
      * @throws MatrixColumnMismatch Returns: Number of columns of the matrix should be equal to the size of the vector.
      */
@@ -116,6 +117,7 @@ public abstract class NeuralNetworkModel extends ValidatedModel implements Seria
      *
      * @param W Matrix to multiply with x.
      * @param V Matrix to multiply.
+     * @param activationFunction Activation function.
      * @throws MatrixColumnMismatch Returns: Number of columns of the matrix should be equal to the size of the vector.
      */
     protected void calculateForwardSingleHiddenLayer(Matrix W, Matrix V, ActivationFunction activationFunction) throws MatrixColumnMismatch {

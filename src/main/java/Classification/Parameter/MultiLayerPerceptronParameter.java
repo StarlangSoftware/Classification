@@ -14,6 +14,7 @@ public class MultiLayerPerceptronParameter extends LinearPerceptronParameter {
      * @param crossValidationRatio Double value for cross validation ratio of the algorithm.
      * @param epoch                Integer value for epoch number of the algorithm.
      * @param hiddenNodes          Integer value for the number of hidden nodes.
+     * @param activationFunction   Activation function
      */
     public MultiLayerPerceptronParameter(int seed, double learningRate, double etaDecrease, double crossValidationRatio, int epoch, int hiddenNodes, ActivationFunction activationFunction) {
         super(seed, learningRate, etaDecrease, crossValidationRatio, epoch);
