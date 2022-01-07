@@ -46,7 +46,7 @@ There are three types of neurons (units) in ANN. Each unit except the input unit
 For Developers
 ============
 
-You can also see [Python](https://github.com/starlangsoftware/Classification-Py), [Cython](https://github.com/starlangsoftware/Classification-Cy), [C++](https://github.com/starlangsoftware/Classification-CPP), [Swift](https://github.com/starlangsoftware/Classification-Swift), or [C#](https://github.com/starlangsoftware/Classification-CS) repository.
+You can also see [Python](https://github.com/starlangsoftware/Classification-Py), [Cython](https://github.com/starlangsoftware/Classification-Cy), [C++](https://github.com/starlangsoftware/Classification-CPP), [Swift](https://github.com/starlangsoftware/Classification-Swift), [Js](https://github.com/starlangsoftware/Classification-Js), or [C#](https://github.com/starlangsoftware/Classification-CS) repository.
 
 ## Requirements
 
