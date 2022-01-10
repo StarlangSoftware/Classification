@@ -43,7 +43,7 @@ public abstract class NeuralNetworkModel extends ValidatedModel implements Seria
 
     /**
      * The normalizeOutput method takes an input {@link Vector} o, gets the result for e^o of each element of o,
-     * then sums them up. At the end, divides the each e^o by the summation.
+     * then sums them up. At the end, divides each e^o by the summation.
      *
      * @param o Vector to normalize.
      * @return Normalized vector.
@@ -51,10 +51,12 @@ public abstract class NeuralNetworkModel extends ValidatedModel implements Seria
     protected Vector normalizeOutput(Vector o) {
         double sum = 0.0;
         double[] values = new double[o.size()];
-        for (int i = 0; i < values.length; i++)
+        for (int i = 0; i < values.length; i++){
             sum += Math.exp(o.getValue(i));
-        for (int i = 0; i < values.length; i++)
+        }
+        for (int i = 0; i < values.length; i++){
             values[i] = Math.exp(o.getValue(i)) / sum;
+        }
         return new Vector(values);
     }
 
@@ -98,11 +100,11 @@ public abstract class NeuralNetworkModel extends ValidatedModel implements Seria
     }
 
     /**
-     * The calculateOneMinusHidden method takes a {@link java.util.Vector} as input. It creates a Vector of ones and
+     * The calculateOneMinusHidden method takes a {@link Vector} as input. It creates a Vector of ones and
      * returns the difference between given Vector.
      *
      * @param hidden Vector to find difference.
-     * @return Returns the difference between ones Vector and input Vector.
+     * @return Returns the difference between one's Vector and input Vector.
      * @throws VectorSizeMismatch Return: Number of items in both vectors must be the same.
      */
     protected Vector calculateOneMinusHidden(Vector hidden) throws VectorSizeMismatch {
@@ -128,8 +130,8 @@ public abstract class NeuralNetworkModel extends ValidatedModel implements Seria
     }
 
     /**
-     * The calculateRMinusY method creates a new {@link java.util.Vector} with given Instance, then it multiplies given
-     * input Vector with given weights Matrix. After normalizing the output, it return the difference between the newly created
+     * The calculateRMinusY method creates a new {@link Vector} with given Instance, then it multiplies given
+     * input Vector with given weights Matrix. After normalizing the output, it returns the difference between the newly created
      * Vector and normalized output.
      *
      * @param instance Instance is used to get class labels.

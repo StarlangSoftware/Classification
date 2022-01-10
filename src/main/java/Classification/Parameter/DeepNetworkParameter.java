@@ -15,6 +15,7 @@ public class DeepNetworkParameter extends LinearPerceptronParameter {
      * @param crossValidationRatio Double value for cross validation ratio of the algorithm.
      * @param epoch                Integer value for epoch number of the algorithm.
      * @param hiddenLayers         An integer {@link ArrayList} for hidden layers of the algorithm.
+     * @param activationFunction   Activation function
      */
     public DeepNetworkParameter(int seed, double learningRate, double etaDecrease, double crossValidationRatio, int epoch, ArrayList<Integer> hiddenLayers, ActivationFunction activationFunction) {
         super(seed, learningRate, etaDecrease, crossValidationRatio, epoch);

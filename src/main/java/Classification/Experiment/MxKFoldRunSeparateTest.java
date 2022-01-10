@@ -13,7 +13,8 @@ public class MxKFoldRunSeparateTest extends KFoldRunSeparateTest {
     protected int M;
 
     /**
-     * Constructor for KFoldRunSeparateTest class. Basically sets K parameter of the K-fold cross-validation and M for the number of times..
+     * Constructor for KFoldRunSeparateTest class. Basically sets K parameter of the K-fold cross-validation and M for
+     * the number of times.
      *
      * @param M number of cross-validation times.
      * @param K K of the K-fold cross-validation.

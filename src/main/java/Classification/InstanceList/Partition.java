@@ -22,8 +22,9 @@ public class Partition {
     public Partition(InstanceList instanceList) {
         this();
         ArrayList<String> classLabels = instanceList.getDistinctClassLabels();
-        for (String classLabel : classLabels)
+        for (String classLabel : classLabels){
             add(new InstanceListOfSameClass(classLabel));
+        }
         for (Instance instance : instanceList.getInstances()) {
             get(classLabels.indexOf(instance.getClassLabel())).add(instance);
         }
@@ -51,8 +52,9 @@ public class Partition {
             distribution = instanceList.classDistribution();
             counts = new int[distribution.size()];
             ArrayList<Integer> randomArray = new ArrayList<Integer>();
-            for (int i = 0; i < instanceList.size(); i++)
+            for (int i = 0; i < instanceList.size(); i++){
                 randomArray.add(i);
+            }
             Collections.shuffle(randomArray, random);
             for (int i = 0; i < instanceList.size(); i++) {
                 Instance instance = instanceList.get(randomArray.get(i));

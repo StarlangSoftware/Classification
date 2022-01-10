@@ -24,10 +24,10 @@ public class DecisionNode implements Serializable {
 
     ArrayList<DecisionNode> children = null;
     private final double EPSILON = 0.0000000001;
-    private InstanceList data = null;
-    private String classLabel = null;
-    boolean leaf = false;
-    private DecisionCondition condition = null;
+    private InstanceList data;
+    private String classLabel;
+    boolean leaf;
+    private DecisionCondition condition;
 
     /**
      * The DecisionNode method takes {@link InstanceList} data as input and then it sets the class label parameter by finding

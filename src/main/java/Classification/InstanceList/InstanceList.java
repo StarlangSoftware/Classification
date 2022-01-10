@@ -165,7 +165,7 @@ public class InstanceList implements Serializable {
      * @param seed To create a different bootstrap sample, we need a new seed for each sample.
      * @return Bootstrap sample.
      */
-    public Bootstrap bootstrap(int seed) {
+    public Bootstrap<Instance> bootstrap(int seed) {
         return new Bootstrap<Instance>(list, seed);
     }
 

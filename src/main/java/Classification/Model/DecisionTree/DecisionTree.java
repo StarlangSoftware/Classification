@@ -55,8 +55,9 @@ public class DecisionTree extends ValidatedModel implements Serializable {
      */
     public void pruneNode(DecisionNode node, InstanceList pruneSet) {
         ClassificationPerformance before, after;
-        if (node.leaf)
+        if (node.leaf){
             return;
+        }
         before = testClassifier(pruneSet);
         node.leaf = true;
         after = testClassifier(pruneSet);

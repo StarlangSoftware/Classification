@@ -17,7 +17,7 @@ public class Pca extends TrainedFeatureFilter {
     /**
      * Constructor that sets the dataSet and covariance explained. Then calls train method.
      *
-     * @param dataSet             DataSet that will bu used.
+     * @param dataSet             DataSet that will be used.
      * @param covarianceExplained Number that shows the explained covariance.
      */
     public Pca(DataSet dataSet, double covarianceExplained) {
@@ -29,7 +29,7 @@ public class Pca extends TrainedFeatureFilter {
     /**
      * Constructor that sets the dataSet and dimension. Then calls train method.
      *
-     * @param dataSet            DataSet that will bu used.
+     * @param dataSet            DataSet that will be used.
      * @param numberOfDimensions Dimension number.
      */
     public Pca(DataSet dataSet, int numberOfDimensions) {
@@ -41,7 +41,7 @@ public class Pca extends TrainedFeatureFilter {
     /**
      * Constructor that sets the dataSet and dimension. Then calls train method.
      *
-     * @param dataSet DataSet that will bu used.
+     * @param dataSet DataSet that will be used.
      */
     public Pca(DataSet dataSet) {
         super(dataSet);
@@ -108,7 +108,7 @@ public class Pca extends TrainedFeatureFilter {
     /**
      * The convertInstance method takes an {@link Instance} as an input and creates a {@link java.util.Vector} attributes from continuousAttributes.
      * After removing all attributes of given instance, it then adds new {@link ContinuousAttribute} by using the dot
-     * product of attributes Vector and the eigenvectors.
+     * product of attribute Vector and the eigenvectors.
      *
      * @param instance Instance that will be converted to {@link ContinuousAttribute} by using eigenvectors.
      */

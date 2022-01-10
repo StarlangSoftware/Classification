@@ -15,7 +15,6 @@ public class DiscreteIndexedAttribute extends DiscreteAttribute implements Seria
      * @param index Index of the attribute.
      * @param maxIndex Maximum index of the attribute.
      */
-
     public DiscreteIndexedAttribute(String value, int index, int maxIndex) {
         super(value);
         this.index = index;
