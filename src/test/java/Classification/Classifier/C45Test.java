@@ -21,9 +21,5 @@ public class C45Test extends ClassifierTest{
         assertEquals(8.16, 100 * c45.test(car.getInstanceList()).getErrorRate(), 0.01);
         c45.train(tictactoe.getInstanceList(), c45Parameter);
         assertEquals(14.61, 100 * c45.test(tictactoe.getInstanceList()).getErrorRate(), 0.01);
-        c45.train(nursery.getInstanceList(), c45Parameter);
-        assertEquals(2.65, 100 * c45.test(nursery.getInstanceList()).getErrorRate(), 0.01);
-        c45.train(chess.getInstanceList(), c45Parameter);
-        assertEquals(52.73, 100 * c45.test(chess.getInstanceList()).getErrorRate(), 0.01);
     }
 }

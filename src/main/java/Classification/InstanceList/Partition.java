@@ -5,6 +5,7 @@ import Classification.Attribute.DiscreteAttribute;
 import Classification.Attribute.DiscreteIndexedAttribute;
 import Classification.Instance.Instance;
 import Math.DiscreteDistribution;
+import Util.RandomArray;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -51,11 +52,7 @@ public class Partition {
             DiscreteDistribution distribution;
             distribution = instanceList.classDistribution();
             counts = new int[distribution.size()];
-            ArrayList<Integer> randomArray = new ArrayList<Integer>();
-            for (int i = 0; i < instanceList.size(); i++){
-                randomArray.add(i);
-            }
-            Collections.shuffle(randomArray, random);
+            ArrayList<Integer> randomArray = RandomArray.indexArray(instanceList.size(), random);
             for (int i = 0; i < instanceList.size(); i++) {
                 Instance instance = instanceList.get(randomArray.get(i));
                 int classIndex = distribution.getIndex(instance.getClassLabel());

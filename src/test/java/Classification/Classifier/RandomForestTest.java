@@ -21,8 +21,6 @@ public class RandomForestTest extends ClassifierTest{
         assertEquals(0.0, 100 * randomForest.test(car.getInstanceList()).getErrorRate(), 0.01);
         randomForest.train(tictactoe.getInstanceList(), randomForestParameter);
         assertEquals(0.0, 100 * randomForest.test(tictactoe.getInstanceList()).getErrorRate(), 0.01);
-        randomForest.train(nursery.getInstanceList(), randomForestParameter);
-        assertEquals(0.0, 100 * randomForest.test(nursery.getInstanceList()).getErrorRate(), 0.01);
     }
 
 }

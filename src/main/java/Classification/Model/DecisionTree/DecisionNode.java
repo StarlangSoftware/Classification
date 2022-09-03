@@ -12,6 +12,7 @@ import Classification.Model.Model;
 import Classification.Parameter.RandomForestParameter;
 import Classification.Performance.ClassificationPerformance;
 import Math.DiscreteDistribution;
+import Util.RandomArray;
 
 import java.io.PrintWriter;
 import java.io.Serializable;
@@ -70,14 +71,15 @@ public class DecisionNode implements Serializable {
         if (isStump && condition != null) {
             return;
         }
-        ArrayList<Integer> indexList = new ArrayList<Integer>();
-        for (int i = 0; i < data.get(0).attributeSize(); i++) {
-            indexList.add(i);
-        }
+        ArrayList<Integer> indexList;
         if (parameter != null && parameter.getAttributeSubsetSize() < data.get(0).attributeSize()) {
-            Collections.shuffle(indexList, new Random(parameter.getSeed()));
+            indexList = RandomArray.indexArray(data.get(0).attributeSize(), new Random(parameter.getSeed()));
             size = parameter.getAttributeSubsetSize();
         } else {
+            indexList = new ArrayList<>();
+            for (int i = 0; i < data.get(0).attributeSize(); i++) {
+                indexList.add(i);
+            }
             size = data.get(0).attributeSize();
         }
         classDistribution = data.classDistribution();
