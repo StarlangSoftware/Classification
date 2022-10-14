@@ -6,7 +6,7 @@
 
     <groupId>io.github.starlangsoftware</groupId>
     <artifactId>Classification</artifactId>
-    <version>1.0.11</version>
+    <version>1.0.12</version>
     <packaging>jar</packaging>
 
     <name>NlpToolkit.Classification</name>
@@ -50,7 +50,7 @@
         <dependency>
             <groupId>io.github.starlangsoftware</groupId>
             <artifactId>DataStructure</artifactId>
-            <version>1.0.6</version>
+            <version>1.0.8</version>
         </dependency>
         <dependency>
             <groupId>io.github.starlangsoftware</groupId>
