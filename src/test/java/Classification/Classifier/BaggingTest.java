@@ -21,8 +21,6 @@ public class BaggingTest extends ClassifierTest{
         assertEquals(0.0, 100 * bagging.test(car.getInstanceList()).getErrorRate(), 0.01);
         bagging.train(tictactoe.getInstanceList(), baggingParameter);
         assertEquals(0.0, 100 * bagging.test(tictactoe.getInstanceList()).getErrorRate(), 0.01);
-        bagging.train(nursery.getInstanceList(), baggingParameter);
-        assertEquals(0.0, 100 * bagging.test(nursery.getInstanceList()).getErrorRate(), 0.01);
     }
 
 }

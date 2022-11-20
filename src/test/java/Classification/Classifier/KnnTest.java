@@ -22,8 +22,6 @@ public class KnnTest extends ClassifierTest{
         assertEquals(21.06, 100 * knn.test(car.getInstanceList()).getErrorRate(), 0.01);
         knn.train(tictactoe.getInstanceList(), knnParameter);
         assertEquals(32.57, 100 * knn.test(tictactoe.getInstanceList()).getErrorRate(), 0.01);
-        knn.train(nursery.getInstanceList(), knnParameter);
-        assertEquals(18.46, 100 * knn.test(nursery.getInstanceList()).getErrorRate(), 0.01);
     }
 
 }
