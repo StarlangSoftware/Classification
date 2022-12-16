@@ -37,7 +37,7 @@ public class MultiLayerPerceptronModel extends LinearPerceptronModel implements 
      */
     public MultiLayerPerceptronModel(InstanceList trainSet, InstanceList validationSet, MultiLayerPerceptronParameter parameters) {
         super(trainSet);
-        Vector rMinusY, hidden, hiddenBiased, oneMinusHidden, tmph, tmpHidden, activationDerivative;
+        Vector rMinusY, hidden, hiddenBiased, tmph, tmpHidden, activationDerivative;
         int epoch;
         double learningRate;
         Matrix deltaW, deltaV, bestW, bestV;
@@ -60,29 +60,14 @@ public class MultiLayerPerceptronModel extends LinearPerceptronModel implements 
                     deltaV = rMinusY.multiply(hiddenBiased);
                     tmph = V.multiplyWithVectorFromLeft(rMinusY);
                     tmph.remove(0);
-                    switch (activationFunction){
-                        case SIGMOID:
-                        default:
-                            oneMinusHidden = calculateOneMinusHidden(hidden);
-                            activationDerivative = oneMinusHidden.elementProduct(hidden);
-                            break;
-                        case TANH:
-                            Vector one = new Vector(hidden.size(), 1.0);
-                            hidden.tanh();
-                            activationDerivative = one.difference(hidden.elementProduct(hidden));
-                            break;
-                        case RELU:
-                            hidden.reluDerivative();
-                            activationDerivative = hidden;
-                            break;
-                    }
+                    activationDerivative = calculateActivationDerivative(hidden, activationFunction);
                     tmpHidden = tmph.elementProduct(activationDerivative);
                     deltaW = tmpHidden.multiply(x);
                     deltaV.multiplyWithConstant(learningRate);
                     V.add(deltaV);
                     deltaW.multiplyWithConstant(learningRate);
                     W.add(deltaW);
-                } catch (MatrixColumnMismatch | MatrixRowMismatch | MatrixDimensionMismatch | VectorSizeMismatch mismatch) {
+                } catch (MatrixColumnMismatch | MatrixRowMismatch | MatrixDimensionMismatch | VectorSizeMismatch ignored) {
                 }
             }
             currentClassificationPerformance = testClassifier(validationSet);

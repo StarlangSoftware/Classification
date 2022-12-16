@@ -129,6 +129,26 @@ public abstract class NeuralNetworkModel extends ValidatedModel implements Seria
         y = V.multiplyWithVectorFromRight(hiddenBiased);
     }
 
+    protected Vector calculateActivationDerivative(Vector hidden, ActivationFunction activationFunction){
+        try{
+            switch (activationFunction){
+                case SIGMOID:
+                default:
+                    Vector oneMinusHidden = calculateOneMinusHidden(hidden);
+                    return oneMinusHidden.elementProduct(hidden);
+                case TANH:
+                    Vector one = new Vector(hidden.size(), 1.0);
+                    hidden.tanh();
+                    return one.difference(hidden.elementProduct(hidden));
+                case RELU:
+                    hidden.reluDerivative();
+                    return hidden;
+            }
+        } catch (VectorSizeMismatch v){
+            return null;
+        }
+    }
+
     /**
      * The calculateRMinusY method creates a new {@link Vector} with given Instance, then it multiplies given
      * input Vector with given weights Matrix. After normalizing the output, it returns the difference between the newly created

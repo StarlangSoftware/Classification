@@ -100,22 +100,7 @@ public class DeepNetworkModel extends NeuralNetworkModel implements Serializable
                             tmph = weights.get(k + 1).multiplyWithVectorFromLeft(tmpHidden);
                         }
                         tmph.remove(0);
-                        switch (activationFunction){
-                            case SIGMOID:
-                            default:
-                                oneMinusHidden = calculateOneMinusHidden(hidden.get(k));
-                                activationDerivative = oneMinusHidden.elementProduct(hidden.get(k));
-                                break;
-                            case TANH:
-                                Vector one = new Vector(hidden.size(), 1.0);
-                                hidden.get(k).tanh();
-                                activationDerivative = one.difference(hidden.get(k).elementProduct(hidden.get(k)));
-                                break;
-                            case RELU:
-                                hidden.get(k).reluDerivative();
-                                activationDerivative = hidden.get(k);
-                                break;
-                        }
+                        activationDerivative = calculateActivationDerivative(hidden.get(k), activationFunction);
                         tmpHidden = tmph.elementProduct(activationDerivative);
                         if (k == 0) {
                             deltaWeights.add(0, tmpHidden.multiply(x));
