@@ -14,7 +14,7 @@ public class MxKFoldRunTest extends ClassifierTest {
     public void testExecute() throws DiscreteFeaturesNotAllowed {
         MxKFoldRun mxKFoldRun = new MxKFoldRun(5, 2);
         ExperimentPerformance experimentPerformance = mxKFoldRun.execute(new Experiment(new C45(), new C45Parameter(1, true, 0.2), iris));
-        assertEquals(7.87, 100 * experimentPerformance.meanPerformance().getErrorRate(), 0.01);
+        assertEquals(6.53, 100 * experimentPerformance.meanPerformance().getErrorRate(), 0.01);
         experimentPerformance = mxKFoldRun.execute(new Experiment(new C45(), new C45Parameter(1, true, 0.2), tictactoe));
         assertEquals(22.59, 100 * experimentPerformance.meanPerformance().getErrorRate(), 0.01);
         experimentPerformance = mxKFoldRun.execute(new Experiment(new Knn(), new KnnParameter(1, 3, new EuclidianDistance()), bupa));

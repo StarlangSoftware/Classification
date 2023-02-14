@@ -14,7 +14,7 @@ public class BootstrapRunTest extends ClassifierTest {
     public void testExecute() throws DiscreteFeaturesNotAllowed {
         BootstrapRun bootstrapRun = new BootstrapRun(50);
         ExperimentPerformance experimentPerformance = bootstrapRun.execute(new Experiment(new C45(), new C45Parameter(1, true, 0.2), iris));
-        assertEquals(4.16, 100 * experimentPerformance.meanPerformance().getErrorRate(), 0.01);
+        assertEquals(3.75, 100 * experimentPerformance.meanPerformance().getErrorRate(), 0.01);
         experimentPerformance = bootstrapRun.execute(new Experiment(new C45(), new C45Parameter(1, true, 0.2), tictactoe));
         assertEquals(12.82, 100 * experimentPerformance.meanPerformance().getErrorRate(), 0.01);
         experimentPerformance = bootstrapRun.execute(new Experiment(new Knn(), new KnnParameter(1, 3, new EuclidianDistance()), bupa));

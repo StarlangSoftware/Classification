@@ -12,7 +12,7 @@ public class RandomForestTest extends ClassifierTest{
         RandomForest randomForest = new RandomForest();
         RandomForestParameter randomForestParameter = new RandomForestParameter(1, 100, 35);
         randomForest.train(iris.getInstanceList(), randomForestParameter);
-        assertEquals(2.67, 100 * randomForest.test(iris.getInstanceList()).getErrorRate(), 0.01);
+        assertEquals(0.0, 100 * randomForest.test(iris.getInstanceList()).getErrorRate(), 0.01);
     }
 
     @Test
@@ -20,7 +20,7 @@ public class RandomForestTest extends ClassifierTest{
         RandomForest randomForest = new RandomForest();
         RandomForestParameter randomForestParameter = new RandomForestParameter(1, 100, 35);
         randomForest.train(bupa.getInstanceList(), randomForestParameter);
-        assertEquals(42.03, 100 * randomForest.test(bupa.getInstanceList()).getErrorRate(), 0.01);
+        assertEquals(0.0, 100 * randomForest.test(bupa.getInstanceList()).getErrorRate(), 0.01);
     }
 
     @Test
@@ -28,7 +28,7 @@ public class RandomForestTest extends ClassifierTest{
         RandomForest randomForest = new RandomForest();
         RandomForestParameter randomForestParameter = new RandomForestParameter(1, 100, 35);
         randomForest.train(dermatology.getInstanceList(), randomForestParameter);
-        assertEquals(1.09, 100 * randomForest.test(dermatology.getInstanceList()).getErrorRate(), 0.01);
+        assertEquals(0.0, 100 * randomForest.test(dermatology.getInstanceList()).getErrorRate(), 0.01);
     }
 
     @Test

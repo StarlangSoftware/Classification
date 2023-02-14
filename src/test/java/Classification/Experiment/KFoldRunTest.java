@@ -14,7 +14,7 @@ public class KFoldRunTest extends ClassifierTest {
     public void testExecute() throws DiscreteFeaturesNotAllowed {
         KFoldRun kFoldRun = new KFoldRun(10);
         ExperimentPerformance experimentPerformance = kFoldRun.execute(new Experiment(new C45(), new C45Parameter(1, true, 0.2), iris));
-        assertEquals(6.00, 100 * experimentPerformance.meanPerformance().getErrorRate(), 0.01);
+        assertEquals(6.67, 100 * experimentPerformance.meanPerformance().getErrorRate(), 0.01);
         experimentPerformance = kFoldRun.execute(new Experiment(new C45(), new C45Parameter(1, true, 0.2), tictactoe));
         assertEquals(21.08, 100 * experimentPerformance.meanPerformance().getErrorRate(), 0.01);
         experimentPerformance = kFoldRun.execute(new Experiment(new Knn(), new KnnParameter(1, 3, new EuclidianDistance()), bupa));

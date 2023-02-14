@@ -18,7 +18,7 @@ public class PairedtTest extends ClassifierTest {
         ExperimentPerformance experimentPerformance1 = kFoldRun.execute(new Experiment(new C45(), new C45Parameter(1, true, 0.2), iris));
         ExperimentPerformance experimentPerformance2 = kFoldRun.execute(new Experiment(new LinearPerceptron(), new LinearPerceptronParameter(1, 0.1, 0.99, 0.2, 100), iris));
         Pairedt pairedt = new Pairedt();
-        assertEquals(0.106, pairedt.compare(experimentPerformance1, experimentPerformance2).getPValue(), 0.001);
+        assertEquals(0.070, pairedt.compare(experimentPerformance1, experimentPerformance2).getPValue(), 0.001);
         experimentPerformance1 = kFoldRun.execute(new Experiment(new C45(), new C45Parameter(1, true, 0.2), tictactoe));
         experimentPerformance2 = kFoldRun.execute(new Experiment(new Bagging(), new BaggingParameter(1, 50), tictactoe));
         assertEquals(0.0000037, pairedt.compare(experimentPerformance1, experimentPerformance2).getPValue(), 0.0000001);

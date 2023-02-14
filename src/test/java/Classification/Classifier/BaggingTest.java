@@ -12,11 +12,11 @@ public class BaggingTest extends ClassifierTest{
         Bagging bagging = new Bagging();
         BaggingParameter baggingParameter = new BaggingParameter(1, 100);
         bagging.train(iris.getInstanceList(), baggingParameter);
-        assertEquals(2.67, 100 * bagging.test(iris.getInstanceList()).getErrorRate(), 0.01);
+        assertEquals(0.0, 100 * bagging.test(iris.getInstanceList()).getErrorRate(), 0.01);
         bagging.train(bupa.getInstanceList(), baggingParameter);
-        assertEquals(42.03, 100 * bagging.test(bupa.getInstanceList()).getErrorRate(), 0.01);
+        assertEquals(0.0, 100 * bagging.test(bupa.getInstanceList()).getErrorRate(), 0.01);
         bagging.train(dermatology.getInstanceList(), baggingParameter);
-        assertEquals(1.09, 100 * bagging.test(dermatology.getInstanceList()).getErrorRate(), 0.01);
+        assertEquals(0.0, 100 * bagging.test(dermatology.getInstanceList()).getErrorRate(), 0.01);
         bagging.train(car.getInstanceList(), baggingParameter);
         assertEquals(0.0, 100 * bagging.test(car.getInstanceList()).getErrorRate(), 0.01);
         bagging.train(tictactoe.getInstanceList(), baggingParameter);

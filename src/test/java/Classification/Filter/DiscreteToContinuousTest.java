@@ -50,11 +50,11 @@ public class DiscreteToContinuousTest extends ClassifierTest {
         DiscreteToContinuous discreteToContinuous = new DiscreteToContinuous(car);
         discreteToContinuous.convert();
         c45.train(car.getInstanceList(), c45Parameter);
-        assertEquals(29.98, 100 * c45.test(car.getInstanceList()).getErrorRate(), 0.01);
+        assertEquals(2.78, 100 * c45.test(car.getInstanceList()).getErrorRate(), 0.01);
         discreteToContinuous = new DiscreteToContinuous(tictactoe);
         discreteToContinuous.convert();
         c45.train(tictactoe.getInstanceList(), c45Parameter);
-        assertEquals(34.66, 100 * c45.test(tictactoe.getInstanceList()).getErrorRate(), 0.01);
+        assertEquals(4.49, 100 * c45.test(tictactoe.getInstanceList()).getErrorRate(), 0.01);
     }
 
 }

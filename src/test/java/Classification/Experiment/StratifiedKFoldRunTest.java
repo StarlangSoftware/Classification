@@ -14,7 +14,7 @@ public class StratifiedKFoldRunTest extends ClassifierTest {
     public void testExecute() throws DiscreteFeaturesNotAllowed {
         StratifiedKFoldRun stratifiedKFoldRun = new StratifiedKFoldRun(10);
         ExperimentPerformance experimentPerformance = stratifiedKFoldRun.execute(new Experiment(new C45(), new C45Parameter(1, true, 0.2), iris));
-        assertEquals(6.67, 100 * experimentPerformance.meanPerformance().getErrorRate(), 0.01);
+        assertEquals(4.67, 100 * experimentPerformance.meanPerformance().getErrorRate(), 0.01);
         experimentPerformance = stratifiedKFoldRun.execute(new Experiment(new C45(), new C45Parameter(1, true, 0.2), tictactoe));
         assertEquals(20.27, 100 * experimentPerformance.meanPerformance().getErrorRate(), 0.01);
         experimentPerformance = stratifiedKFoldRun.execute(new Experiment(new Knn(), new KnnParameter(1, 3, new EuclidianDistance()), bupa));

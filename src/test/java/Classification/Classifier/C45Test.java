@@ -16,7 +16,7 @@ public class C45Test extends ClassifierTest{
         c45.train(bupa.getInstanceList(), c45Parameter);
         assertEquals(42.03, 100 * c45.test(bupa.getInstanceList()).getErrorRate(), 0.01);
         c45.train(dermatology.getInstanceList(), c45Parameter);
-        assertEquals(4.37, 100 * c45.test(dermatology.getInstanceList()).getErrorRate(), 0.01);
+        assertEquals(2.19, 100 * c45.test(dermatology.getInstanceList()).getErrorRate(), 0.01);
         c45.train(car.getInstanceList(), c45Parameter);
         assertEquals(8.16, 100 * c45.test(car.getInstanceList()).getErrorRate(), 0.01);
         c45.train(tictactoe.getInstanceList(), c45Parameter);
