@@ -7,10 +7,11 @@ import Classification.Model.ValidatedModel;
 import Classification.Performance.ClassificationPerformance;
 import Math.Vector;
 
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.io.Serializable;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 public class DecisionTree extends ValidatedModel implements Serializable {
 
@@ -23,6 +24,16 @@ public class DecisionTree extends ValidatedModel implements Serializable {
      */
     public DecisionTree(DecisionNode root) {
         this.root = root;
+    }
+
+    public DecisionTree(String fileName){
+        try {
+            BufferedReader input = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), StandardCharsets.UTF_8));
+            root = new DecisionNode(input);
+            input.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -43,6 +54,21 @@ public class DecisionTree extends ValidatedModel implements Serializable {
     @Override
     public HashMap<String, Double> predictProbability(Instance instance) {
         return root.predictProbabilityDistribution(instance);
+    }
+
+    @Override
+    public void saveTxt(String fileName) {
+        try {
+            PrintWriter output = new PrintWriter(fileName, "UTF-8");
+            root.saveTxt(output);
+            output.close();
+        } catch (FileNotFoundException | UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public DecisionNode getRoot(){
+        return root;
     }
 
     /**

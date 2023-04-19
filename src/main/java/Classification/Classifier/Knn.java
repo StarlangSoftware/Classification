@@ -18,4 +18,9 @@ public class Knn extends Classifier {
         model = new KnnModel(trainSet, ((KnnParameter) parameters).getK(), ((KnnParameter) parameters).getDistanceMetric());
     }
 
+    @Override
+    public void loadModel(String fileName) {
+        model = new KnnModel(fileName);
+    }
+
 }

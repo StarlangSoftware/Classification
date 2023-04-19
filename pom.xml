@@ -6,11 +6,11 @@
 
     <groupId>io.github.starlangsoftware</groupId>
     <artifactId>Classification</artifactId>
-    <version>1.0.14</version>
+    <version>1.0.15</version>
     <packaging>jar</packaging>
 
     <name>NlpToolkit.Classification</name>
-    <description>Simple Data Structures Library</description>
+    <description>Machine Learning Library</description>
     <url>https://github.com/StarlangSoftware/Classification</url>
 
     <organization>

@@ -19,6 +19,8 @@ public abstract class Classifier {
 
     public abstract void train(InstanceList trainSet, Parameter parameters) throws DiscreteFeaturesNotAllowed;
 
+    public abstract void loadModel(String fileName);
+
     /**
      * Checks given instance's attribute and returns true if it is a discrete indexed attribute, false otherwise.
      *

@@ -6,7 +6,8 @@ import Classification.Parameter.MultiLayerPerceptronParameter;
 import Classification.Performance.ClassificationPerformance;
 import Math.*;
 
-import java.io.Serializable;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Random;
 
 public class MultiLayerPerceptronModel extends LinearPerceptronModel implements Serializable {
@@ -82,6 +83,19 @@ public class MultiLayerPerceptronModel extends LinearPerceptronModel implements 
         V = bestV;
     }
 
+    public MultiLayerPerceptronModel(String fileName){
+        try {
+            BufferedReader input = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), StandardCharsets.UTF_8));
+            activationFunction = loadActivationFunction(input);
+            loadClassLabels(input);
+            W = loadMatrix(input);
+            V = loadMatrix(input);
+            input.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     /**
      * The calculateOutput method calculates the forward single hidden layer by using Matrices W and V.
      */
@@ -89,6 +103,20 @@ public class MultiLayerPerceptronModel extends LinearPerceptronModel implements 
         try {
             calculateForwardSingleHiddenLayer(W, V, activationFunction);
         } catch (MatrixColumnMismatch matrixColumnMismatch) {
+        }
+    }
+
+    @Override
+    public void saveTxt(String fileName) {
+        try {
+            PrintWriter output = new PrintWriter(fileName, "UTF-8");
+            output.println(activationFunction.toString());
+            saveClassLabels(output);
+            saveMatrix(output, W);
+            saveMatrix(output, V);
+            output.close();
+        } catch (FileNotFoundException | UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
         }
     }
 

@@ -47,6 +47,10 @@ public class DecisionCondition implements Serializable {
         return value;
     }
 
+    public char getComparison(){
+        return comparison;
+    }
+
     /**
      * The satisfy method takes an {@link Instance} as an input.
      * <p>

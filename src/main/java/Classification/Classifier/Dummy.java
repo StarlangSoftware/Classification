@@ -16,4 +16,9 @@ public class Dummy extends Classifier {
     public void train(InstanceList trainSet, Parameter parameters) {
         model = new DummyModel(trainSet);
     }
+
+    @Override
+    public void loadModel(String fileName) {
+        model = new DummyModel(fileName);
+    }
 }

@@ -1,6 +1,7 @@
 package Classification.Model;
 
-import java.io.Serializable;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -15,6 +16,8 @@ public class RandomModel extends Model implements Serializable {
     private ArrayList<String> classLabels;
     private Random random;
 
+    private int seed;
+
     /**
      * A constructor that sets the class labels.
      *
@@ -24,6 +27,23 @@ public class RandomModel extends Model implements Serializable {
     public RandomModel(ArrayList<String> classLabels, int seed) {
         this.classLabels = classLabels;
         this.random = new Random(seed);
+        this.seed = seed;
+    }
+
+    public RandomModel(String fileName){
+        try {
+            BufferedReader input = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), StandardCharsets.UTF_8));
+            seed = Integer.parseInt(input.readLine());
+            random = new Random(seed);
+            int size = Integer.parseInt(input.readLine());
+            classLabels = new ArrayList<>();
+            for (int i = 0; i < size; i++){
+                classLabels.add(input.readLine());
+            }
+            input.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -54,4 +74,20 @@ public class RandomModel extends Model implements Serializable {
         }
         return result;
     }
+
+    @Override
+    public void saveTxt(String fileName) {
+        try {
+            PrintWriter output = new PrintWriter(fileName, "UTF-8");
+            output.println(seed);
+            output.println(classLabels.size());
+            for (String classLabel : classLabels){
+                output.println(classLabel);
+            }
+            output.close();
+        } catch (FileNotFoundException | UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

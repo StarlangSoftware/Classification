@@ -14,6 +14,8 @@ import Classification.Performance.ClassificationPerformance;
 import Math.DiscreteDistribution;
 import Util.RandomArray;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -149,6 +151,48 @@ public class DecisionNode implements Serializable {
                     }
                 }
             }
+        }
+    }
+
+    public DecisionNode(BufferedReader input) throws IOException {
+        String line = input.readLine();
+        String[] items = line.split(" ");
+        if (!items[0].equals("-1")){
+            if (items[1].charAt(0) == '='){
+                condition = new DecisionCondition(Integer.parseInt(items[0]), items[1].charAt(0), new DiscreteAttribute(items[2]));
+            } else {
+                condition = new DecisionCondition(Integer.parseInt(items[0]), items[1].charAt(0), new ContinuousAttribute(Double.parseDouble(items[2])));
+            }
+        } else {
+            condition = null;
+        }
+        int numberOfChildren = Integer.parseInt(input.readLine());
+        if (numberOfChildren != 0){
+            leaf = false;
+            children = new ArrayList<>();
+            for (int i = 0; i < numberOfChildren; i++){
+                children.add(new DecisionNode(input));
+            }
+        } else {
+            leaf = true;
+            classLabel = input.readLine();
+        }
+    }
+
+    public void saveTxt(PrintWriter output){
+        if (condition != null){
+            output.println(condition.getAttributeIndex() + " " + condition.getComparison() + " " + condition.getValue());
+        } else {
+            output.println("-1 = -1");
+        }
+        if (!leaf){
+            output.println(children.size());
+            for (int i = 0; i < children.size(); i++){
+                children.get(i).saveTxt(output);
+            }
+        } else {
+            output.println(0);
+            output.println(classLabel);
         }
     }
 

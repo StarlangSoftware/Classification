@@ -25,4 +25,9 @@ public class DeepNetwork extends Classifier {
         model = new DeepNetworkModel(partition.get(1), partition.get(0), (DeepNetworkParameter) parameters);
     }
 
+    @Override
+    public void loadModel(String fileName) {
+        model = new DeepNetworkModel(fileName);
+    }
+
 }

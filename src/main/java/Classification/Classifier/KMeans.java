@@ -24,4 +24,9 @@ public class KMeans extends Classifier {
         }
         model = new KMeansModel(priorDistribution, classMeans, ((KMeansParameter) parameters).getDistanceMetric());
     }
+
+    @Override
+    public void loadModel(String fileName) {
+        model = new KMeansModel(fileName);
+    }
 }

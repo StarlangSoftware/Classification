@@ -29,4 +29,9 @@ public class RandomForest extends Classifier{
         }
         model = new TreeEnsembleModel(forest);
     }
+
+    @Override
+    public void loadModel(String fileName) {
+        model = new TreeEnsembleModel(fileName);
+    }
 }

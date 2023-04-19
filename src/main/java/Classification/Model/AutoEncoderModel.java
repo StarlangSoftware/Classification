@@ -131,4 +131,10 @@ public class AutoEncoderModel extends NeuralNetworkModel implements Serializable
         } catch (MatrixColumnMismatch matrixColumnMismatch) {
         }
     }
+
+    @Override
+    public void saveTxt(String fileName) {
+
+    }
+
 }

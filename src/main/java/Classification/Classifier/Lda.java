@@ -59,4 +59,9 @@ public class Lda extends Classifier {
         }
         model = new LdaModel(priorDistribution, w, w0);
     }
+
+    @Override
+    public void loadModel(String fileName) {
+        model = new LdaModel(fileName);
+    }
 }

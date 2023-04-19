@@ -5,7 +5,10 @@ import Classification.Parameter.LinearPerceptronParameter;
 import Classification.Performance.ClassificationPerformance;
 import Math.*;
 
-import java.io.Serializable;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 public class LinearPerceptronModel extends NeuralNetworkModel implements Serializable {
@@ -19,6 +22,20 @@ public class LinearPerceptronModel extends NeuralNetworkModel implements Seriali
      */
     public LinearPerceptronModel(InstanceList trainSet) {
         super(trainSet);
+    }
+
+    public LinearPerceptronModel(String fileName){
+        try {
+            BufferedReader input = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), StandardCharsets.UTF_8));
+            loadClassLabels(input);
+            W = loadMatrix(input);
+            input.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public LinearPerceptronModel(){
     }
 
     /**
@@ -71,6 +88,18 @@ public class LinearPerceptronModel extends NeuralNetworkModel implements Seriali
         try {
             y = W.multiplyWithVectorFromRight(x);
         } catch (MatrixColumnMismatch matrixColumnMismatch) {
+        }
+    }
+
+    @Override
+    public void saveTxt(String fileName) {
+        try {
+            PrintWriter output = new PrintWriter(fileName, "UTF-8");
+            saveClassLabels(output);
+            saveMatrix(output, W);
+            output.close();
+        } catch (FileNotFoundException | UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
         }
     }
 

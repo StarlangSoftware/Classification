@@ -244,4 +244,10 @@ public class SvmModel extends ValidatedModel implements Serializable{
     public HashMap<String, Double> predictProbability(Instance instance) {
         return null;
     }
+
+    @Override
+    public void saveTxt(String fileName) {
+
+    }
+
 }

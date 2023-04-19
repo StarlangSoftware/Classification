@@ -1,5 +1,8 @@
 package Classification.Model;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,6 +30,9 @@ public abstract class NeuralNetworkModel extends ValidatedModel implements Seria
         classLabels = trainSet.getDistinctClassLabels();
         K = classLabels.size();
         d = trainSet.get(0).continuousAttributeSize();
+    }
+
+    public NeuralNetworkModel(){
     }
 
     /**
@@ -214,6 +220,34 @@ public abstract class NeuralNetworkModel extends ValidatedModel implements Seria
             result.put(classLabels.get(i), y.getValue(i));
         }
         return result;
+    }
+
+    protected void saveClassLabels(PrintWriter output){
+        output.println(K + " " + d);
+        for (String classLabel : classLabels){
+            output.println(classLabel);
+        }
+    }
+
+    protected void loadClassLabels(BufferedReader input) throws IOException {
+        String[] items = input.readLine().split(" ");
+        K = Integer.parseInt(items[0]);
+        d = Integer.parseInt(items[1]);
+        classLabels = new ArrayList<>();
+        for (int i = 0; i < K; i++){
+            classLabels.add(input.readLine());
+        }
+    }
+
+    protected ActivationFunction loadActivationFunction(BufferedReader input) throws IOException{
+        switch (input.readLine()){
+            case "TANH":
+                return ActivationFunction.TANH;
+            case "RELU":
+                return ActivationFunction.RELU;
+            default:
+                return ActivationFunction.SIGMOID;
+        }
     }
 
 }

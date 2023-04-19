@@ -25,4 +25,9 @@ public class MultiLayerPerceptron extends Classifier {
         Partition partition = new Partition(trainSet, ((MultiLayerPerceptronParameter) parameters).getCrossValidationRatio(), new Random(parameters.getSeed()), true);
         model = new MultiLayerPerceptronModel(partition.get(1), partition.get(0), (MultiLayerPerceptronParameter) parameters);
     }
+
+    @Override
+    public void loadModel(String fileName) {
+        model = new MultiLayerPerceptronModel(fileName);
+    }
 }

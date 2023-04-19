@@ -19,4 +19,9 @@ public class RandomClassifier extends Classifier {
         model = new RandomModel(new ArrayList<String>(trainSet.classDistribution().keySet()), parameters.getSeed());
     }
 
+    @Override
+    public void loadModel(String fileName) {
+        model = new RandomModel(fileName);
+    }
+
 }

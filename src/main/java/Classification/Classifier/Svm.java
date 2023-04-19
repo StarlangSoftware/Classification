@@ -20,4 +20,9 @@ public class Svm extends Classifier {
         }
         model = new SvmModel(trainSet, (SvmParameter) parameters);
     }
+
+    @Override
+    public void loadModel(String fileName) {
+
+    }
 }

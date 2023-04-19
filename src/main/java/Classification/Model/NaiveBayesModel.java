@@ -6,7 +6,8 @@ import Classification.Instance.Instance;
 import Math.Vector;
 import Math.DiscreteDistribution;
 
-import java.io.Serializable;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -37,6 +38,18 @@ public class NaiveBayesModel extends GaussianModel implements Serializable {
     public NaiveBayesModel(DiscreteDistribution priorDistribution, HashMap<String, ArrayList<DiscreteDistribution>> classAttributeDistributions) {
         this.priorDistribution = priorDistribution;
         this.classAttributeDistributions = classAttributeDistributions;
+    }
+
+    public NaiveBayesModel(String fileName){
+        try {
+            BufferedReader input = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), StandardCharsets.UTF_8));
+            int size = loadPriorDistribution(input);
+            classMeans = loadVectors(input, size);
+            classDeviations = loadVectors(input, size);
+            input.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -99,4 +112,18 @@ public class NaiveBayesModel extends GaussianModel implements Serializable {
         }
         return logLikelihood;
     }
+
+    @Override
+    public void saveTxt(String fileName) {
+        try {
+            PrintWriter output = new PrintWriter(fileName, "UTF-8");
+            savePriorDistribution(output);
+            saveVectors(output, classMeans);
+            saveVectors(output, classDeviations);
+            output.close();
+        } catch (FileNotFoundException | UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

@@ -3,7 +3,8 @@ package Classification.Model;
 import Classification.Instance.Instance;
 import Math.*;
 
-import java.io.Serializable;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
 public class QdaModel extends LdaModel implements Serializable {
@@ -20,6 +21,23 @@ public class QdaModel extends LdaModel implements Serializable {
     public QdaModel(DiscreteDistribution priorDistribution, HashMap<String, Matrix> W, HashMap<String, Vector> w, HashMap<String, Double> w0) {
         super(priorDistribution, w, w0);
         this.W = W;
+    }
+
+    public QdaModel(String fileName){
+        try {
+            BufferedReader input = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), StandardCharsets.UTF_8));
+            int size = loadPriorDistribution(input);
+            loadWandW0(input, size);
+            W = new HashMap<>();
+            for (int i = 0; i < size; i++){
+                String c = input.readLine();
+                Matrix matrix = loadMatrix(input);
+                W.put(c, matrix);
+            }
+            input.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -44,4 +62,22 @@ public class QdaModel extends LdaModel implements Serializable {
             return Double.MAX_VALUE;
         }
     }
+
+    @Override
+    public void saveTxt(String fileName) {
+        try {
+            PrintWriter output = new PrintWriter(fileName, "UTF-8");
+            savePriorDistribution(output);
+            saveWandW0(output);
+            for (String c : W.keySet()){
+                Matrix matrix = W.get(c);
+                output.println(c);
+                saveMatrix(output, matrix);
+            }
+            output.close();
+        } catch (FileNotFoundException | UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

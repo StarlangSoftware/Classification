@@ -55,4 +55,9 @@ public class Qda extends Classifier {
         }
         model = new QdaModel(priorDistribution, W, w, w0);
     }
+
+    @Override
+    public void loadModel(String fileName) {
+        model = new QdaModel(fileName);
+    }
 }

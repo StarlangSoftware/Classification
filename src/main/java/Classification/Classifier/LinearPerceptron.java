@@ -25,4 +25,9 @@ public class LinearPerceptron extends Classifier {
         Partition partition = new Partition(trainSet, ((LinearPerceptronParameter) parameters).getCrossValidationRatio(), new Random(parameters.getSeed()), true);
         model = new LinearPerceptronModel(partition.get(1), partition.get(0), (LinearPerceptronParameter) parameters);
     }
+
+    @Override
+    public void loadModel(String fileName) {
+        model = new LinearPerceptronModel(fileName);
+    }
 }

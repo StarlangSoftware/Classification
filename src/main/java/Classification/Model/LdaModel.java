@@ -3,7 +3,8 @@ package Classification.Model;
 import Classification.Instance.Instance;
 import Math.*;
 
-import java.io.Serializable;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
 public class LdaModel extends GaussianModel implements Serializable {
@@ -21,6 +22,30 @@ public class LdaModel extends GaussianModel implements Serializable {
         this.priorDistribution = priorDistribution;
         this.w = w;
         this.w0 = w0;
+    }
+
+    public LdaModel(){
+    }
+
+    protected void loadWandW0(BufferedReader input, int size) throws IOException {
+        w0 = new HashMap<>();
+        for (int i = 0; i < size; i++){
+            String line = input.readLine();
+            String[] items = line.split(" ");
+            w0.put(items[0], Double.parseDouble(items[1]));
+        }
+        w = loadVectors(input, size);
+    }
+
+    public LdaModel(String fileName){
+        try {
+            BufferedReader input = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), StandardCharsets.UTF_8));
+            int size = loadPriorDistribution(input);
+            loadWandW0(input, size);
+            input.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -42,6 +67,25 @@ public class LdaModel extends GaussianModel implements Serializable {
             return wi.dotProduct(xi) + w0i;
         } catch (VectorSizeMismatch vectorSizeMismatch) {
             return Double.MAX_VALUE;
+        }
+    }
+
+    protected void saveWandW0(PrintWriter output){
+        for (String c : w0.keySet()){
+            output.println(c + " " + w0.get(c));
+        }
+        saveVectors(output, w);
+    }
+
+    @Override
+    public void saveTxt(String fileName) {
+        try {
+            PrintWriter output = new PrintWriter(fileName, "UTF-8");
+            savePriorDistribution(output);
+            saveWandW0(output);
+            output.close();
+        } catch (FileNotFoundException | UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
         }
     }
 

@@ -25,6 +25,11 @@ public class AutoEncoder extends Classifier {
         model = new AutoEncoderModel(partition.get(1), partition.get(0), (MultiLayerPerceptronParameter) parameters);
     }
 
+    @Override
+    public void loadModel(String fileName) {
+
+    }
+
 
     /**
      * A performance test for an auto encoder with the given test set..

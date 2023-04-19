@@ -17,4 +17,9 @@ public class C45Stump extends Classifier {
         model = new DecisionTree(new DecisionNode(trainSet, null, null, true));
     }
 
+    @Override
+    public void loadModel(String fileName) {
+        model = new DecisionTree(fileName);
+    }
+
 }

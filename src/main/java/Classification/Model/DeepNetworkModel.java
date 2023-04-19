@@ -6,7 +6,8 @@ import Classification.InstanceList.InstanceList;
 import Classification.Parameter.DeepNetworkParameter;
 import Math.*;
 
-import java.io.Serializable;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -63,7 +64,7 @@ public class DeepNetworkModel extends NeuralNetworkModel implements Serializable
         super(trainSet);
         int epoch;
         double learningRate;
-        Vector rMinusY, oneMinusHidden, tmpHidden = new Vector(0, 0), tmph, activationDerivative;
+        Vector rMinusY, tmpHidden = new Vector(0, 0), tmph, activationDerivative;
         ClassificationPerformance currentClassificationPerformance, bestClassificationPerformance;
         ArrayList<Matrix> bestWeights;
         ArrayList<Matrix> deltaWeights = new ArrayList<>();
@@ -129,6 +130,22 @@ public class DeepNetworkModel extends NeuralNetworkModel implements Serializable
         }
     }
 
+    public DeepNetworkModel(String fileName){
+        try {
+            BufferedReader input = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), StandardCharsets.UTF_8));
+            activationFunction = loadActivationFunction(input);
+            loadClassLabels(input);
+            hiddenLayerSize = Integer.parseInt(input.readLine());
+            weights = new ArrayList<>();
+            for (int i = 0; i < hiddenLayerSize + 1; i++){
+                weights.add(loadMatrix(input));
+            }
+            input.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     /**
      * The calculateOutput method loops size of the weights times and calculate one hidden layer at a time and adds bias term.
      * At the end it updates the output y value.
@@ -146,6 +163,22 @@ public class DeepNetworkModel extends NeuralNetworkModel implements Serializable
             }
             y = weights.get(weights.size() - 1).multiplyWithVectorFromRight(hiddenBiased);
         } catch (MatrixColumnMismatch matrixColumnMismatch) {
+        }
+    }
+
+    @Override
+    public void saveTxt(String fileName) {
+        try {
+            PrintWriter output = new PrintWriter(fileName, "UTF-8");
+            output.println(activationFunction.toString());
+            saveClassLabels(output);
+            output.println(hiddenLayerSize);
+            for (Matrix matrix : weights){
+                saveMatrix(output, matrix);
+            }
+            output.close();
+        } catch (FileNotFoundException | UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
         }
     }
 

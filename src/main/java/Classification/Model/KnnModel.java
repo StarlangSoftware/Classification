@@ -1,14 +1,16 @@
 package Classification.Model;
 
+import Classification.Attribute.ContinuousAttribute;
+import Classification.Attribute.DiscreteAttribute;
 import Classification.DistanceMetric.DistanceMetric;
+import Classification.DistanceMetric.EuclidianDistance;
 import Classification.Instance.CompositeInstance;
 import Classification.Instance.Instance;
 import Classification.InstanceList.InstanceList;
 import Math.Vector;
 
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.io.Serializable;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -31,6 +33,18 @@ public class KnnModel extends Model implements Serializable {
         this.data = data;
         this.k = k;
         this.distanceMetric = distanceMetric;
+    }
+
+    public KnnModel(String fileName){
+        this.distanceMetric = new EuclidianDistance();
+        try {
+            BufferedReader input = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), StandardCharsets.UTF_8));
+            k = Integer.parseInt(input.readLine());
+            data = loadInstanceList(input);
+            input.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -56,6 +70,19 @@ public class KnnModel extends Model implements Serializable {
         InstanceList nearestNeighbors = nearestNeighbors(instance);
         return nearestNeighbors.classDistribution().getProbabilityDistribution();
     }
+
+    @Override
+    public void saveTxt(String fileName) {
+        try {
+            PrintWriter output = new PrintWriter(fileName, "UTF-8");
+            output.println(k);
+            saveInstanceList(output, data);
+            output.close();
+        } catch (FileNotFoundException | UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     public void generateTestCode(String codeFileName, String methodName, String inputFileName){
         try {

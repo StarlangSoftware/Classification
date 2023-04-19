@@ -1,12 +1,12 @@
 package Classification.Model;
 
 import Classification.Instance.Instance;
+import Classification.Model.DecisionTree.DecisionNode;
 import Classification.Model.DecisionTree.DecisionTree;
 import Math.DiscreteDistribution;
 
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.io.Serializable;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -21,6 +21,20 @@ public class TreeEnsembleModel extends Model implements Serializable {
      */
     public TreeEnsembleModel(ArrayList<DecisionTree> forest) {
         this.forest = forest;
+    }
+
+    public TreeEnsembleModel(String fileName){
+        try {
+            BufferedReader input = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), StandardCharsets.UTF_8));
+            int numberOfTrees = Integer.parseInt(input.readLine());
+            forest = new ArrayList<>();
+            for (int i = 0; i < numberOfTrees; i++){
+                forest.add(new DecisionTree(new DecisionNode(input)));
+            }
+            input.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -45,6 +59,20 @@ public class TreeEnsembleModel extends Model implements Serializable {
             distribution.addItem(tree.predict(instance));
         }
         return distribution.getProbabilityDistribution();
+    }
+
+    @Override
+    public void saveTxt(String fileName) {
+        try {
+            PrintWriter output = new PrintWriter(fileName, "UTF-8");
+            output.println(forest.size());
+            for (DecisionTree tree : forest) {
+                tree.getRoot().saveTxt(output);
+            }
+            output.close();
+        } catch (FileNotFoundException | UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void generateTestCode(String codeFileName, String methodName){

@@ -61,4 +61,9 @@ public class NaiveBayes extends Classifier{
             trainContinuousVersion(priorDistribution, classLists);
         }
     }
+
+    @Override
+    public void loadModel(String fileName) {
+        model = new NaiveBayesModel(fileName);
+    }
 }

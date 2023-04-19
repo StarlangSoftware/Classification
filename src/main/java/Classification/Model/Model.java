@@ -1,7 +1,11 @@
 package Classification.Model;
 
+import Classification.Attribute.ContinuousAttribute;
+import Classification.Attribute.DiscreteAttribute;
 import Classification.Instance.Instance;
+import Classification.InstanceList.InstanceList;
 import DataStructure.CounterHashMap;
+import Math.Matrix;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -19,8 +23,10 @@ public abstract class Model implements Serializable {
 
     public abstract HashMap<String, Double> predictProbability(Instance instance);
 
+    public abstract void saveTxt(String fileName);
+
     /**
-     * The save metohd takes a file name as an input and writes model to that file.
+     * The save method takes a file name as an input and writes model to that file.
      *
      * @param fileName File name.
      */
@@ -34,6 +40,74 @@ public abstract class Model implements Serializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    protected void saveInstanceList(PrintWriter output, InstanceList instanceList){
+        Instance instance = instanceList.get(0);
+        for (int i = 0; i < instance.attributeSize(); i++){
+            if (instance.getAttribute(i) instanceof DiscreteAttribute){
+                output.print("DISCRETE ");
+            } else {
+                if (instance.getAttribute(i) instanceof ContinuousAttribute){
+                    output.print("CONTINUOUS ");
+                }
+            }
+        }
+        output.println();
+        output.println(instanceList.size());
+        for (int i = 0; i < instanceList.size(); i++){
+            output.println(instanceList.get(i).toString());
+        }
+    }
+
+    protected InstanceList loadInstanceList(BufferedReader input) throws IOException {
+        String[] types = input.readLine().split(" ");
+        int instanceCount = Integer.parseInt(input.readLine());
+        InstanceList instanceList = new InstanceList();
+        for (int i = 0; i < instanceCount; i++){
+            instanceList.add(loadInstance(input.readLine(), types));
+        }
+        return instanceList;
+    }
+
+    protected Instance loadInstance(String line, String[] attributeTypes){
+        String[] items = line.split(",");
+        Instance instance = new Instance(items[items.length - 1]);
+        for (int i = 0; i < items.length - 1; i++){
+            switch (attributeTypes[i]){
+                case "DISCRETE":
+                    instance.addAttribute(items[i]);
+                    break;
+                case "CONTINUOUS":
+                    instance.addAttribute(Double.parseDouble(items[i]));
+                    break;
+            }
+        }
+        return instance;
+    }
+
+    protected void saveMatrix(PrintWriter output, Matrix matrix){
+        output.println(matrix.getRow() + " " + matrix.getColumn());
+        for (int i = 0; i < matrix.getRow(); i++){
+            output.print(matrix.getValue(i, 0));
+            for (int j = 1; j < matrix.getColumn(); j++){
+                output.print(" " + matrix.getValue(i, j));
+            }
+            output.println();
+        }
+    }
+
+    protected Matrix loadMatrix(BufferedReader input) throws IOException {
+        String[] items = input.readLine().split(" ");
+        Matrix matrix = new Matrix(Integer.parseInt(items[0]), Integer.parseInt(items[1]));
+        for (int j = 0; j < matrix.getRow(); j++){
+            String line = input.readLine();
+            items = line.split(" ");
+            for (int k = 0; k < matrix.getColumn(); k++){
+                matrix.setValue(j, k, Double.parseDouble(items[k]));
+            }
+        }
+        return matrix;
     }
 
     /**
