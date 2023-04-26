@@ -57,4 +57,14 @@ public class RandomForestTest extends ClassifierTest{
         assertEquals(0.0, 100 * randomForest.test(tictactoe.getInstanceList()).getErrorRate(), 0.01);
     }
 
+    @Test
+    public void testTrain6() {
+        RandomForest randomForest = new RandomForest();
+        RandomForestParameter randomForestParameter = new RandomForestParameter(1, 100, 35);
+        randomForest.train(carIndexed.getInstanceList(), randomForestParameter);
+        randomForest.getModel().saveTxt("models/randomforest-carIndexed.txt");
+        randomForest.loadModel("models/randomforest-carIndexed.txt");
+        assertEquals(0.0, 100 * randomForest.test(carIndexed.getInstanceList()).getErrorRate(), 0.01);
+    }
+
 }

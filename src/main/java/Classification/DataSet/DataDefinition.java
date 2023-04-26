@@ -9,6 +9,8 @@ public class DataDefinition {
 
     private ArrayList<AttributeType> attributeTypes;
 
+    private String[][] attributeValueList;
+
     /**
      * Constructor for creating a new {@link DataDefinition}.
      */
@@ -23,6 +25,30 @@ public class DataDefinition {
      */
     public DataDefinition(ArrayList<AttributeType> attributeTypes) {
         this.attributeTypes = attributeTypes;
+    }
+
+    /**
+     * Constructor for creating a new {@link DataDefinition} with given attribute types.
+     *
+     * @param attributeTypes Attribute types of the data definition.
+     * @param attributeValueList Array of array of strings to represent all possible values of discrete features.
+     */
+    public DataDefinition(ArrayList<AttributeType> attributeTypes, String[][] attributeValueList) {
+        this.attributeTypes = attributeTypes;
+        this.attributeValueList = attributeValueList;
+    }
+
+    public int numberOfValues(int attributeIndex){
+        return attributeValueList[attributeIndex].length;
+    }
+
+    public int featureValueIndex(int attributeIndex, String value){
+        for (int i = 0; i < attributeValueList[attributeIndex].length; i++){
+            if (attributeValueList[attributeIndex][i].equals(value)){
+                return i;
+            }
+        }
+        return -1;
     }
 
     /**

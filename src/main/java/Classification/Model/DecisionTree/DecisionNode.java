@@ -161,7 +161,11 @@ public class DecisionNode implements Serializable {
             if (items[1].charAt(0) == '='){
                 condition = new DecisionCondition(Integer.parseInt(items[0]), items[1].charAt(0), new DiscreteAttribute(items[2]));
             } else {
-                condition = new DecisionCondition(Integer.parseInt(items[0]), items[1].charAt(0), new ContinuousAttribute(Double.parseDouble(items[2])));
+                if (items[1].charAt(0) == ':'){
+                    condition = new DecisionCondition(Integer.parseInt(items[0]), '=', new DiscreteIndexedAttribute("", Integer.parseInt(items[2]), Integer.parseInt(items[3])));
+                } else {
+                    condition = new DecisionCondition(Integer.parseInt(items[0]), items[1].charAt(0), new ContinuousAttribute(Double.parseDouble(items[2])));
+                }
             }
         } else {
             condition = null;
@@ -181,7 +185,11 @@ public class DecisionNode implements Serializable {
 
     public void saveTxt(PrintWriter output){
         if (condition != null){
-            output.println(condition.getAttributeIndex() + " " + condition.getComparison() + " " + condition.getValue());
+            if (condition.getValue() instanceof DiscreteIndexedAttribute){
+                output.println(condition.getAttributeIndex() + " : " + ((DiscreteIndexedAttribute) condition.getValue()).getIndex() + " " + ((DiscreteIndexedAttribute) condition.getValue()).getMaxIndex());
+            } else {
+                output.println(condition.getAttributeIndex() + " " + condition.getComparison() + " " + condition.getValue());
+            }
         } else {
             output.println("-1 = -1");
         }

@@ -7,7 +7,7 @@ import Classification.DataSet.DataSet;
 import java.util.ArrayList;
 
 public class ClassifierTest {
-    protected DataSet iris, car, chess, bupa, tictactoe, dermatology, nursery;
+    protected DataSet iris, car, chess, bupa, tictactoe, dermatology, nursery, tictactoeIndexed, carIndexed;
 
     @org.junit.Before
     public void setUp() throws Exception {
@@ -36,11 +36,32 @@ public class ClassifierTest {
         dataDefinition = new DataDefinition(attributeTypes);
         car = new DataSet(dataDefinition, ",", "datasets/car.data");
         attributeTypes = new ArrayList<AttributeType>();
+        String[][] attributeValueList = new String[6][];
+        attributeValueList[0] = new String[]{"vhigh", "high", "low", "med"};
+        attributeValueList[1] = new String[]{"vhigh", "high", "low", "med"};
+        attributeValueList[2] = new String[]{"2", "3", "4", "5more"};
+        attributeValueList[3] = new String[]{"2", "4", "more"};
+        attributeValueList[4] = new String[]{"big", "med", "small"};
+        attributeValueList[5] = new String[]{"high", "low", "med"};
+        for (int i = 0; i < 6; i++){
+            attributeTypes.add(AttributeType.DISCRETE_INDEXED);
+        }
+        dataDefinition = new DataDefinition(attributeTypes, attributeValueList);
+        carIndexed = new DataSet(dataDefinition, ",", "datasets/car.data");
+        attributeTypes = new ArrayList<AttributeType>();
         for (int i = 0; i < 9; i++){
             attributeTypes.add(AttributeType.DISCRETE);
         }
         dataDefinition = new DataDefinition(attributeTypes);
         tictactoe = new DataSet(dataDefinition, ",", "datasets/tictactoe.data");
+        attributeTypes = new ArrayList<AttributeType>();
+        attributeValueList = new String[9][];
+        for (int i = 0; i < 9; i++){
+            attributeTypes.add(AttributeType.DISCRETE_INDEXED);
+            attributeValueList[i] = new String[]{"b", "o", "x"};
+        }
+        dataDefinition = new DataDefinition(attributeTypes, attributeValueList);
+        tictactoeIndexed = new DataSet(dataDefinition, ",", "datasets/tictactoe.data");
         attributeTypes = new ArrayList<AttributeType>();
         for (int i = 0; i < 8; i++){
             attributeTypes.add(AttributeType.DISCRETE);

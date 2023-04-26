@@ -61,6 +61,11 @@ public class InstanceList implements Serializable {
                             case DISCRETE:
                                 current.addAttribute(new DiscreteAttribute(attributeList[i]));
                                 break;
+                            case DISCRETE_INDEXED:
+                                current.addAttribute(new DiscreteIndexedAttribute(attributeList[i],
+                                        definition.featureValueIndex(i, attributeList[i]),
+                                        definition.numberOfValues(i)));
+                                break;
                             case BINARY:
                                 current.addAttribute(new BinaryAttribute(Boolean.parseBoolean(attributeList[i])));
                                 break;

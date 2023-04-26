@@ -27,9 +27,17 @@ public class C45Test extends ClassifierTest{
         c45.getModel().saveTxt("models/c45-car.txt");
         c45.loadModel("models/c45-car.txt");
         assertEquals(8.16, 100 * c45.test(car.getInstanceList()).getErrorRate(), 0.01);
+        c45.train(carIndexed.getInstanceList(), c45Parameter);
+        c45.getModel().saveTxt("models/c45-carIndexed.txt");
+        c45.loadModel("models/c45-carIndexed.txt");
+        assertEquals(3.36, 100 * c45.test(carIndexed.getInstanceList()).getErrorRate(), 0.01);
         c45.train(tictactoe.getInstanceList(), c45Parameter);
         c45.getModel().saveTxt("models/c45-tictactoe.txt");
         c45.loadModel("models/c45-tictactoe.txt");
         assertEquals(14.61, 100 * c45.test(tictactoe.getInstanceList()).getErrorRate(), 0.01);
+        c45.train(tictactoeIndexed.getInstanceList(), c45Parameter);
+        c45.getModel().saveTxt("models/c45-tictactoeIndexed.txt");
+        c45.loadModel("models/c45-tictactoeIndexed.txt");
+        assertEquals(4.49, 100 * c45.test(tictactoeIndexed.getInstanceList()).getErrorRate(), 0.01);
     }
 }
