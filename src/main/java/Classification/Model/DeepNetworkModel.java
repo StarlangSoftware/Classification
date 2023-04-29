@@ -133,13 +133,13 @@ public class DeepNetworkModel extends NeuralNetworkModel implements Serializable
     public DeepNetworkModel(String fileName){
         try {
             BufferedReader input = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), StandardCharsets.UTF_8));
-            activationFunction = loadActivationFunction(input);
             loadClassLabels(input);
             hiddenLayerSize = Integer.parseInt(input.readLine());
             weights = new ArrayList<>();
             for (int i = 0; i < hiddenLayerSize + 1; i++){
                 weights.add(loadMatrix(input));
             }
+            activationFunction = loadActivationFunction(input);
             input.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -170,12 +170,12 @@ public class DeepNetworkModel extends NeuralNetworkModel implements Serializable
     public void saveTxt(String fileName) {
         try {
             PrintWriter output = new PrintWriter(fileName, "UTF-8");
-            output.println(activationFunction.toString());
             saveClassLabels(output);
             output.println(hiddenLayerSize);
             for (Matrix matrix : weights){
                 saveMatrix(output, matrix);
             }
+            output.println(activationFunction.toString());
             output.close();
         } catch (FileNotFoundException | UnsupportedEncodingException e) {
             throw new RuntimeException(e);

@@ -86,10 +86,10 @@ public class MultiLayerPerceptronModel extends LinearPerceptronModel implements 
     public MultiLayerPerceptronModel(String fileName){
         try {
             BufferedReader input = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), StandardCharsets.UTF_8));
-            activationFunction = loadActivationFunction(input);
             loadClassLabels(input);
             W = loadMatrix(input);
             V = loadMatrix(input);
+            activationFunction = loadActivationFunction(input);
             input.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -110,10 +110,10 @@ public class MultiLayerPerceptronModel extends LinearPerceptronModel implements 
     public void saveTxt(String fileName) {
         try {
             PrintWriter output = new PrintWriter(fileName, "UTF-8");
-            output.println(activationFunction.toString());
             saveClassLabels(output);
             saveMatrix(output, W);
             saveMatrix(output, V);
+            output.println(activationFunction.toString());
             output.close();
         } catch (FileNotFoundException | UnsupportedEncodingException e) {
             throw new RuntimeException(e);
