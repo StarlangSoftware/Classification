@@ -32,6 +32,9 @@ public class DecisionNode implements Serializable {
     boolean leaf;
     private DecisionCondition condition;
 
+    private DiscreteDistribution classLabelsDistribution;
+
+
     /**
      * The DecisionNode method takes {@link InstanceList} data as input and then it sets the class label parameter by finding
      * the most occurred class label of given data, it then gets distinct class labels as class labels ArrayList. Later, it adds ordered
@@ -64,7 +67,12 @@ public class DecisionNode implements Serializable {
         ArrayList<String> classLabels;
         this.condition = condition;
         this.data = data;
-        classLabel = Model.getMaximum(data.getClassLabels());
+        classLabelsDistribution = new DiscreteDistribution();
+        ArrayList<String> labels = data.getClassLabels();
+        for (String label : labels){
+            classLabelsDistribution.addItem(label);
+        }
+        classLabel = Model.getMaximum(labels);
         leaf = true;
         classLabels = data.getDistinctClassLabels();
         if (classLabels.size() == 1) {
@@ -180,6 +188,7 @@ public class DecisionNode implements Serializable {
         } else {
             leaf = true;
             classLabel = input.readLine();
+            classLabelsDistribution = Model.loadDiscreteDistribution(input);
         }
     }
 
@@ -201,6 +210,7 @@ public class DecisionNode implements Serializable {
         } else {
             output.println(0);
             output.println(classLabel);
+            Model.saveDiscreteDistribution(output, classLabelsDistribution);
         }
     }
 
@@ -341,7 +351,7 @@ public class DecisionNode implements Serializable {
 
     public HashMap<String, Double> predictProbabilityDistribution(Instance instance) {
         if (leaf) {
-            return data.classDistribution().getProbabilityDistribution();
+            return classLabelsDistribution.getProbabilityDistribution();
         } else {
             for (DecisionNode node : children) {
                 if (node.condition.satisfy(instance)) {

@@ -6,6 +6,7 @@ import Classification.Instance.Instance;
 import Classification.InstanceList.InstanceList;
 import DataStructure.CounterHashMap;
 import Math.Matrix;
+import Math.DiscreteDistribution;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -84,6 +85,27 @@ public abstract class Model implements Serializable {
             }
         }
         return instance;
+    }
+
+    public static DiscreteDistribution loadDiscreteDistribution(BufferedReader input) throws IOException {
+        DiscreteDistribution distribution = new DiscreteDistribution();
+        int size = Integer.parseInt(input.readLine());
+        for (int i = 0; i < size; i++){
+            String line = input.readLine();
+            String[] items = line.split(" ");
+            int count = Integer.parseInt(items[1]);
+            for(int j = 0; j < count; j++){
+                distribution.addItem(items[0]);
+            }
+        }
+        return distribution;
+    }
+
+    public static void saveDiscreteDistribution(PrintWriter output, DiscreteDistribution distribution) {
+        output.println(distribution.size());
+        for (int i = 0; i < distribution.size(); i++){
+            output.println(distribution.getItem(i) + " " + distribution.getValue(i));
+        }
     }
 
     protected void saveMatrix(PrintWriter output, Matrix matrix){

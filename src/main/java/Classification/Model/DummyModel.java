@@ -26,16 +26,7 @@ public class DummyModel extends Model implements Serializable {
     public DummyModel(String fileName){
         try {
             BufferedReader input = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), StandardCharsets.UTF_8));
-            distribution = new DiscreteDistribution();
-            int size = Integer.parseInt(input.readLine());
-            for (int i = 0; i < size; i++){
-                String line = input.readLine();
-                String[] items = line.split(" ");
-                int count = Integer.parseInt(items[1]);
-                for(int j = 0; j < count; j++){
-                    distribution.addItem(items[0]);
-                }
-            }
+            distribution = loadDiscreteDistribution(input);
             input.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -66,10 +57,7 @@ public class DummyModel extends Model implements Serializable {
     public void saveTxt(String fileName) {
         try {
             PrintWriter output = new PrintWriter(fileName, "UTF-8");
-            output.println(distribution.size());
-            for (int i = 0; i < distribution.size(); i++){
-                output.println(distribution.getItem(i) + " " + distribution.getValue(i));
-            }
+            saveDiscreteDistribution(output, distribution);
             output.close();
         } catch (FileNotFoundException | UnsupportedEncodingException e) {
             throw new RuntimeException(e);
