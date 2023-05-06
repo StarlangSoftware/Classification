@@ -27,11 +27,9 @@ public class DecisionNode implements Serializable {
 
     ArrayList<DecisionNode> children = null;
     private final double EPSILON = 0.0000000001;
-    private InstanceList data;
     private String classLabel;
     boolean leaf;
     private DecisionCondition condition;
-
     private DiscreteDistribution classLabelsDistribution;
 
 
@@ -66,7 +64,6 @@ public class DecisionNode implements Serializable {
         Instance instance;
         ArrayList<String> classLabels;
         this.condition = condition;
-        this.data = data;
         classLabelsDistribution = new DiscreteDistribution();
         ArrayList<String> labels = data.getClassLabels();
         for (String label : labels){
@@ -112,7 +109,7 @@ public class DecisionNode implements Serializable {
                 }
             } else {
                 if (data.get(0).getAttribute(index) instanceof DiscreteAttribute) {
-                    entropy = entropyForDiscreteAttribute(index);
+                    entropy = entropyForDiscreteAttribute(data, index);
                     if (entropy + EPSILON < bestEntropy) {
                         bestEntropy = entropy;
                         bestAttribute = index;
@@ -149,13 +146,13 @@ public class DecisionNode implements Serializable {
         if (bestAttribute != -1) {
             leaf = false;
             if (data.get(0).getAttribute(bestAttribute) instanceof DiscreteIndexedAttribute) {
-                createChildrenForDiscreteIndexed(bestAttribute, (int) bestSplitValue, parameter, isStump);
+                createChildrenForDiscreteIndexed(data, bestAttribute, (int) bestSplitValue, parameter, isStump);
             } else {
                 if (data.get(0).getAttribute(bestAttribute) instanceof DiscreteAttribute) {
-                    createChildrenForDiscrete(bestAttribute, parameter, isStump);
+                    createChildrenForDiscrete(data, bestAttribute, parameter, isStump);
                 } else {
                     if (data.get(0).getAttribute(bestAttribute) instanceof ContinuousAttribute) {
-                        createChildrenForContinuous(bestAttribute, bestSplitValue, parameter, isStump);
+                        createChildrenForContinuous(data, bestAttribute, bestSplitValue, parameter, isStump);
                     }
                 }
             }
@@ -218,10 +215,11 @@ public class DecisionNode implements Serializable {
      * The entropyForDiscreteAttribute method takes an attributeIndex and creates an ArrayList of DiscreteDistribution.
      * Then loops through the distributions and calculates the total entropy.
      *
+     * @param data      {@link InstanceList} input.
      * @param attributeIndex Index of the attribute.
      * @return Total entropy for the discrete attribute.
      */
-    private double entropyForDiscreteAttribute(int attributeIndex) {
+    private double entropyForDiscreteAttribute(InstanceList data, int attributeIndex) {
         double sum = 0.0;
         ArrayList<DiscreteDistribution> distributions = data.attributeClassDistribution(attributeIndex);
         for (DiscreteDistribution distribution : distributions) {
@@ -234,12 +232,13 @@ public class DecisionNode implements Serializable {
      * The createChildrenForDiscreteIndexed method creates an ArrayList of DecisionNodes as children and a partition with respect to
      * indexed attribute.
      *
+     * @param data      {@link InstanceList} input.
      * @param attributeIndex Index of the attribute.
      * @param attributeValue Value of the attribute.
      * @param parameter      RandomForestParameter like seed, ensembleSize, attributeSubsetSize.
      * @param isStump        Refers to decision trees with only 1 splitting rule.
      */
-    private void createChildrenForDiscreteIndexed(int attributeIndex, int attributeValue, RandomForestParameter parameter, boolean isStump) {
+    private void createChildrenForDiscreteIndexed(InstanceList data, int attributeIndex, int attributeValue, RandomForestParameter parameter, boolean isStump) {
         Partition childrenData;
         childrenData = new Partition(data, attributeIndex, attributeValue);
         children = new ArrayList<DecisionNode>();
@@ -251,11 +250,12 @@ public class DecisionNode implements Serializable {
      * The createChildrenForDiscrete method creates an ArrayList of values, a partition with respect to attributes and an ArrayList
      * of DecisionNodes as children.
      *
+     * @param data      {@link InstanceList} input.
      * @param attributeIndex Index of the attribute.
      * @param parameter      RandomForestParameter like seed, ensembleSize, attributeSubsetSize.
      * @param isStump        Refers to decision trees with only 1 splitting rule.
      */
-    private void createChildrenForDiscrete(int attributeIndex, RandomForestParameter parameter, boolean isStump) {
+    private void createChildrenForDiscrete(InstanceList data, int attributeIndex, RandomForestParameter parameter, boolean isStump) {
         Partition childrenData;
         ArrayList<String> valueList;
         valueList = data.getAttributeValueList(attributeIndex);
@@ -270,12 +270,13 @@ public class DecisionNode implements Serializable {
      * The createChildrenForContinuous method creates an ArrayList of DecisionNodes as children and a partition with respect to
      * continuous attribute and the given split value.
      *
+     * @param data      {@link InstanceList} input.
      * @param attributeIndex Index of the attribute.
      * @param parameter      RandomForestParameter like seed, ensembleSize, attributeSubsetSize.
      * @param isStump        Refers to decision trees with only 1 splitting rule.
      * @param splitValue     Split value is used for partitioning.
      */
-    private void createChildrenForContinuous(int attributeIndex, double splitValue, RandomForestParameter parameter, boolean isStump) {
+    private void createChildrenForContinuous(InstanceList data, int attributeIndex, double splitValue, RandomForestParameter parameter, boolean isStump) {
         Partition childrenData;
         childrenData = new Partition(data, attributeIndex, splitValue);
         children = new ArrayList<DecisionNode>();
@@ -318,8 +319,7 @@ public class DecisionNode implements Serializable {
     public String predict(Instance instance) {
         if (instance instanceof CompositeInstance) {
             ArrayList<String> possibleClassLabels = ((CompositeInstance) instance).getPossibleClassLabels();
-            DiscreteDistribution distribution = data.classDistribution();
-            String predictedClass = distribution.getMaxItem(possibleClassLabels);
+            String predictedClass = classLabelsDistribution.getMaxItem(possibleClassLabels);
             if (leaf) {
                 return predictedClass;
             } else {
@@ -358,7 +358,7 @@ public class DecisionNode implements Serializable {
                     return node.predictProbabilityDistribution(instance);
                 }
             }
-            return data.classDistribution().getProbabilityDistribution();
+            return classLabelsDistribution.getProbabilityDistribution();
         }
     }
 
