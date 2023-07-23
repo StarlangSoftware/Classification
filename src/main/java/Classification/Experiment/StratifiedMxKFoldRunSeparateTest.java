@@ -31,9 +31,9 @@ public class StratifiedMxKFoldRunSeparateTest extends StratifiedKFoldRunSeparate
      */
     public ExperimentPerformance execute(Experiment experiment) throws DiscreteFeaturesNotAllowed {
         ExperimentPerformance result = new ExperimentPerformance();
+        InstanceList instanceList = experiment.getDataSet().getInstanceList();
+        Partition partition = new Partition(instanceList, 0.25, new Random(experiment.getParameter().getSeed()), true);
         for (int j = 0; j < M; j++) {
-            InstanceList instanceList = experiment.getDataSet().getInstanceList();
-            Partition partition = new Partition(instanceList, 0.25, new Random(experiment.getParameter().getSeed()), true);
             StratifiedKFoldCrossValidation<Instance> crossValidation = new StratifiedKFoldCrossValidation<>(new Partition(partition.get(1)).getLists(), K, experiment.getParameter().getSeed());
             runExperiment(experiment.getClassifier(), experiment.getParameter(), result, crossValidation, partition.get(0));
         }
