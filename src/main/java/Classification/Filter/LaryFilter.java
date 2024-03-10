@@ -30,7 +30,7 @@ public abstract class LaryFilter extends FeatureFilter {
     protected void removeDiscreteAttributes(Instance instance, int size) {
         int k = 0;
         for (int i = 0; i < size; i++) {
-            if (attributeDistributions.get(i).size() > 0) {
+            if (!attributeDistributions.get(i).isEmpty()) {
                 instance.removeAttribute(k);
             } else {
                 k++;
@@ -47,7 +47,7 @@ public abstract class LaryFilter extends FeatureFilter {
         DataDefinition dataDefinition = dataSet.getDataDefinition();
         int k = 0;
         for (int i = 0; i < size; i++) {
-            if (attributeDistributions.get(i).size() > 0) {
+            if (!attributeDistributions.get(i).isEmpty()) {
                 dataDefinition.removeAttribute(k);
             } else {
                 k++;

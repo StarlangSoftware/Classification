@@ -5,19 +5,19 @@ import Classification.InstanceList.InstanceList;
 import Classification.Model.ValidatedModel;
 import Classification.Parameter.SvmParameter;
 import Math.DiscreteDistribution;
-import Math.Vector;
 
 import java.io.Serializable;
 import java.util.HashMap;
 
 public class SvmModel extends ValidatedModel implements Serializable{
-    private DiscreteDistribution classDistribution;
-    private double[] rho;
-    private int[] numberOfSupportVectors;
-    private NodeList[] supportVectors;
-    private double[][] supportVectorCoefficients;
-    private SvmParameter parameter;
-    private int numberOfClasses, numberOfProblems;
+    private final DiscreteDistribution classDistribution;
+    private final double[] rho;
+    private final int[] numberOfSupportVectors;
+    private final NodeList[] supportVectors;
+    private final double[][] supportVectorCoefficients;
+    private final SvmParameter parameter;
+    private final int numberOfClasses;
+    private final int numberOfProblems;
 
     public SvmModel(InstanceList trainSet, SvmParameter parameter){
         int[] start;
@@ -55,7 +55,7 @@ public class SvmModel extends ValidatedModel implements Serializable{
                 subProblemY = new double[ci + cj];
                 for (int k = 0; k < ci; k++){
                     subProblemX[k] = x[si + k];
-                    subProblemY[k] = +1;
+                    subProblemY[k] = 1;
                 }
                 for (int k = 0; k < cj; k++){
                     subProblemX[ci + k] = x[sj + k];

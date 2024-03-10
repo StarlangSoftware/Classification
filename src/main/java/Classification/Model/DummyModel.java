@@ -7,12 +7,14 @@ import Math.DiscreteDistribution;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class DummyModel extends Model implements Serializable {
 
-    private DiscreteDistribution distribution;
+    private final DiscreteDistribution distribution;
 
     /**
      * Constructor which sets the distribution using the given {@link InstanceList}.
@@ -25,7 +27,7 @@ public class DummyModel extends Model implements Serializable {
 
     public DummyModel(String fileName){
         try {
-            BufferedReader input = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), StandardCharsets.UTF_8));
+            BufferedReader input = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(fileName)), StandardCharsets.UTF_8));
             distribution = loadDiscreteDistribution(input);
             input.close();
         } catch (IOException e) {

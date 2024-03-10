@@ -5,7 +5,8 @@ import Classification.DataSet.DataSet;
 import Classification.Instance.Instance;
 
 public class Normalize extends FeatureFilter {
-    private Instance averageInstance, standardDeviationInstance;
+    private final Instance averageInstance;
+    private final Instance standardDeviationInstance;
 
     /**
      * Constructor for normalize feature filter. It calculates and stores the mean (m) and standard deviation (s) of

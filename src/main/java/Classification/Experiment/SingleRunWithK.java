@@ -10,7 +10,7 @@ import Sampling.CrossValidation;
 import Sampling.KFoldCrossValidation;
 
 public class SingleRunWithK implements SingleRun {
-    private int K;
+    private final int K;
 
     /**
      * Constructor for SingleRunWithK class. Basically sets K parameter of the K-fold cross-validation.

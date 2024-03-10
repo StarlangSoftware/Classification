@@ -100,8 +100,7 @@ public class Pca extends TrainedFeatureFilter {
             } else {
                 removeUnnecessaryEigenvectors();
             }
-        } catch (MatrixNotSymmetric matrixNotSymmetric) {
-        } catch (MatrixNotSquare matrixNotSquare){
+        } catch (MatrixNotSymmetric | MatrixNotSquare ignored) {
         }
     }
 
@@ -119,7 +118,7 @@ public class Pca extends TrainedFeatureFilter {
         for (Eigenvector eigenvector : eigenvectors) {
             try {
                 instance.addAttribute(new ContinuousAttribute(attributes.dotProduct(eigenvector)));
-            } catch (VectorSizeMismatch vectorSizeMismatch) {
+            } catch (VectorSizeMismatch ignored) {
             }
         }
     }

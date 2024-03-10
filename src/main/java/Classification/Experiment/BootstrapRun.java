@@ -7,7 +7,7 @@ import Classification.InstanceList.InstanceList;
 import Sampling.Bootstrap;
 
 public class BootstrapRun implements MultipleRun {
-    private int numberOfBootstraps;
+    private final int numberOfBootstraps;
 
     /**
      * Constructor for BootstrapRun class. Basically sets the number of bootstrap runs.

@@ -3,7 +3,6 @@ package Classification.Instance;
 import Classification.Attribute.Attribute;
 import Classification.Attribute.ContinuousAttribute;
 import Classification.Attribute.DiscreteAttribute;
-import Classification.Attribute.DiscreteIndexedAttribute;
 import Classification.FeatureSelection.FeatureSubSet;
 import Classification.Model.Svm.NodeList;
 import Math.*;
@@ -13,8 +12,8 @@ import java.util.ArrayList;
 
 public class Instance implements Serializable {
 
-    private String classLabel;
-    private ArrayList<Attribute> attributes;
+    private final String classLabel;
+    private final ArrayList<Attribute> attributes;
 
     /**
      * Constructor for a single instance. Given the attributes and class label, it generates a new instance.
@@ -35,7 +34,7 @@ public class Instance implements Serializable {
      */
     public Instance(String classLabel) {
         this.classLabel = classLabel;
-        this.attributes = new ArrayList<Attribute>();
+        this.attributes = new ArrayList<>();
     }
 
     /**
@@ -132,7 +131,7 @@ public class Instance implements Serializable {
      * @return result {@link ArrayList} that has continuous and discrete indexed attributes.
      */
     public ArrayList<Double> continuousAttributes() {
-        ArrayList<Double> result = new ArrayList<Double>();
+        ArrayList<Double> result = new ArrayList<>();
         for (Attribute attribute : attributes) {
             result.addAll(attribute.continuousAttributes());
         }
@@ -183,7 +182,7 @@ public class Instance implements Serializable {
      * @return {@link Vector} of continuous attributes and discrete indexed attributes.
      */
     public Vector toVector() {
-        ArrayList<Double> values = new ArrayList<Double>();
+        ArrayList<Double> values = new ArrayList<>();
         for (Attribute attribute : attributes) {
             values.addAll(attribute.continuousAttributes());
         }

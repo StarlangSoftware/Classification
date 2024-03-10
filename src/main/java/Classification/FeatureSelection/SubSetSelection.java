@@ -88,8 +88,7 @@ public abstract class SubSetSelection {
                     }
                 }
             }
-        } catch (DiscreteFeaturesNotAllowed discreteFeaturesNotAllowed) {
-            discreteFeaturesNotAllowed.printStackTrace();
+        } catch (DiscreteFeaturesNotAllowed ignored) {
         }
         return best;
     }

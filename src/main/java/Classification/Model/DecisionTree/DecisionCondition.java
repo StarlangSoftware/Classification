@@ -10,9 +10,9 @@ import java.io.Serializable;
 
 public class DecisionCondition implements Serializable {
 
-    private int attributeIndex = -1;
-    private char comparison;
-    private Attribute value;
+    private final int attributeIndex;
+    private final char comparison;
+    private final Attribute value;
 
     /**
      * A constructor that sets attributeIndex and {@link Attribute} value. It also assigns equal sign to the comparison character.

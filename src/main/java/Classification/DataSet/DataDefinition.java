@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class DataDefinition {
 
-    private ArrayList<AttributeType> attributeTypes;
+    private final ArrayList<AttributeType> attributeTypes;
 
     private String[][] attributeValueList;
 

@@ -2,7 +2,7 @@ package Classification.Performance;
 
 public class ClassificationPerformance extends Performance {
 
-    private double accuracy;
+    private final double accuracy;
 
     /**
      * A constructor that sets the accuracy and errorRate as 1 - accuracy via given accuracy.

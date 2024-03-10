@@ -8,13 +8,15 @@ import Math.*;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class DeepNetworkModel extends NeuralNetworkModel implements Serializable {
     private ArrayList<Matrix> weights;
     private int hiddenLayerSize;
-    private ActivationFunction activationFunction;
+    private final ActivationFunction activationFunction;
 
     /**
      * The allocateWeights method takes {@link DeepNetworkParameter}s as an input. First it adds random weights to the {@link ArrayList}
@@ -125,14 +127,12 @@ public class DeepNetworkModel extends NeuralNetworkModel implements Serializable
             learningRate *= parameters.getEtaDecrease();
         }
         weights.clear();
-        for (Matrix m : bestWeights) {
-            weights.add(m);
-        }
+        weights.addAll(bestWeights);
     }
 
     public DeepNetworkModel(String fileName){
         try {
-            BufferedReader input = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), StandardCharsets.UTF_8));
+            BufferedReader input = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(fileName)), StandardCharsets.UTF_8));
             loadClassLabels(input);
             hiddenLayerSize = Integer.parseInt(input.readLine());
             weights = new ArrayList<>();
@@ -162,7 +162,7 @@ public class DeepNetworkModel extends NeuralNetworkModel implements Serializable
                 hiddenBiased = hidden.biased();
             }
             y = weights.get(weights.size() - 1).multiplyWithVectorFromRight(hiddenBiased);
-        } catch (MatrixColumnMismatch matrixColumnMismatch) {
+        } catch (MatrixColumnMismatch ignored) {
         }
     }
 

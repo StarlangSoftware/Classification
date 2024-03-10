@@ -1,8 +1,8 @@
 package Classification.Model.Svm;
 
 public class SolutionInfo {
-    private double rho;
-    private double[] alpha;
+    private final double rho;
+    private final double[] alpha;
 
     /**
      * Constructor that sets rho and alpha values.

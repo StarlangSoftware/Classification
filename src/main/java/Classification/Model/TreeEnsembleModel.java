@@ -7,12 +7,14 @@ import Math.DiscreteDistribution;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class TreeEnsembleModel extends Model implements Serializable {
 
-    private ArrayList<DecisionTree> forest;
+    private final ArrayList<DecisionTree> forest;
 
     /**
      * A constructor which sets the {@link ArrayList} of {@link DecisionTree} with given input.
@@ -25,7 +27,7 @@ public class TreeEnsembleModel extends Model implements Serializable {
 
     public TreeEnsembleModel(String fileName){
         try {
-            BufferedReader input = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), StandardCharsets.UTF_8));
+            BufferedReader input = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(fileName)), StandardCharsets.UTF_8));
             int numberOfTrees = Integer.parseInt(input.readLine());
             forest = new ArrayList<>();
             for (int i = 0; i < numberOfTrees; i++){
@@ -97,8 +99,7 @@ public class TreeEnsembleModel extends Model implements Serializable {
             output.println("\treturn counts.max();");
             output.println("}");
             output.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        } catch (FileNotFoundException ignored) {
         }
     }
 

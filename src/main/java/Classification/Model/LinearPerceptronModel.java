@@ -7,8 +7,8 @@ import Math.*;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Random;
 
 public class LinearPerceptronModel extends NeuralNetworkModel implements Serializable {
@@ -26,7 +26,7 @@ public class LinearPerceptronModel extends NeuralNetworkModel implements Seriali
 
     public LinearPerceptronModel(String fileName){
         try {
-            BufferedReader input = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), StandardCharsets.UTF_8));
+            BufferedReader input = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(fileName)), StandardCharsets.UTF_8));
             loadClassLabels(input);
             W = loadMatrix(input);
             input.close();
@@ -68,7 +68,7 @@ public class LinearPerceptronModel extends NeuralNetworkModel implements Seriali
                     deltaW = rMinusY.multiply(x);
                     deltaW.multiplyWithConstant(learningRate);
                     W.add(deltaW);
-                } catch (MatrixColumnMismatch | MatrixDimensionMismatch | VectorSizeMismatch mismatch) {
+                } catch (MatrixColumnMismatch | MatrixDimensionMismatch | VectorSizeMismatch ignored) {
                 }
             }
             currentClassificationPerformance = testClassifier(validationSet);
@@ -87,7 +87,7 @@ public class LinearPerceptronModel extends NeuralNetworkModel implements Seriali
     protected void calculateOutput() {
         try {
             y = W.multiplyWithVectorFromRight(x);
-        } catch (MatrixColumnMismatch matrixColumnMismatch) {
+        } catch (MatrixColumnMismatch ignored) {
         }
     }
 

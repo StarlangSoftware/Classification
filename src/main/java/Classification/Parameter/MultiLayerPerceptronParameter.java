@@ -2,8 +2,8 @@ package Classification.Parameter;
 
 public class MultiLayerPerceptronParameter extends LinearPerceptronParameter {
 
-    private int hiddenNodes;
-    private ActivationFunction activationFunction;
+    private final int hiddenNodes;
+    private final ActivationFunction activationFunction;
 
     /**
      * Parameters of the multi layer perceptron algorithm.

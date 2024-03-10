@@ -1,7 +1,5 @@
 package Classification.Model;
 
-import Classification.Attribute.ContinuousAttribute;
-import Classification.Attribute.DiscreteAttribute;
 import Classification.DistanceMetric.DistanceMetric;
 import Classification.DistanceMetric.EuclidianDistance;
 import Classification.Instance.Instance;
@@ -10,10 +8,12 @@ import Math.DiscreteDistribution;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class KMeansModel extends GaussianModel implements Serializable {
-    private InstanceList classMeans;
-    private DistanceMetric distanceMetric;
+    private final InstanceList classMeans;
+    private final DistanceMetric distanceMetric;
 
     /**
      * The constructor that sets the classMeans, priorDistribution and distanceMetric according to given inputs.
@@ -31,7 +31,7 @@ public class KMeansModel extends GaussianModel implements Serializable {
     public KMeansModel(String fileName){
         this.distanceMetric = new EuclidianDistance();
         try {
-            BufferedReader input = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), StandardCharsets.UTF_8));
+            BufferedReader input = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(fileName)), StandardCharsets.UTF_8));
             loadPriorDistribution(input);
             classMeans = loadInstanceList(input);
             input.close();

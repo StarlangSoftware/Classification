@@ -2,21 +2,20 @@ package Classification.Model;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Random;
 
-import Classification.Classifier.Classifier;
 import Classification.Instance.CompositeInstance;
 import Classification.Instance.Instance;
-import Math.Vector;
 
 public class RandomModel extends Model implements Serializable {
-    private ArrayList<String> classLabels;
-    private Random random;
+    private final ArrayList<String> classLabels;
+    private final Random random;
 
-    private int seed;
+    private final int seed;
 
     /**
      * A constructor that sets the class labels.
@@ -32,7 +31,7 @@ public class RandomModel extends Model implements Serializable {
 
     public RandomModel(String fileName){
         try {
-            BufferedReader input = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), StandardCharsets.UTF_8));
+            BufferedReader input = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(fileName)), StandardCharsets.UTF_8));
             seed = Integer.parseInt(input.readLine());
             random = new Random(seed);
             int size = Integer.parseInt(input.readLine());

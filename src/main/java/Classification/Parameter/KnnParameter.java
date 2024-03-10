@@ -4,7 +4,7 @@ import Classification.DistanceMetric.DistanceMetric;
 
 public class KnnParameter extends KMeansParameter {
 
-    private int k;
+    private final int k;
 
     /**
      * Parameters of the K-nearest neighbor classifier.

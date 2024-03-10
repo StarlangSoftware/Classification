@@ -69,7 +69,7 @@ public class AutoEncoderModel extends NeuralNetworkModel implements Serializable
                     V.add(deltaV);
                     deltaW.multiplyWithConstant(learningRate);
                     W.add(deltaW);
-                } catch (MatrixColumnMismatch | MatrixRowMismatch | MatrixDimensionMismatch | VectorSizeMismatch mismatch) {
+                } catch (MatrixColumnMismatch | MatrixRowMismatch | MatrixDimensionMismatch | VectorSizeMismatch ignored) {
                 }
             }
             currentPerformance = testAutoEncoder(validationSet);
@@ -99,7 +99,7 @@ public class AutoEncoderModel extends NeuralNetworkModel implements Serializable
             r = data.get(i).toVector();
             try {
                 error += r.difference(y).dotProduct();
-            } catch (VectorSizeMismatch vectorSizeMismatch) {
+            } catch (VectorSizeMismatch ignored) {
             }
         }
         return new Performance(error / total);
@@ -128,7 +128,7 @@ public class AutoEncoderModel extends NeuralNetworkModel implements Serializable
     protected void calculateOutput() {
         try {
             calculateForwardSingleHiddenLayer(W, V, ActivationFunction.SIGMOID);
-        } catch (MatrixColumnMismatch matrixColumnMismatch) {
+        } catch (MatrixColumnMismatch ignored) {
         }
     }
 

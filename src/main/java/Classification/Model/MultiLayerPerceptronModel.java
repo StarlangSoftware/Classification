@@ -8,11 +8,13 @@ import Math.*;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Random;
 
 public class MultiLayerPerceptronModel extends LinearPerceptronModel implements Serializable {
     private Matrix V;
-    private ActivationFunction activationFunction;
+    private final ActivationFunction activationFunction;
 
 
     /**
@@ -85,7 +87,7 @@ public class MultiLayerPerceptronModel extends LinearPerceptronModel implements 
 
     public MultiLayerPerceptronModel(String fileName){
         try {
-            BufferedReader input = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), StandardCharsets.UTF_8));
+            BufferedReader input = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(fileName)), StandardCharsets.UTF_8));
             loadClassLabels(input);
             W = loadMatrix(input);
             V = loadMatrix(input);
@@ -102,7 +104,7 @@ public class MultiLayerPerceptronModel extends LinearPerceptronModel implements 
     protected void calculateOutput() {
         try {
             calculateForwardSingleHiddenLayer(W, V, activationFunction);
-        } catch (MatrixColumnMismatch matrixColumnMismatch) {
+        } catch (MatrixColumnMismatch ignored) {
         }
     }
 

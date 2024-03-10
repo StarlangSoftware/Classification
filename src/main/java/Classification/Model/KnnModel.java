@@ -1,16 +1,15 @@
 package Classification.Model;
 
-import Classification.Attribute.ContinuousAttribute;
-import Classification.Attribute.DiscreteAttribute;
 import Classification.DistanceMetric.DistanceMetric;
 import Classification.DistanceMetric.EuclidianDistance;
 import Classification.Instance.CompositeInstance;
 import Classification.Instance.Instance;
 import Classification.InstanceList.InstanceList;
-import Math.Vector;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -18,9 +17,9 @@ import java.util.HashMap;
 
 public class KnnModel extends Model implements Serializable {
 
-    private InstanceList data;
-    private int k;
-    private DistanceMetric distanceMetric;
+    private final InstanceList data;
+    private final int k;
+    private final DistanceMetric distanceMetric;
 
     /**
      * Constructor that sets the data {@link InstanceList}, k value and the {@link DistanceMetric}.
@@ -38,7 +37,7 @@ public class KnnModel extends Model implements Serializable {
     public KnnModel(String fileName){
         this.distanceMetric = new EuclidianDistance();
         try {
-            BufferedReader input = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), StandardCharsets.UTF_8));
+            BufferedReader input = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(fileName)), StandardCharsets.UTF_8));
             k = Integer.parseInt(input.readLine());
             data = loadInstanceList(input);
             input.close();
@@ -125,8 +124,7 @@ public class KnnModel extends Model implements Serializable {
             output.println("\treturn counts.max();");
             output.println("}");
             output.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        } catch (FileNotFoundException ignored) {
         }
     }
 
@@ -141,7 +139,7 @@ public class KnnModel extends Model implements Serializable {
      */
     public InstanceList nearestNeighbors(Instance instance) {
         InstanceList result = new InstanceList();
-        ArrayList<KnnInstance> instances = new ArrayList<KnnInstance>();
+        ArrayList<KnnInstance> instances = new ArrayList<>();
         ArrayList<String> possibleClassLabels = null;
         if (instance instanceof CompositeInstance) {
             possibleClassLabels = ((CompositeInstance) instance).getPossibleClassLabels();
@@ -151,7 +149,7 @@ public class KnnModel extends Model implements Serializable {
                 instances.add(new KnnInstance(data.get(i), distanceMetric.distance(data.get(i), instance)));
             }
         }
-        Collections.sort(instances, new KnnInstanceComparator());
+        instances.sort(new KnnInstanceComparator());
         for (int i = 0; i < Math.min(k, instances.size()); i++) {
             result.add(instances.get(i).instance);
         }
@@ -159,9 +157,9 @@ public class KnnModel extends Model implements Serializable {
     }
 
 
-    private class KnnInstance {
-        private double distance;
-        private Instance instance;
+    private static class KnnInstance {
+        private final double distance;
+        private final Instance instance;
 
         /**
          * The constructor that sets the instance and distance value.
@@ -187,7 +185,7 @@ public class KnnModel extends Model implements Serializable {
     }
 
 
-    private class KnnInstanceComparator implements Comparator<KnnInstance> {
+    private static class KnnInstanceComparator implements Comparator<KnnInstance> {
         /**
          * The compare method takes two {@link KnnInstance}s as inputs and returns -1 if the distance of first instance is
          * less than the distance of second instance, 1 if the distance of first instance is greater than the distance of second instance,
@@ -200,15 +198,7 @@ public class KnnModel extends Model implements Serializable {
          * 0 if they are equal to each other.
          */
         public int compare(KnnInstance instance1, KnnInstance instance2) {
-            if (instance1.distance < instance2.distance) {
-                return -1;
-            } else {
-                if (instance1.distance > instance2.distance) {
-                    return 1;
-                } else {
-                    return 0;
-                }
-            }
+            return Double.compare(instance1.distance, instance2.distance);
         }
     }
 }

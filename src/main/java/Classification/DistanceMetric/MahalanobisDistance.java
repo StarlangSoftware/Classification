@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 public class MahalanobisDistance implements DistanceMetric, Serializable {
 
-    private Matrix covarianceInverse;
+    private final Matrix covarianceInverse;
 
     /**
      * Constructor for the MahalanobisDistance class. Basically sets the inverse of the covariance matrix.

@@ -5,7 +5,7 @@ public class LinearPerceptronParameter extends Parameter {
     protected double learningRate;
     protected double etaDecrease;
     protected double crossValidationRatio;
-    private int epoch;
+    private final int epoch;
 
     /**
      * Parameters of the linear perceptron algorithm.

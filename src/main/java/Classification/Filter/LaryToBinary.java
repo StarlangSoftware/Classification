@@ -27,7 +27,7 @@ public class LaryToBinary extends LaryFilter {
     public void convertInstance(Instance instance) {
         int size = instance.attributeSize();
         for (int i = 0; i < size; i++) {
-            if (attributeDistributions.get(i).size() > 0) {
+            if (!attributeDistributions.get(i).isEmpty()) {
                 int index = attributeDistributions.get(i).getIndex(instance.getAttribute(i).toString());
                 for (int j = 0; j < attributeDistributions.get(i).size(); j++) {
                     if (j != index) {
@@ -48,7 +48,7 @@ public class LaryToBinary extends LaryFilter {
         DataDefinition dataDefinition = dataSet.getDataDefinition();
         int size = dataDefinition.attributeCount();
         for (int i = 0; i < size; i++) {
-            if (attributeDistributions.get(i).size() > 0) {
+            if (!attributeDistributions.get(i).isEmpty()) {
                 for (int j = 0; j < attributeDistributions.get(i).size(); j++) {
                     dataDefinition.addAttribute(AttributeType.BINARY);
                 }

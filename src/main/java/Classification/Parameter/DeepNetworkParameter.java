@@ -3,8 +3,8 @@ package Classification.Parameter;
 import java.util.ArrayList;
 
 public class DeepNetworkParameter extends LinearPerceptronParameter {
-    private ArrayList<Integer> hiddenLayers;
-    private ActivationFunction activationFunction;
+    private final ArrayList<Integer> hiddenLayers;
+    private final ActivationFunction activationFunction;
 
     /**
      * Parameters of the deep network classifier.

@@ -4,12 +4,12 @@ import Classification.Parameter.SvmParameter;
 import Util.Swap;
 
 public class Kernel {
-    private NodeList[] x;
+    private final NodeList[] x;
     private double[] xSquare = null;
-    private KernelType kernelType;
-    private int degree;
-    private double gamma;
-    private double coefficient0;
+    private final KernelType kernelType;
+    private final int degree;
+    private final double gamma;
+    private final double coefficient0;
 
     /**
      * Constructor that sets x, kernelType, degree, gamma,xSquare, and coefficient0 with given inputs.

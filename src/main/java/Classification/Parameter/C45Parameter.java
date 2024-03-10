@@ -1,8 +1,8 @@
 package Classification.Parameter;
 
 public class C45Parameter extends Parameter {
-    private boolean prune;
-    private double crossValidationRatio;
+    private final boolean prune;
+    private final double crossValidationRatio;
 
     /**
      * Parameters of the C4.5 univariate decision tree classifier.

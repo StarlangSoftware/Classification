@@ -1,7 +1,7 @@
 package Classification.Classifier;
 
+import Classification.Instance.Instance;
 import Classification.InstanceList.InstanceList;
-import Classification.InstanceList.Partition;
 import Classification.Model.DecisionTree.DecisionNode;
 import Classification.Model.DecisionTree.DecisionTree;
 import Classification.Model.TreeEnsembleModel;
@@ -10,7 +10,6 @@ import Classification.Parameter.Parameter;
 import Sampling.Bootstrap;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Bagging extends Classifier {
 
@@ -26,9 +25,9 @@ public class Bagging extends Classifier {
      */
     public void train(InstanceList trainSet, Parameter parameters) {
         int forestSize = ((BaggingParameter) parameters).getEnsembleSize();
-        ArrayList<DecisionTree> forest = new ArrayList<DecisionTree>();
+        ArrayList<DecisionTree> forest = new ArrayList<>();
         for (int i = 0; i < forestSize; i++) {
-            Bootstrap bootstrap = trainSet.bootstrap(i);
+            Bootstrap<Instance> bootstrap = trainSet.bootstrap(i);
             DecisionTree tree = new DecisionTree(new DecisionNode(new InstanceList(bootstrap.getSample()), null, null, false));
             forest.add(tree);
         }

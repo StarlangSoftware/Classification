@@ -5,18 +5,18 @@ import Util.Swap;
 
 public class Solver {
     private int activeSize;
-    private double[] y;
+    private final double[] y;
     private double[] alpha;
     private double[] G;
     private AlphaStatusType[] alphaStatus;
-    private Q Q;
-    private double C;
-    private double[] b;
+    private final Q Q;
+    private final double C;
+    private final double[] b;
     private int[] activeSet;
     private double[] GBar;
-    private int l;
+    private final int l;
     private boolean unshrinked = false;
-    private SvmParameter parameter;
+    private final SvmParameter parameter;
 
     public Solver(int l, double[] b, double[] y, SvmParameter parameter, Problem problem){
         this.parameter = parameter;
@@ -271,10 +271,7 @@ public class Solver {
                 }
             }
         }
-        if (GMax[0] + GMax[1] < 0.001){
-            return true;
-        }
-        return false;
+        return GMax[0] + GMax[1] < 0.001;
     }
 
     private double calculateRho(){

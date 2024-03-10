@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class DiscreteAttribute extends Attribute implements Serializable{
 
-    private String value = "NULL";
+    private final String value;
 
     /**
      * Constructor for a discrete attribute.

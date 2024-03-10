@@ -6,7 +6,7 @@ import java.util.Comparator;
 
 public class InstanceComparator implements Comparator<Instance> {
 
-    private int attributeIndex;
+    private final int attributeIndex;
 
     /**
      * Constructor for instance comparator.
@@ -27,14 +27,6 @@ public class InstanceComparator implements Comparator<Instance> {
      * 0 if the attribute value of the first instance is equal to the attribute value of the second instance.
      */
     public int compare(Instance instance1, Instance instance2) {
-        if (((ContinuousAttribute) instance1.getAttribute(attributeIndex)).getValue() < ((ContinuousAttribute) instance2.getAttribute(attributeIndex)).getValue()) {
-            return -1;
-        } else {
-            if (((ContinuousAttribute) instance1.getAttribute(attributeIndex)).getValue() > ((ContinuousAttribute) instance2.getAttribute(attributeIndex)).getValue()) {
-                return 1;
-            } else {
-                return 0;
-            }
-        }
+        return Double.compare(((ContinuousAttribute) instance1.getAttribute(attributeIndex)).getValue(), ((ContinuousAttribute) instance2.getAttribute(attributeIndex)).getValue());
     }
 }

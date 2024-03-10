@@ -1,8 +1,8 @@
 package Classification.StatisticalTest;
 
 public class StatisticalTestResult {
-    private double pValue;
-    private boolean onlyTwoTailed;
+    private final double pValue;
+    private final boolean onlyTwoTailed;
 
     public StatisticalTestResult(double pValue, boolean onlyTwoTailed){
         this.pValue = pValue;

@@ -8,12 +8,11 @@ import Math.DiscreteDistribution;
 import Util.RandomArray;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Random;
 
 public class Partition {
 
-    private ArrayList<InstanceList> multiList;
+    private final ArrayList<InstanceList> multiList;
 
     /**
      * Divides the instances in the instance list into partitions so that all instances of a class are grouped in a
@@ -87,7 +86,7 @@ public class Partition {
     public Partition(InstanceList instanceList, int attributeIndex) {
         this();
         ArrayList<String> valueList = instanceList.getAttributeValueList(attributeIndex);
-        for (String value : valueList) {
+        for (String ignored : valueList) {
             add(new InstanceList());
         }
         for (Instance instance : instanceList.getInstances()) {
@@ -140,7 +139,7 @@ public class Partition {
      * Constructor for generating a partition.
      */
     public Partition() {
-        multiList = new ArrayList<InstanceList>();
+        multiList = new ArrayList<>();
     }
 
     /**

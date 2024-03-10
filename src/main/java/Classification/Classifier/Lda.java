@@ -25,8 +25,8 @@ public class Lda extends Classifier {
         double w0i;
         Matrix covariance, classCovariance;
         Vector averageVector, wi;
-        HashMap<String, Double> w0 = new HashMap<String, Double>();
-        HashMap<String, Vector> w = new HashMap<String, Vector>();
+        HashMap<String, Double> w0 = new HashMap<>();
+        HashMap<String, Vector> w = new HashMap<>();
         DiscreteDistribution priorDistribution = trainSet.classDistribution();
         Partition classLists = new Partition(trainSet);
         covariance = new Matrix(trainSet.get(0).continuousAttributeSize(), trainSet.get(0).continuousAttributeSize());
@@ -36,15 +36,13 @@ public class Lda extends Classifier {
             classCovariance.multiplyWithConstant(classLists.get(i).size() - 1);
             try {
                 covariance.add(classCovariance);
-            } catch (MatrixDimensionMismatch matrixDimensionMismatch) {
+            } catch (MatrixDimensionMismatch ignored) {
             }
         }
         covariance.divideByConstant(trainSet.size() - classLists.size());
         try {
             covariance.inverse();
-        } catch (DeterminantZero determinantZero) {
-            System.out.println(determinantZero.toString());
-        } catch (MatrixNotSquare matrixNotSquare) {
+        } catch (DeterminantZero | MatrixNotSquare ignored) {
         }
         for (int i = 0; i < classLists.size(); i++) {
             Ci = ((InstanceListOfSameClass) classLists.get(i)).getClassLabel();
@@ -54,7 +52,7 @@ public class Lda extends Classifier {
                 w.put(Ci, wi);
                 w0i = -0.5 * wi.dotProduct(averageVector) + Math.log(priorDistribution.getProbability(Ci));
                 w0.put(Ci, w0i);
-            } catch (MatrixColumnMismatch | VectorSizeMismatch mismatch) {
+            } catch (MatrixColumnMismatch | VectorSizeMismatch ignored) {
             }
         }
         model = new LdaModel(priorDistribution, w, w0);

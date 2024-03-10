@@ -17,7 +17,7 @@ public class CompositeInstance extends Instance {
      */
     public CompositeInstance(String classLabel) {
         super(classLabel);
-        this.possibleClassLabels = new ArrayList<String>();
+        this.possibleClassLabels = new ArrayList<>();
     }
 
     /**
@@ -29,7 +29,7 @@ public class CompositeInstance extends Instance {
      */
     public CompositeInstance(String classLabel, ArrayList<Attribute> attributes) {
         super(classLabel, attributes);
-        this.possibleClassLabels = new ArrayList<String>();
+        this.possibleClassLabels = new ArrayList<>();
     }
 
     /**

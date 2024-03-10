@@ -8,7 +8,7 @@ import Sampling.StratifiedKFoldCrossValidation;
 
 public class StratifiedSingleRunWithK {
 
-    private int K;
+    private final int K;
 
     /**
      * Constructor for StratifiedSingleRunWithK class. Basically sets K parameter of the K-fold cross-validation.

@@ -3,7 +3,6 @@ package Classification.Classifier;
 import Classification.InstanceList.InstanceList;
 import Classification.Model.DecisionTree.DecisionNode;
 import Classification.Model.DecisionTree.DecisionTree;
-import Classification.Model.RandomModel;
 import Classification.Parameter.C45Parameter;
 import Classification.Parameter.Parameter;
 import Classification.InstanceList.Partition;

@@ -21,8 +21,8 @@ public class NaiveBayes extends Classifier{
      */
     private void trainContinuousVersion(DiscreteDistribution priorDistribution, Partition classLists){
         String classLabel;
-        HashMap<String, Vector> classMeans = new HashMap<String, Vector>();
-        HashMap<String, Vector> classDeviations = new HashMap<String, Vector>();
+        HashMap<String, Vector> classMeans = new HashMap<>();
+        HashMap<String, Vector> classDeviations = new HashMap<>();
         for (int i = 0; i < classLists.size(); i++){
             classLabel = ((InstanceListOfSameClass) classLists.get(i)).getClassLabel();
             Vector averageVector = classLists.get(i).average().toVector();
@@ -39,7 +39,7 @@ public class NaiveBayes extends Classifier{
      * @param classLists Instances are divided into K lists, where each list contains only instances from a single class
      */
     private void trainDiscreteVersion(DiscreteDistribution priorDistribution, Partition classLists){
-        HashMap<String, ArrayList<DiscreteDistribution>> classAttributeDistributions = new HashMap<String, ArrayList<DiscreteDistribution>>();
+        HashMap<String, ArrayList<DiscreteDistribution>> classAttributeDistributions = new HashMap<>();
         for (int i = 0; i < classLists.size(); i++){
             classAttributeDistributions.put(((InstanceListOfSameClass) classLists.get(i)).getClassLabel(), classLists.get(i).allAttributesDistribution());
         }

@@ -1,7 +1,7 @@
 package Classification.Performance;
 
 public class DetailedClassificationPerformance extends ClassificationPerformance {
-    private ConfusionMatrix confusionMatrix;
+    private final ConfusionMatrix confusionMatrix;
 
     /**
      * A constructor that  sets the accuracy and errorRate as 1 - accuracy via given {@link ConfusionMatrix} and also sets the confusionMatrix.

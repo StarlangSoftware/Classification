@@ -3,12 +3,12 @@ package Classification.Parameter;
 import Classification.Model.Svm.KernelType;
 
 public class SvmParameter extends Parameter {
-    private KernelType kernelType;
-    private int degree;
-    private double gamma;
-    private double coefficient0;
-    private double C;
-    private boolean shrinking = true;
+    private final KernelType kernelType;
+    private final int degree;
+    private final double gamma;
+    private final double coefficient0;
+    private final double C;
+    private final boolean shrinking = true;
 
     /**
      * Parameters of the Support Vector Machine classifier.

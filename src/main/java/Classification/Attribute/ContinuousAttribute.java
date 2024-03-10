@@ -40,7 +40,7 @@ public class ContinuousAttribute extends Attribute implements Serializable {
      * @return String representation of value.
      */
     public String toString() {
-        return "" + String.format("%.4f", value);
+        return String.format("%.4f", value);
     }
 
     @Override

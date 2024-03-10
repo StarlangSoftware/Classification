@@ -2,7 +2,7 @@ package Classification.InstanceList;
 
 public class InstanceListOfSameClass extends InstanceList {
 
-    private String classLabel;
+    private final String classLabel;
 
     /**
      * Constructor for creating a new instance list with the same class label.

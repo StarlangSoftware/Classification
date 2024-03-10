@@ -5,17 +5,16 @@ import Classification.Instance.Instance;
 import Classification.InstanceList.InstanceList;
 import Classification.Model.ValidatedModel;
 import Classification.Performance.ClassificationPerformance;
-import Math.Vector;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
-import java.util.Random;
 
 public class DecisionTree extends ValidatedModel implements Serializable {
 
-    private DecisionNode root;
+    private final DecisionNode root;
 
     /**
      * Constructor that sets root node of the decision tree.
@@ -28,7 +27,7 @@ public class DecisionTree extends ValidatedModel implements Serializable {
 
     public DecisionTree(String fileName){
         try {
-            BufferedReader input = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), StandardCharsets.UTF_8));
+            BufferedReader input = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(fileName)), StandardCharsets.UTF_8));
             root = new DecisionNode(input);
             input.close();
         } catch (IOException e) {
@@ -103,8 +102,7 @@ public class DecisionTree extends ValidatedModel implements Serializable {
             output.println("\treturn \"\";");
             output.println("}");
             output.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        } catch (FileNotFoundException ignored) {
         }
     }
 

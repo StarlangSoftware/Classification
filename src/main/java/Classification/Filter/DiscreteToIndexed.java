@@ -25,7 +25,7 @@ public class DiscreteToIndexed extends LaryFilter {
     protected void convertInstance(Instance instance) {
         int size = instance.attributeSize();
         for (int i = 0; i < size; i++) {
-            if (attributeDistributions.get(i).size() > 0) {
+            if (!attributeDistributions.get(i).isEmpty()) {
                 int index = attributeDistributions.get(i).getIndex(instance.getAttribute(i).toString());
                 instance.addAttribute(new DiscreteIndexedAttribute(instance.getAttribute(i).toString(), index, attributeDistributions.get(i).size()));
             }
@@ -40,7 +40,7 @@ public class DiscreteToIndexed extends LaryFilter {
         DataDefinition dataDefinition = dataSet.getDataDefinition();
         int size = dataDefinition.attributeCount();
         for (int i = 0; i < size; i++) {
-            if (attributeDistributions.get(i).size() > 0) {
+            if (!attributeDistributions.get(i).isEmpty()) {
                 dataDefinition.addAttribute(AttributeType.DISCRETE_INDEXED);
             }
         }

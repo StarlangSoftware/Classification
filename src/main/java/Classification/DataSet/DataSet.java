@@ -13,7 +13,7 @@ import java.util.Scanner;
 
 public class DataSet {
 
-    private InstanceList instances;
+    private final InstanceList instances;
     private DataDefinition definition;
 
     /**
@@ -74,7 +74,7 @@ public class DataSet {
                         case CONTINUOUS:
                             try {
                                 instance.addAttribute(new ContinuousAttribute(Double.parseDouble(attributes[j])));
-                            } catch (NumberFormatException e) {
+                            } catch (NumberFormatException ignored) {
                             }
                             break;
                         case DISCRETE:
@@ -88,8 +88,7 @@ public class DataSet {
                 i++;
             }
             input.close();
-        } catch (FileNotFoundException e) {
-            System.out.println(e.toString());
+        } catch (FileNotFoundException ignored) {
         }
     }
 
@@ -345,8 +344,7 @@ public class DataSet {
                 writer.write(instances.get(i).toString() + "\n");
             }
             writer.close();
-        } catch (FileNotFoundException | UnsupportedEncodingException e) {
-            e.printStackTrace();
+        } catch (FileNotFoundException | UnsupportedEncodingException ignored) {
         }
     }
 

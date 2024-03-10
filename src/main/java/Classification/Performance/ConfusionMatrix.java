@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ConfusionMatrix {
-    private HashMap<String, CounterHashMap<String>> matrix;
-    private ArrayList<String> classLabels;
+    private final HashMap<String, CounterHashMap<String>> matrix;
+    private final ArrayList<String> classLabels;
 
     /**
      * Constructor that sets the class labels {@link ArrayList} and creates new {@link HashMap} matrix

@@ -1,5 +1,6 @@
 package Classification.Classifier;
 
+import Classification.Instance.Instance;
 import Classification.InstanceList.InstanceList;
 import Classification.Model.DecisionTree.DecisionNode;
 import Classification.Model.DecisionTree.DecisionTree;
@@ -21,9 +22,9 @@ public class RandomForest extends Classifier{
      */
     public void train(InstanceList trainSet, Parameter parameters) {
         int forestSize = ((RandomForestParameter) parameters).getEnsembleSize();
-        ArrayList<DecisionTree> forest = new ArrayList<DecisionTree>();
+        ArrayList<DecisionTree> forest = new ArrayList<>();
         for (int i = 0; i < forestSize; i++){
-            Bootstrap bootstrap = trainSet.bootstrap(i);
+            Bootstrap<Instance> bootstrap = trainSet.bootstrap(i);
             DecisionTree tree = new DecisionTree(new DecisionNode(new InstanceList(bootstrap.getSample()), null, (RandomForestParameter) parameters, false));
             forest.add(tree);
         }

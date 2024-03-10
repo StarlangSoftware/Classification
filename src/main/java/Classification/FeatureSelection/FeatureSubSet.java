@@ -3,7 +3,7 @@ package Classification.FeatureSelection;
 import java.util.ArrayList;
 
 public class FeatureSubSet {
-    private ArrayList<Integer> indexList;
+    private final ArrayList<Integer> indexList;
 
     /**
      * A constructor that sets the indexList {@link ArrayList}.
@@ -40,9 +40,7 @@ public class FeatureSubSet {
      */
     public FeatureSubSet clone() {
         ArrayList<Integer> newIndexList = new ArrayList<>();
-        for (Integer index : indexList) {
-            newIndexList.add(index);
-        }
+        newIndexList.addAll(indexList);
         return new FeatureSubSet(newIndexList);
     }
 

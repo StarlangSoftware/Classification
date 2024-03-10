@@ -5,8 +5,8 @@ import java.util.ArrayList;
 
 public class DiscreteIndexedAttribute extends DiscreteAttribute implements Serializable {
 
-    private int index;
-    private int maxIndex;
+    private final int index;
+    private final int maxIndex;
 
     /**
      * Constructor for a discrete attribute.

@@ -6,9 +6,9 @@ import Classification.FeatureSelection.FeatureSubSet;
 import Classification.Parameter.Parameter;
 
 public class Experiment {
-    private Classifier classifier;
-    private Parameter parameter;
-    private DataSet dataSet;
+    private final Classifier classifier;
+    private final Parameter parameter;
+    private final DataSet dataSet;
 
     /**
      * Constructor for a specific machine learning experiment

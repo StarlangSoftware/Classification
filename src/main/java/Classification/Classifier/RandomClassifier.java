@@ -16,7 +16,7 @@ public class RandomClassifier extends Classifier {
      */
     @Override
     public void train(InstanceList trainSet, Parameter parameters) {
-        model = new RandomModel(new ArrayList<String>(trainSet.classDistribution().keySet()), parameters.getSeed());
+        model = new RandomModel(new ArrayList<>(trainSet.classDistribution().keySet()), parameters.getSeed());
     }
 
     @Override

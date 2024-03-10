@@ -5,10 +5,12 @@ import Math.*;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 
 public class QdaModel extends LdaModel implements Serializable {
-    private HashMap<String, Matrix> W;
+    private final HashMap<String, Matrix> W;
 
     /**
      * The constructor which sets the priorDistribution, w w1 and HashMap of String Matrix.
@@ -25,7 +27,7 @@ public class QdaModel extends LdaModel implements Serializable {
 
     public QdaModel(String fileName){
         try {
-            BufferedReader input = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), StandardCharsets.UTF_8));
+            BufferedReader input = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(fileName)), StandardCharsets.UTF_8));
             int size = loadPriorDistribution(input);
             loadWandW0(input, size);
             W = new HashMap<>();

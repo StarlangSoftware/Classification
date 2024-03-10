@@ -38,8 +38,7 @@ public abstract class Model implements Serializable {
             outFile = new FileOutputStream(fileName);
             outObject = new ObjectOutputStream(outFile);
             outObject.writeObject(this);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ignored) {
         }
     }
 

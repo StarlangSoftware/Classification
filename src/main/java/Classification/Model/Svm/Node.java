@@ -1,8 +1,8 @@
 package Classification.Model.Svm;
 
 public class Node {
-    private int index;
-    private double value;
+    private final int index;
+    private final double value;
 
     /**
      * Constructor that sets the value of index and value.

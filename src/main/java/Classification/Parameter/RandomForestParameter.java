@@ -2,7 +2,7 @@ package Classification.Parameter;
 
 public class RandomForestParameter extends BaggingParameter {
 
-    private int attributeSubsetSize;
+    private final int attributeSubsetSize;
 
     /**
      * Parameters of the random forest classifier.

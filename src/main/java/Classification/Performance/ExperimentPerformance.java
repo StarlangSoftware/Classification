@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ExperimentPerformance implements Comparable {
-    private ArrayList<Performance> results;
+    private final ArrayList<Performance> results;
     private boolean containsDetails = true;
     private boolean classification = true;
 
@@ -14,7 +14,7 @@ public class ExperimentPerformance implements Comparable {
      * A constructor which creates a new {@link ArrayList} of {@link Performance} as results.
      */
     public ExperimentPerformance() {
-        results = new ArrayList<Performance>();
+        results = new ArrayList<>();
     }
 
     /**

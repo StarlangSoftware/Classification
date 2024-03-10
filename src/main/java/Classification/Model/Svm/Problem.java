@@ -3,12 +3,10 @@ package Classification.Model.Svm;
 import Classification.Instance.Instance;
 import Classification.InstanceList.InstanceList;
 
-import java.util.HashMap;
-
 public class Problem {
-    private int l;
-    private double[] y;
-    private NodeList[] x;
+    private final int l;
+    private final double[] y;
+    private final NodeList[] x;
 
     /**
      * A constructor that sets x, y and l with given inputs.

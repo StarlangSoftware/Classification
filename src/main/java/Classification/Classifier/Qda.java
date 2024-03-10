@@ -26,9 +26,9 @@ public class Qda extends Classifier {
         double determinant = 0, w0i;
         Matrix classCovariance, Wi;
         Vector averageVector, wi;
-        HashMap<String, Double> w0 = new HashMap<String, Double>();
-        HashMap<String, Vector> w = new HashMap<String, Vector>();
-        HashMap<String, Matrix> W = new HashMap<String, Matrix>();
+        HashMap<String, Double> w0 = new HashMap<>();
+        HashMap<String, Vector> w = new HashMap<>();
+        HashMap<String, Matrix> W = new HashMap<>();
         Partition classLists = new Partition(trainSet);
         DiscreteDistribution priorDistribution = trainSet.classDistribution();
         for (int i = 0; i < classLists.size(); i++) {
@@ -38,9 +38,7 @@ public class Qda extends Classifier {
             try {
                 determinant = classCovariance.determinant();
                 classCovariance.inverse();
-            } catch (DeterminantZero determinantZero) {
-                System.out.println(determinantZero.toString());
-            } catch (MatrixNotSquare matrixNotSquare){
+            } catch (DeterminantZero | MatrixNotSquare ignored) {
             }
             Wi = classCovariance.clone();
             Wi.multiplyWithConstant(-0.5);
@@ -50,7 +48,7 @@ public class Qda extends Classifier {
                 w.put(Ci, wi);
                 w0i = -0.5 * (wi.dotProduct(averageVector) + Math.log(determinant)) + Math.log(priorDistribution.getProbability(Ci));
                 w0.put(Ci, w0i);
-            } catch (MatrixRowMismatch | VectorSizeMismatch mismatch) {
+            } catch (MatrixRowMismatch | VectorSizeMismatch ignored) {
             }
         }
         model = new QdaModel(priorDistribution, W, w, w0);

@@ -13,6 +13,7 @@ import Math.Matrix;
 import Sampling.Bootstrap;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -25,7 +26,7 @@ public class InstanceList implements Serializable {
      * Empty constructor for an instance list. Initializes the instance list with zero instances.
      */
     public InstanceList() {
-        list = new ArrayList<Instance>();
+        list = new ArrayList<>();
     }
 
     /**
@@ -48,9 +49,9 @@ public class InstanceList implements Serializable {
     public InstanceList(DataDefinition definition, String separator, String fileName) {
         Instance current;
         String line;
-        list = new ArrayList<Instance>();
+        list = new ArrayList<>();
         try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), "UTF8"));
+            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), StandardCharsets.UTF_8));
             line = br.readLine();
             while (line != null) {
                 String[] attributeList = line.split(separator);
@@ -80,8 +81,7 @@ public class InstanceList implements Serializable {
             }
         } catch (FileNotFoundException fileNotFoundException) {
             System.out.println("Dataset with fileName " + fileName + " not found");
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ignored) {
         }
     }
 
@@ -138,14 +138,14 @@ public class InstanceList implements Serializable {
      */
     public void sort(int attributeIndex) {
         InstanceComparator comparator = new InstanceComparator(attributeIndex);
-        Collections.sort(list, comparator);
+        list.sort(comparator);
     }
 
     /**
      * Sorts instance list.
      */
     public void sort() {
-        Collections.sort(list, new InstanceClassComparator());
+        list.sort(new InstanceClassComparator());
     }
 
     /**
@@ -171,7 +171,7 @@ public class InstanceList implements Serializable {
      * @return Bootstrap sample.
      */
     public Bootstrap<Instance> bootstrap(int seed) {
-        return new Bootstrap<Instance>(list, seed);
+        return new Bootstrap<>(list, seed);
     }
 
     /**
@@ -180,7 +180,7 @@ public class InstanceList implements Serializable {
      * @return An array list of class labels.
      */
     public ArrayList<String> getClassLabels() {
-        ArrayList<String> classLabels = new ArrayList<String>();
+        ArrayList<String> classLabels = new ArrayList<>();
         for (Instance instance : list) {
             classLabels.add(instance.getClassLabel());
         }
@@ -193,7 +193,7 @@ public class InstanceList implements Serializable {
      * @return An {@link ArrayList} of distinct class labels.
      */
     public ArrayList<String> getDistinctClassLabels() {
-        ArrayList<String> classLabels = new ArrayList<String>();
+        ArrayList<String> classLabels = new ArrayList<>();
         for (Instance instance : list) {
             if (!classLabels.contains(instance.getClassLabel())) {
                 classLabels.add(instance.getClassLabel());
@@ -208,7 +208,7 @@ public class InstanceList implements Serializable {
      * @return An {@link ArrayList} of distinct class labels.
      */
     public ArrayList<String> getUnionOfPossibleClassLabels() {
-        ArrayList<String> possibleClassLabels = new ArrayList<String>();
+        ArrayList<String> possibleClassLabels = new ArrayList<>();
         for (Instance instance : list) {
             if (instance instanceof CompositeInstance) {
                 CompositeInstance compositeInstance = (CompositeInstance) instance;
@@ -233,7 +233,7 @@ public class InstanceList implements Serializable {
      * @return An array of distinct values of a discrete attribute.
      */
     public ArrayList<String> getAttributeValueList(int attributeIndex) {
-        ArrayList<String> valueList = new ArrayList<String>();
+        ArrayList<String> valueList = new ArrayList<>();
         for (Instance instance : list) {
             if (!valueList.contains(((DiscreteAttribute) instance.getAttribute(attributeIndex)).getValue())) {
                 valueList.add(((DiscreteAttribute) instance.getAttribute(attributeIndex)).getValue());
@@ -252,7 +252,7 @@ public class InstanceList implements Serializable {
      */
     private Attribute attributeAverage(int index) {
         if (list.get(0).getAttribute(index) instanceof DiscreteAttribute) {
-            ArrayList<String> values = new ArrayList<String>();
+            ArrayList<String> values = new ArrayList<>();
             for (Instance instance : list) {
                 values.add(((DiscreteAttribute) instance.getAttribute(index)).getValue());
             }
@@ -279,7 +279,7 @@ public class InstanceList implements Serializable {
     private ArrayList<Double> continuousAttributeAverage(int index) {
         if (list.get(0).getAttribute(index) instanceof DiscreteIndexedAttribute) {
             int maxIndexSize = ((DiscreteIndexedAttribute) list.get(0).getAttribute(index)).getMaxIndex();
-            ArrayList<Double> values = new ArrayList<Double>();
+            ArrayList<Double> values = new ArrayList<>();
             for (int i = 0; i < maxIndexSize; i++) {
                 values.add(0.0);
             }
@@ -339,7 +339,7 @@ public class InstanceList implements Serializable {
     private ArrayList<Double> continuousAttributeStandardDeviation(int index) {
         if (list.get(0).getAttribute(index) instanceof DiscreteIndexedAttribute) {
             int maxIndexSize = ((DiscreteIndexedAttribute) list.get(0).getAttribute(index)).getMaxIndex();
-            ArrayList<Double> averages = new ArrayList<Double>();
+            ArrayList<Double> averages = new ArrayList<>();
             for (int i = 0; i < maxIndexSize; i++) {
                 averages.add(0.0);
             }
@@ -350,7 +350,7 @@ public class InstanceList implements Serializable {
             for (int i = 0; i < averages.size(); i++) {
                 averages.set(i, averages.get(i) / list.size());
             }
-            ArrayList<Double> values = new ArrayList<Double>();
+            ArrayList<Double> values = new ArrayList<>();
             for (int i = 0; i < maxIndexSize; i++) {
                 values.add(0.0);
             }
@@ -413,7 +413,7 @@ public class InstanceList implements Serializable {
      * @return Distribution of the class labels.
      */
     public ArrayList<DiscreteDistribution> attributeClassDistribution(int attributeIndex) {
-        ArrayList<DiscreteDistribution> distributions = new ArrayList<DiscreteDistribution>();
+        ArrayList<DiscreteDistribution> distributions = new ArrayList<>();
         ArrayList<String> valueList = getAttributeValueList(attributeIndex);
         for (String ignored : valueList) {
             distributions.add(new DiscreteDistribution());
@@ -462,7 +462,7 @@ public class InstanceList implements Serializable {
      * @return Distributions of all the attributes of instances.
      */
     public ArrayList<DiscreteDistribution> allAttributesDistribution() {
-        ArrayList<DiscreteDistribution> distributions = new ArrayList<DiscreteDistribution>();
+        ArrayList<DiscreteDistribution> distributions = new ArrayList<>();
         for (int i = 0; i < list.get(0).attributeSize(); i++) {
             distributions.add(attributeDistribution(i));
         }

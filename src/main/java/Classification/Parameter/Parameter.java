@@ -1,7 +1,7 @@
 package Classification.Parameter;
 
 public class Parameter {
-    private int seed;
+    private final int seed;
 
     /**
      * Constructor of {@link Parameter} class which assigns given seed value to seed.
