@@ -32,6 +32,9 @@ public abstract class NeuralNetworkModel extends ValidatedModel implements Seria
         d = trainSet.get(0).continuousAttributeSize();
     }
 
+    /**
+     * Default constructor
+     */
     public NeuralNetworkModel(){
     }
 
@@ -135,6 +138,12 @@ public abstract class NeuralNetworkModel extends ValidatedModel implements Seria
         y = V.multiplyWithVectorFromRight(hiddenBiased);
     }
 
+    /**
+     * Calculates the derivative of the activation function in a hidden node in any hidden layer.
+     * @param hidden Input vector going into the hidden node.
+     * @param activationFunction Activation function type
+     * @return Derivative of the input vector with respect to the given activation function.
+     */
     protected Vector calculateActivationDerivative(Vector hidden, ActivationFunction activationFunction){
         try{
             switch (activationFunction){
@@ -211,6 +220,11 @@ public abstract class NeuralNetworkModel extends ValidatedModel implements Seria
         }
     }
 
+    /**
+     * Calculates the posterior probability distribution for the given instance according to neural network model.
+     * @param instance Instance for which posterior probability distribution is calculated.
+     * @return Posterior probability distribution for the given instance.
+     */
     @Override
     public HashMap<String, Double> predictProbability(Instance instance) {
         createInputVector(instance);
@@ -222,6 +236,10 @@ public abstract class NeuralNetworkModel extends ValidatedModel implements Seria
         return result;
     }
 
+    /**
+     * Saves the class labels to an output model file.
+     * @param output Output model file.
+     */
     protected void saveClassLabels(PrintWriter output){
         output.println(K + " " + d);
         for (String classLabel : classLabels){
@@ -229,6 +247,11 @@ public abstract class NeuralNetworkModel extends ValidatedModel implements Seria
         }
     }
 
+    /**
+     * Loads the class labels from input model file.
+     * @param input Input model file.
+     * @throws IOException If the input file can not be read, the method throws IOException.
+     */
     protected void loadClassLabels(BufferedReader input) throws IOException {
         String[] items = input.readLine().split(" ");
         K = Integer.parseInt(items[0]);
@@ -239,6 +262,12 @@ public abstract class NeuralNetworkModel extends ValidatedModel implements Seria
         }
     }
 
+    /**
+     * Loads the activation function from an input model file.
+     * @param input Input model file.
+     * @return Activation function read.
+     * @throws IOException If the input file can not be read, the method throws IOException.
+     */
     protected ActivationFunction loadActivationFunction(BufferedReader input) throws IOException{
         switch (input.readLine()){
             case "TANH":

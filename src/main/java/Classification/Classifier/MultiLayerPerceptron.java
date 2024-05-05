@@ -26,6 +26,10 @@ public class MultiLayerPerceptron extends Classifier {
         model = new MultiLayerPerceptronModel(partition.get(1), partition.get(0), (MultiLayerPerceptronParameter) parameters);
     }
 
+    /**
+     * Loads the multi-layer perceptron model from an input file.
+     * @param fileName File name of the multi-layer perceptron model.
+     */
     @Override
     public void loadModel(String fileName) {
         model = new MultiLayerPerceptronModel(fileName);

@@ -28,6 +28,10 @@ public class KMeansModel extends GaussianModel implements Serializable {
         this.distanceMetric = distanceMetric;
     }
 
+    /**
+     * Loads a K-means model from an input model file.
+     * @param fileName Model file name.
+     */
     public KMeansModel(String fileName){
         this.distanceMetric = new EuclidianDistance();
         try {
@@ -58,6 +62,10 @@ public class KMeansModel extends GaussianModel implements Serializable {
         return -Double.MAX_VALUE;
     }
 
+    /**
+     * Saves the K-Means model to an output file.
+     * @param fileName Output file name.
+     */
     @Override
     public void saveTxt(String fileName) {
         try {

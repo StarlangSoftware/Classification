@@ -29,6 +29,10 @@ public class RandomModel extends Model implements Serializable {
         this.seed = seed;
     }
 
+    /**
+     * Loads a random classifier model from an input model file.
+     * @param fileName Model file name.
+     */
     public RandomModel(String fileName){
         try {
             BufferedReader input = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(fileName)), StandardCharsets.UTF_8));
@@ -65,6 +69,11 @@ public class RandomModel extends Model implements Serializable {
         }
     }
 
+    /**
+     * Calculates the posterior probability distribution for the given instance according to random model.
+     * @param instance Instance for which posterior probability distribution is calculated.
+     * @return Posterior probability distribution for the given instance.
+     */
     @Override
     public HashMap<String, Double> predictProbability(Instance instance) {
         HashMap<String, Double> result = new HashMap<>();
@@ -74,6 +83,10 @@ public class RandomModel extends Model implements Serializable {
         return result;
     }
 
+    /**
+     * Saves the random classifier model to an output file.
+     * @param fileName Output file name.
+     */
     @Override
     public void saveTxt(String fileName) {
         try {

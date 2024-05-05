@@ -43,11 +43,19 @@ public class ContinuousAttribute extends Attribute implements Serializable {
         return String.format("%.4f", value);
     }
 
+    /**
+     * Returns 1 since it is already a continuous attribute.
+     * @return 1
+     */
     @Override
     public int continuousAttributeSize() {
         return 1;
     }
 
+    /**
+     * Returns an array list which contains only the value of this attribute.
+     * @return An array list which contains only the value of this attribute.
+     */
     @Override
     public ArrayList<Double> continuousAttributes() {
         ArrayList<Double> result = new ArrayList<>();

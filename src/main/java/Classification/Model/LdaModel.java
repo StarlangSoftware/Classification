@@ -26,9 +26,18 @@ public class LdaModel extends GaussianModel implements Serializable {
         this.w0 = w0;
     }
 
+    /**
+     * Default constructor
+     */
     public LdaModel(){
     }
 
+    /**
+     * Loads w0 and w hash maps from an input file. The number of items in the hash map is given by the parameter size.
+     * @param input Input file
+     * @param size Number of items in the hash map read.
+     * @throws IOException If the file can not be read, it throws IOException.
+     */
     protected void loadWandW0(BufferedReader input, int size) throws IOException {
         w0 = new HashMap<>();
         for (int i = 0; i < size; i++){
@@ -39,6 +48,10 @@ public class LdaModel extends GaussianModel implements Serializable {
         w = loadVectors(input, size);
     }
 
+    /**
+     * Loads a Linear Discriminant Analysis model from an input model file.
+     * @param fileName Model file name.
+     */
     public LdaModel(String fileName){
         try {
             BufferedReader input = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(fileName)), StandardCharsets.UTF_8));
@@ -72,6 +85,10 @@ public class LdaModel extends GaussianModel implements Serializable {
         }
     }
 
+    /**
+     * Saves w and w0 hash maps to an output file
+     * @param output Output file
+     */
     protected void saveWandW0(PrintWriter output){
         for (String c : w0.keySet()){
             output.println(c + " " + w0.get(c));
@@ -79,6 +96,10 @@ public class LdaModel extends GaussianModel implements Serializable {
         saveVectors(output, w);
     }
 
+    /**
+     * Saves the Linear discriminant analysis model to an output file.
+     * @param fileName Output file name.
+     */
     @Override
     public void saveTxt(String fileName) {
         try {

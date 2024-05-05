@@ -18,6 +18,10 @@ public class Knn extends Classifier {
         model = new KnnModel(trainSet, ((KnnParameter) parameters).getK(), ((KnnParameter) parameters).getDistanceMetric());
     }
 
+    /**
+     * Loads the K-nearest neighbor model from an input file.
+     * @param fileName File name of the K-nearest neighbor model.
+     */
     @Override
     public void loadModel(String fileName) {
         model = new KnnModel(fileName);

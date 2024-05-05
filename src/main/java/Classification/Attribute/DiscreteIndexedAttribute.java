@@ -44,6 +44,10 @@ public class DiscreteIndexedAttribute extends DiscreteAttribute implements Seria
         return maxIndex;
     }
 
+    /**
+     * Returns 1 of L encoding of this attribute. Only the value at index maxIndex is 1, others are 0.
+     * @return 1 of L encoding of this attribute.
+     */
     @Override
     public ArrayList<Double> continuousAttributes() {
         ArrayList<Double> result = new ArrayList<>();

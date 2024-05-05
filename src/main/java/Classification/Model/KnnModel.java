@@ -11,7 +11,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 
@@ -34,6 +33,10 @@ public class KnnModel extends Model implements Serializable {
         this.distanceMetric = distanceMetric;
     }
 
+    /**
+     * Loads a K-nearest neighbor model from an input model file.
+     * @param fileName Model file name.
+     */
     public KnnModel(String fileName){
         this.distanceMetric = new EuclidianDistance();
         try {
@@ -64,12 +67,21 @@ public class KnnModel extends Model implements Serializable {
         return predictedClass;
     }
 
+    /**
+     * Calculates the posterior probability distribution for the given instance according to K-means model.
+     * @param instance Instance for which posterior probability distribution is calculated.
+     * @return Posterior probability distribution for the given instance.
+     */
     @Override
     public HashMap<String, Double> predictProbability(Instance instance) {
         InstanceList nearestNeighbors = nearestNeighbors(instance);
         return nearestNeighbors.classDistribution().getProbabilityDistribution();
     }
 
+    /**
+     * Saves the K-nearest neighbor model to an output file.
+     * @param fileName Output file name.
+     */
     @Override
     public void saveTxt(String fileName) {
         try {

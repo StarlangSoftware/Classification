@@ -39,14 +39,26 @@ public class DecisionCondition implements Serializable {
         this.value = value;
     }
 
+    /**
+     * Accessor for the attribute index.
+     * @return Attribute index.
+     */
     public int getAttributeIndex(){
         return attributeIndex;
     }
 
+    /**
+     * Accessor for the value.
+     * @return Value.
+     */
     public Attribute getValue(){
         return value;
     }
 
+    /**
+     * Accessor for comparison.
+     * @return Comparison character.
+     */
     public char getComparison(){
         return comparison;
     }

@@ -17,6 +17,10 @@ public class C45Stump extends Classifier {
         model = new DecisionTree(new DecisionNode(trainSet, null, null, true));
     }
 
+    /**
+     * Loads the decision tree model from an input file.
+     * @param fileName File name of the decision tree model.
+     */
     @Override
     public void loadModel(String fileName) {
         model = new DecisionTree(fileName);

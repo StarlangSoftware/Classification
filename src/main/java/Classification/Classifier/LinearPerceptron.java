@@ -26,6 +26,10 @@ public class LinearPerceptron extends Classifier {
         model = new LinearPerceptronModel(partition.get(1), partition.get(0), (LinearPerceptronParameter) parameters);
     }
 
+    /**
+     * Loads the linear perceptron model from an input file.
+     * @param fileName File name of the linear perceptron model.
+     */
     @Override
     public void loadModel(String fileName) {
         model = new LinearPerceptronModel(fileName);

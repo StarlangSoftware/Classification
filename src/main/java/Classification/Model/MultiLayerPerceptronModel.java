@@ -85,6 +85,10 @@ public class MultiLayerPerceptronModel extends LinearPerceptronModel implements 
         V = bestV;
     }
 
+    /**
+     * Loads a multi-layer perceptron model from an input model file.
+     * @param fileName Model file name.
+     */
     public MultiLayerPerceptronModel(String fileName){
         try {
             BufferedReader input = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(fileName)), StandardCharsets.UTF_8));
@@ -108,6 +112,10 @@ public class MultiLayerPerceptronModel extends LinearPerceptronModel implements 
         }
     }
 
+    /**
+     * Saves the multilayer perceptron model to an output file.
+     * @param fileName Output file name.
+     */
     @Override
     public void saveTxt(String fileName) {
         try {

@@ -42,6 +42,10 @@ public class NaiveBayesModel extends GaussianModel implements Serializable {
         this.classAttributeDistributions = classAttributeDistributions;
     }
 
+    /**
+     * Loads a naive Bayes model from an input model file.
+     * @param fileName Model file name.
+     */
     public NaiveBayesModel(String fileName){
         try {
             BufferedReader input = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(fileName)), StandardCharsets.UTF_8));
@@ -115,6 +119,10 @@ public class NaiveBayesModel extends GaussianModel implements Serializable {
         return logLikelihood;
     }
 
+    /**
+     * Saves the Naive Bayes model to an output file.
+     * @param fileName Output file name.
+     */
     @Override
     public void saveTxt(String fileName) {
         try {

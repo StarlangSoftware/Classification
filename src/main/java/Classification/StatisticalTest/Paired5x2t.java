@@ -5,6 +5,14 @@ import Math.Distribution;
 
 public class Paired5x2t extends PairedTest{
 
+    /**
+     * Calculates the test statistic of the 5x2 t test.
+     * @param classifier1 Performance (error rate or accuracy) results of the first classifier.
+     * @param classifier2 Performance (error rate or accuracy) results of the second classifier.
+     * @return Given the performances of two classifiers, the test statistic of the 5x2 t test.
+     * @throws StatisticalTestNotApplicable If the number of experiments do not match or the number of experiments is
+     * not 10, then the function throws StatisticalTestNotApplicable.
+     */
     private double testStatistic(ExperimentPerformance classifier1, ExperimentPerformance classifier2) throws StatisticalTestNotApplicable {
         if (classifier1.numberOfExperiments() != classifier2.numberOfExperiments()){
             throw new StatisticalTestNotApplicable("5x2 t test", "In order to apply a paired test, you need to have the same number of experiments in both algorithms.");
@@ -30,6 +38,14 @@ public class Paired5x2t extends PairedTest{
         return difference[0] / denominator;
     }
 
+    /**
+     * Compares two classification algorithms based on their performances (accuracy or error rate) using 5x2 t test.
+     * @param classifier1 Performance (error rate or accuracy) results of the first classifier.
+     * @param classifier2 Performance (error rate or accuracy) results of the second classifier.
+     * @return Statistical test result of the comparison.
+     * @throws StatisticalTestNotApplicable If the number of experiments do not match or the number of experiments is
+     * not 10, then the function throws StatisticalTestNotApplicable.
+     */
     public StatisticalTestResult compare(ExperimentPerformance classifier1, ExperimentPerformance classifier2) throws StatisticalTestNotApplicable {
         double statistic = testStatistic(classifier1, classifier2);
         int degreeOfFreedom = classifier1.numberOfExperiments() / 2;

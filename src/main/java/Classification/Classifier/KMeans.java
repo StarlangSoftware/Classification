@@ -25,6 +25,10 @@ public class KMeans extends Classifier {
         model = new KMeansModel(priorDistribution, classMeans, ((KMeansParameter) parameters).getDistanceMetric());
     }
 
+    /**
+     * Loads the K-means model from an input file.
+     * @param fileName File name of the K-means model.
+     */
     @Override
     public void loadModel(String fileName) {
         model = new KMeansModel(fileName);

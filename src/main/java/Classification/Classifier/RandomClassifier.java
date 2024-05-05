@@ -19,6 +19,10 @@ public class RandomClassifier extends Classifier {
         model = new RandomModel(new ArrayList<>(trainSet.classDistribution().keySet()), parameters.getSeed());
     }
 
+    /**
+     * Loads the random classifier model from an input file.
+     * @param fileName File name of the random classifier model.
+     */
     @Override
     public void loadModel(String fileName) {
         model = new RandomModel(fileName);

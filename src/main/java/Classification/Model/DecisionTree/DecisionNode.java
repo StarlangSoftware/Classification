@@ -156,6 +156,11 @@ public class DecisionNode implements Serializable {
         }
     }
 
+    /**
+     * Reads the decision node model (as one line) from model file.
+     * @param input Model file
+     * @throws IOException If the file can not be read, throws IOException.
+     */
     public DecisionNode(BufferedReader input) throws IOException {
         String line = input.readLine();
         String[] items = line.split(" ");
@@ -186,6 +191,10 @@ public class DecisionNode implements Serializable {
         }
     }
 
+    /**
+     * Saves the decision node in an output model file
+     * @param output Output model file.
+     */
     public void saveTxt(PrintWriter output){
         if (condition != null){
             if (condition.getValue() instanceof DiscreteIndexedAttribute){
@@ -281,6 +290,12 @@ public class DecisionNode implements Serializable {
         children.add(new DecisionNode(childrenData.get(1), new DecisionCondition(attributeIndex, '>', new ContinuousAttribute(splitValue)), parameter, isStump));
     }
 
+    /**
+     * Prints output line indented form.
+     * @param output Output file
+     * @param depth Depth of the decision node, corresponding to the number of tabs.
+     * @param line Line to be printed.
+     */
     private void printOutput(PrintWriter output, int depth, String line){
         for (int i = 0; i < depth; i++){
             output.print("\t");
@@ -346,6 +361,13 @@ public class DecisionNode implements Serializable {
         }
     }
 
+    /**
+     * Recursive method that returns the posterior probability distribution of a given instance. If the node is a leaf
+     * node, it returns the class label distribution, otherwise it checks in which direction (child node) this instance
+     * is forwarded.
+     * @param instance Instance for which the posterior probability distribution is calculated.
+     * @return Posterior probability distribution for this instance.
+     */
     public HashMap<String, Double> predictProbabilityDistribution(Instance instance) {
         if (leaf) {
             return classLabelsDistribution.getProbabilityDistribution();

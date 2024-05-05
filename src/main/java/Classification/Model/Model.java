@@ -42,6 +42,11 @@ public abstract class Model implements Serializable {
         }
     }
 
+    /**
+     * Saves an instance list to an output model file.
+     * @param output Output model file
+     * @param instanceList Instance list to be printed.
+     */
     protected void saveInstanceList(PrintWriter output, InstanceList instanceList){
         Instance instance = instanceList.get(0);
         for (int i = 0; i < instance.attributeSize(); i++){
@@ -60,6 +65,12 @@ public abstract class Model implements Serializable {
         }
     }
 
+    /**
+     * Loads an instance list from an input model file.
+     * @param input Input model file.
+     * @return Instance list read from an input model file.
+     * @throws IOException If the input model file can not be read, the method throws IOException.
+     */
     protected InstanceList loadInstanceList(BufferedReader input) throws IOException {
         String[] types = input.readLine().split(" ");
         int instanceCount = Integer.parseInt(input.readLine());
@@ -70,6 +81,13 @@ public abstract class Model implements Serializable {
         return instanceList;
     }
 
+    /**
+     * Loads a single instance from a single line.
+     * @param line Line containing the instance.
+     * @param attributeTypes Type of the attributes of the instance. If th attribute is discrete, it is "DISCRETE",
+     *                       otherwise it is "CONTINUOUS".
+     * @return Instance read from the line.
+     */
     protected Instance loadInstance(String line, String[] attributeTypes){
         String[] items = line.split(",");
         Instance instance = new Instance(items[items.length - 1]);
@@ -86,6 +104,12 @@ public abstract class Model implements Serializable {
         return instance;
     }
 
+    /**
+     * Loads a discrete distribution from an input model file
+     * @param input Input model file.
+     * @return Discrete distribution read from an input model file.
+     * @throws IOException If the input model file can not be read, the method throws IOException.
+     */
     public static DiscreteDistribution loadDiscreteDistribution(BufferedReader input) throws IOException {
         DiscreteDistribution distribution = new DiscreteDistribution();
         int size = Integer.parseInt(input.readLine());
@@ -100,6 +124,11 @@ public abstract class Model implements Serializable {
         return distribution;
     }
 
+    /**
+     * Saves a discrete distribuiton to an output model file.
+     * @param output Output model file.
+     * @param distribution Discrete distribution to be printed.
+     */
     public static void saveDiscreteDistribution(PrintWriter output, DiscreteDistribution distribution) {
         output.println(distribution.size());
         for (int i = 0; i < distribution.size(); i++){
@@ -107,6 +136,11 @@ public abstract class Model implements Serializable {
         }
     }
 
+    /**
+     * Saves a matrix to an output model file.
+     * @param output Output model file.
+     * @param matrix Matrix to be printed.
+     */
     protected void saveMatrix(PrintWriter output, Matrix matrix){
         output.println(matrix.getRow() + " " + matrix.getColumn());
         for (int i = 0; i < matrix.getRow(); i++){
@@ -118,6 +152,12 @@ public abstract class Model implements Serializable {
         }
     }
 
+    /**
+     * Loads a matrix from an input model file.
+     * @param input Input model file.
+     * @return Matrix read from the input model file.
+     * @throws IOException If the input model file can not be read, the method throws IOException.
+     */
     protected Matrix loadMatrix(BufferedReader input) throws IOException {
         String[] items = input.readLine().split(" ");
         Matrix matrix = new Matrix(Integer.parseInt(items[0]), Integer.parseInt(items[1]));

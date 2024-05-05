@@ -130,6 +130,10 @@ public class DeepNetworkModel extends NeuralNetworkModel implements Serializable
         weights.addAll(bestWeights);
     }
 
+    /**
+     * Loads a deep network model from an input model file.
+     * @param fileName Model file name.
+     */
     public DeepNetworkModel(String fileName){
         try {
             BufferedReader input = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(fileName)), StandardCharsets.UTF_8));
@@ -166,6 +170,10 @@ public class DeepNetworkModel extends NeuralNetworkModel implements Serializable
         }
     }
 
+    /**
+     * Saves the deep network model to an output file.
+     * @param fileName Output file name.
+     */
     @Override
     public void saveTxt(String fileName) {
         try {

@@ -62,6 +62,10 @@ public class NaiveBayes extends Classifier{
         }
     }
 
+    /**
+     * Loads the naive Bayes model from an input file.
+     * @param fileName File name of the naive Bayes model.
+     */
     @Override
     public void loadModel(String fileName) {
         model = new NaiveBayesModel(fileName);

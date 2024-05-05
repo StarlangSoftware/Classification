@@ -31,17 +31,28 @@ public class DataDefinition {
      * Constructor for creating a new {@link DataDefinition} with given attribute types.
      *
      * @param attributeTypes Attribute types of the data definition.
-     * @param attributeValueList Array of array of strings to represent all possible values of discrete features.
+     * @param attributeValueList Array of strings to represent all possible values of discrete features.
      */
     public DataDefinition(ArrayList<AttributeType> attributeTypes, String[][] attributeValueList) {
         this.attributeTypes = attributeTypes;
         this.attributeValueList = attributeValueList;
     }
 
+    /**
+     * Returns number of distinct values for a given discrete attribute with index attributeIndex.
+     * @param attributeIndex Index of the discrete attribute.
+     * @return Number of distinct values for a given discrete attribute
+     */
     public int numberOfValues(int attributeIndex){
         return attributeValueList[attributeIndex].length;
     }
 
+    /**
+     * Returns the index of the given value in the values list of the attributeIndex'th discrete attribute.
+     * @param attributeIndex Index of the discrete attribute.
+     * @param value Value of the discrete attribute
+     * @return Index of the given value in the values list of the discrete attribute.
+     */
     public int featureValueIndex(int attributeIndex, String value){
         for (int i = 0; i < attributeValueList[attributeIndex].length; i++){
             if (attributeValueList[attributeIndex][i].equals(value)){

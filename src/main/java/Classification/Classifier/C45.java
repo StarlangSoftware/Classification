@@ -30,6 +30,10 @@ public class C45 extends Classifier {
         model = tree;
     }
 
+    /**
+     * Loads the decision tree model from an input file.
+     * @param fileName File name of the decision tree model.
+     */
     @Override
     public void loadModel(String fileName) {
         model = new DecisionTree(fileName);

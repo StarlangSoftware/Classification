@@ -25,6 +25,10 @@ public class DummyModel extends Model implements Serializable {
         this.distribution = trainSet.classDistribution();
     }
 
+    /**
+     * Loads a dummy model from an input model file.
+     * @param fileName Model file name.
+     */
     public DummyModel(String fileName){
         try {
             BufferedReader input = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(fileName)), StandardCharsets.UTF_8));
@@ -50,11 +54,20 @@ public class DummyModel extends Model implements Serializable {
         }
     }
 
+    /**
+     * Calculates the posterior probability distribution for the given instance according to dummy model.
+     * @param instance Instance for which posterior probability distribution is calculated.
+     * @return Posterior probability distribution for the given instance.
+     */
     @Override
     public HashMap<String, Double> predictProbability(Instance instance) {
         return distribution.getProbabilityDistribution();
     }
 
+    /**
+     * Saves the dummy model to an output file.
+     * @param fileName Output file name.
+     */
     @Override
     public void saveTxt(String fileName) {
         try {

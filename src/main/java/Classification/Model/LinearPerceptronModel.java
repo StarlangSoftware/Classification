@@ -24,6 +24,10 @@ public class LinearPerceptronModel extends NeuralNetworkModel implements Seriali
         super(trainSet);
     }
 
+    /**
+     * Loads a linear perceptron model from an input model file.
+     * @param fileName Model file name.
+     */
     public LinearPerceptronModel(String fileName){
         try {
             BufferedReader input = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(fileName)), StandardCharsets.UTF_8));
@@ -35,6 +39,9 @@ public class LinearPerceptronModel extends NeuralNetworkModel implements Seriali
         }
     }
 
+    /**
+     * Default constructor
+     */
     public LinearPerceptronModel(){
     }
 
@@ -91,6 +98,10 @@ public class LinearPerceptronModel extends NeuralNetworkModel implements Seriali
         }
     }
 
+    /**
+     * Saves the linear perceptron model to an output file.
+     * @param fileName Output file name.
+     */
     @Override
     public void saveTxt(String fileName) {
         try {

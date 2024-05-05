@@ -31,6 +31,10 @@ public class RandomForest extends Classifier{
         model = new TreeEnsembleModel(forest);
     }
 
+    /**
+     * Loads the random forest model from an input file.
+     * @param fileName File name of the random forest model.
+     */
     @Override
     public void loadModel(String fileName) {
         model = new TreeEnsembleModel(fileName);

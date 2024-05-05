@@ -25,6 +25,10 @@ public class DecisionTree extends ValidatedModel implements Serializable {
         this.root = root;
     }
 
+    /**
+     * Loads a decision tree model from an input model file.
+     * @param fileName Model file name.
+     */
     public DecisionTree(String fileName){
         try {
             BufferedReader input = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(fileName)), StandardCharsets.UTF_8));
@@ -50,11 +54,20 @@ public class DecisionTree extends ValidatedModel implements Serializable {
         return predictedClass;
     }
 
+    /**
+     * Calculates the posterior probability distribution for the given instance according to Decision tree model.
+     * @param instance Instance for which posterior probability distribution is calculated.
+     * @return Posterior probability distribution for the given instance.
+     */
     @Override
     public HashMap<String, Double> predictProbability(Instance instance) {
         return root.predictProbabilityDistribution(instance);
     }
 
+    /**
+     * Saves the decision tree model to an output file.
+     * @param fileName Output file name.
+     */
     @Override
     public void saveTxt(String fileName) {
         try {
@@ -66,6 +79,10 @@ public class DecisionTree extends ValidatedModel implements Serializable {
         }
     }
 
+    /**
+     * Accessor for the root node of the decision tree.
+     * @return Root node of the tree.
+     */
     public DecisionNode getRoot(){
         return root;
     }

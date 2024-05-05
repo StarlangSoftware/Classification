@@ -25,6 +25,10 @@ public class TreeEnsembleModel extends Model implements Serializable {
         this.forest = forest;
     }
 
+    /**
+     * Loads a tree ensemble model such as Random Forest model or Bagging model from an input model file.
+     * @param fileName Model file name.
+     */
     public TreeEnsembleModel(String fileName){
         try {
             BufferedReader input = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(fileName)), StandardCharsets.UTF_8));
@@ -54,6 +58,11 @@ public class TreeEnsembleModel extends Model implements Serializable {
         return distribution.getMaxItem();
     }
 
+    /**
+     * Calculates the posterior probability distribution for the given instance according to ensemble tree model.
+     * @param instance Instance for which posterior probability distribution is calculated.
+     * @return Posterior probability distribution for the given instance.
+     */
     @Override
     public HashMap<String, Double> predictProbability(Instance instance) {
         DiscreteDistribution distribution = new DiscreteDistribution();
@@ -63,6 +72,10 @@ public class TreeEnsembleModel extends Model implements Serializable {
         return distribution.getProbabilityDistribution();
     }
 
+    /**
+     * Saves the ensemble tree model such as Random Forest or Bagging to an output file.
+     * @param fileName Output file name.
+     */
     @Override
     public void saveTxt(String fileName) {
         try {

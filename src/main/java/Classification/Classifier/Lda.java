@@ -58,6 +58,10 @@ public class Lda extends Classifier {
         model = new LdaModel(priorDistribution, w, w0);
     }
 
+    /**
+     * Loads the Lda model from an input file.
+     * @param fileName File name of the Lda model.
+     */
     @Override
     public void loadModel(String fileName) {
         model = new LdaModel(fileName);

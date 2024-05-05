@@ -17,6 +17,10 @@ public class Dummy extends Classifier {
         model = new DummyModel(trainSet);
     }
 
+    /**
+     * Loads the dummy model from an input file.
+     * @param fileName File name of the dummy model.
+     */
     @Override
     public void loadModel(String fileName) {
         model = new DummyModel(fileName);

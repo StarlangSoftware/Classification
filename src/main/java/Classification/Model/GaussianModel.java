@@ -24,6 +24,12 @@ public abstract class GaussianModel extends ValidatedModel implements Serializab
      */
     protected abstract double calculateMetric(Instance instance, String Ci);
 
+    /**
+     * Loads the prior probability distribution from an input model file.
+     * @param input Input model file.
+     * @return Prior probability distribution.
+     * @throws IOException If the input file can not be read, the method throws IOException.
+     */
     protected int loadPriorDistribution(BufferedReader input) throws IOException {
         int size = Integer.parseInt(input.readLine());
         priorDistribution = new DiscreteDistribution();
@@ -37,6 +43,13 @@ public abstract class GaussianModel extends ValidatedModel implements Serializab
         return size;
     }
 
+    /**
+     * Loads hash map of vectors from input model file.
+     * @param input Input model file.
+     * @param size Number of vectors to be read from input model file.
+     * @return Hash map of vectors.
+     * @throws IOException If the input file can not be read, the method throws IOException.
+     */
     protected HashMap<String, Vector> loadVectors(BufferedReader input, int size) throws IOException {
         HashMap<String, Vector> map = new HashMap<>();
         for (int i = 0; i < size; i++){
@@ -89,6 +102,10 @@ public abstract class GaussianModel extends ValidatedModel implements Serializab
         return predictedClass;
     }
 
+    /**
+     * Saves the prior probability distribution to an output model file.
+     * @param output Output model file.
+     */
     protected void savePriorDistribution(PrintWriter output){
         output.println(priorDistribution.size());
         for (int i = 0; i < priorDistribution.size(); i++){
@@ -96,6 +113,11 @@ public abstract class GaussianModel extends ValidatedModel implements Serializab
         }
     }
 
+    /**
+     * Saves hash map of vectors to an output model file.
+     * @param output Output model file.
+     * @param map Hash map of vectors.
+     */
     protected void saveVectors(PrintWriter output, HashMap<String, Vector> map){
         for (String c : map.keySet()){
             Vector vector = map.get(c);
@@ -107,6 +129,11 @@ public abstract class GaussianModel extends ValidatedModel implements Serializab
         }
     }
 
+    /**
+     * Calculates the posterior probability distribution for the given instance according to Gaussian model.
+     * @param instance Instance for which posterior probability distribution is calculated.
+     * @return Posterior probability distribution for the given instance.
+     */
     @Override
     public HashMap<String, Double> predictProbability(Instance instance) {
         return null;
