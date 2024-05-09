@@ -22,6 +22,17 @@ public class KFoldRunSeparateTest extends KFoldRun {
         super(K);
     }
 
+    /**
+     * Runs a K fold cross-validated experiment for the given classifier with the given parameters. Testing will be
+     * done on the separate test set. The experiment results will be added to the experimentPerformance.
+     * @param classifier Classifier for the experiment
+     * @param parameter Hyperparameters of the classifier of the experiment
+     * @param experimentPerformance Storage to add experiment results
+     * @param crossValidation K-fold crossvalidated dataset.
+     * @param testSet Test set on which experiment performance is calculated.
+     * @throws DiscreteFeaturesNotAllowed If the classifier does not allow discrete features and the dataset contains
+     * discrete features, DiscreteFeaturesNotAllowed will be thrown.
+     */
     protected void runExperiment(Classifier classifier, Parameter parameter, ExperimentPerformance experimentPerformance, CrossValidation<Instance> crossValidation, InstanceList testSet) throws DiscreteFeaturesNotAllowed {
         for (int i = 0; i < K; i++) {
             InstanceList trainSet = new InstanceList(crossValidation.getTrainFold(i));

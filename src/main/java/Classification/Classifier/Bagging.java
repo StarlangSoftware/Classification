@@ -34,6 +34,10 @@ public class Bagging extends Classifier {
         model = new TreeEnsembleModel(forest);
     }
 
+    /**
+     * Loads the Bagging ensemble model from an input file.
+     * @param fileName File name of the decision tree model.
+     */
     @Override
     public void loadModel(String fileName) {
         model = new TreeEnsembleModel(fileName);

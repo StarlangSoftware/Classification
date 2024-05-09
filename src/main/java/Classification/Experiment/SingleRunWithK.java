@@ -21,6 +21,16 @@ public class SingleRunWithK implements SingleRun {
         this.K = K;
     }
 
+    /**
+     * Runs first fold of a K fold cross-validated experiment for the given classifier with the given parameters.
+     * The experiment result will be returned.
+     * @param classifier Classifier for the experiment
+     * @param parameter Hyperparameters of the classifier of the experiment
+     * @param crossValidation K-fold crossvalidated dataset.
+     * @return The experiment result of the first fold of the K-fold cross-validated experiment.
+     * @throws DiscreteFeaturesNotAllowed If the classifier does not allow discrete features and the dataset contains
+     * discrete features, DiscreteFeaturesNotAllowed will be thrown.
+     */
     protected Performance runExperiment(Classifier classifier, Parameter parameter, CrossValidation<Instance> crossValidation) throws DiscreteFeaturesNotAllowed {
         InstanceList trainSet = new InstanceList(crossValidation.getTrainFold(0));
         InstanceList testSet = new InstanceList(crossValidation.getTestFold(0));
