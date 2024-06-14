@@ -41,7 +41,7 @@ public class DecisionTree extends ValidatedModel implements Serializable {
 
     /**
      * The predict method  performs prediction on the root node of given instance, and if it is null, it returns the possible class labels.
-     * Otherwise it returns the returned class labels.
+     * Otherwise, it returns the returned class labels.
      *
      * @param instance Instance make prediction.
      * @return Possible class labels.

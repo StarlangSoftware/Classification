@@ -125,7 +125,7 @@ public abstract class Model implements Serializable {
     }
 
     /**
-     * Saves a discrete distribuiton to an output model file.
+     * Saves a discrete distribution to an output model file.
      * @param output Output model file.
      * @param distribution Discrete distribution to be printed.
      */

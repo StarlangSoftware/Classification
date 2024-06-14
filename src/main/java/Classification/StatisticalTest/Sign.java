@@ -6,7 +6,7 @@ public class Sign extends PairedTest{
 
     /**
      * Calculates n!.
-     * @param n n is n!
+     * @param n n in n!
      * @return n!.
      */
     private int factorial(int n) {
