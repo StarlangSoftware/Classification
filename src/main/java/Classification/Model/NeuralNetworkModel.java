@@ -10,7 +10,6 @@ import java.util.Random;
 
 import Classification.Instance.CompositeInstance;
 import Classification.Instance.Instance;
-import Classification.InstanceList.InstanceList;
 import Classification.Parameter.ActivationFunction;
 import Math.*;
 
@@ -20,17 +19,6 @@ public abstract class NeuralNetworkModel extends ValidatedModel implements Seria
     protected Vector x, y, r;
 
     protected abstract void calculateOutput();
-
-    /**
-     * Constructor that sets the class labels, their sizes as K and the size of the continuous attributes as d.
-     *
-     * @param trainSet {@link InstanceList} to use as train set.
-     */
-    public NeuralNetworkModel(InstanceList trainSet) {
-        classLabels = trainSet.getDistinctClassLabels();
-        K = classLabels.size();
-        d = trainSet.get(0).continuousAttributeSize();
-    }
 
     /**
      * Default constructor
