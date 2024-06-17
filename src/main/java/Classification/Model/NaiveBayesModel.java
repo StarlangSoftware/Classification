@@ -3,6 +3,10 @@ package Classification.Model;
 import Classification.Attribute.ContinuousAttribute;
 import Classification.Attribute.DiscreteAttribute;
 import Classification.Instance.Instance;
+import Classification.InstanceList.InstanceList;
+import Classification.InstanceList.InstanceListOfSameClass;
+import Classification.InstanceList.Partition;
+import Classification.Parameter.Parameter;
 import Math.Vector;
 import Math.DiscreteDistribution;
 
@@ -19,34 +23,63 @@ public class NaiveBayesModel extends GaussianModel implements Serializable {
     private HashMap<String, ArrayList<DiscreteDistribution>> classAttributeDistributions = null;
 
     /**
-     * A constructor that sets the priorDistribution, classMeans and classDeviations.
+     * Training algorithm for Naive Bayes algorithm with a continuous data set.
      *
-     * @param priorDistribution {@link DiscreteDistribution} input.
-     * @param classMeans        A {@link HashMap} of String and {@link Vector}.
-     * @param classDeviations   A {@link HashMap} of String and {@link Vector}.
+     * @param priorDistribution Probability distribution of classes P(C_i)
+     * @param classLists        Instances are divided into K lists, where each list contains only instances from a single class
      */
-    public NaiveBayesModel(DiscreteDistribution priorDistribution, HashMap<String, Vector> classMeans, HashMap<String, Vector> classDeviations) {
+    private void trainContinuousVersion(DiscreteDistribution priorDistribution, Partition classLists){
+        String classLabel;
+        HashMap<String, Vector> classMeans = new HashMap<>();
+        HashMap<String, Vector> classDeviations = new HashMap<>();
+        for (int i = 0; i < classLists.size(); i++){
+            classLabel = ((InstanceListOfSameClass) classLists.get(i)).getClassLabel();
+            Vector averageVector = classLists.get(i).average().toVector();
+            classMeans.put(classLabel, averageVector);
+            Vector standardDeviationVector = classLists.get(i).standardDeviation().toVector();
+            classDeviations.put(classLabel, standardDeviationVector);
+        }
         this.priorDistribution = priorDistribution;
         this.classMeans = classMeans;
         this.classDeviations = classDeviations;
     }
 
     /**
-     * A constructor that sets the priorDistribution and classAttributeDistributions.
-     *
-     * @param priorDistribution           {@link DiscreteDistribution} input.
-     * @param classAttributeDistributions {@link HashMap} of String and {@link ArrayList} of {@link DiscreteDistribution}s.
+     * Training algorithm for Naive Bayes algorithm with a discrete data set.
+     * @param priorDistribution Probability distribution of classes P(C_i)
+     * @param classLists Instances are divided into K lists, where each list contains only instances from a single class
      */
-    public NaiveBayesModel(DiscreteDistribution priorDistribution, HashMap<String, ArrayList<DiscreteDistribution>> classAttributeDistributions) {
+    private void trainDiscreteVersion(DiscreteDistribution priorDistribution, Partition classLists){
+        HashMap<String, ArrayList<DiscreteDistribution>> classAttributeDistributions = new HashMap<>();
+        for (int i = 0; i < classLists.size(); i++){
+            classAttributeDistributions.put(((InstanceListOfSameClass) classLists.get(i)).getClassLabel(), classLists.get(i).allAttributesDistribution());
+        }
         this.priorDistribution = priorDistribution;
         this.classAttributeDistributions = classAttributeDistributions;
     }
 
     /**
-     * Loads a naive Bayes model from an input model file.
-     * @param fileName Model file name.
+     * Training algorithm for Naive Bayes algorithm. It basically calls trainContinuousVersion for continuous data sets,
+     * trainDiscreteVersion for discrete data sets.
+     * @param trainSet Training data given to the algorithm
+     * @param parameters -
      */
-    public NaiveBayesModel(String fileName){
+    public void train(InstanceList trainSet, Parameter parameters) {
+        DiscreteDistribution priorDistribution = trainSet.classDistribution();
+        Partition classLists = new Partition(trainSet);
+        if (classLists.get(0).get(0).getAttribute(0) instanceof DiscreteAttribute){
+            trainDiscreteVersion(priorDistribution, classLists);
+        } else {
+            trainContinuousVersion(priorDistribution, classLists);
+        }
+    }
+
+    /**
+     * Loads the naive Bayes model from an input file.
+     * @param fileName File name of the naive Bayes model.
+     */
+    @Override
+    public void loadModel(String fileName) {
         try {
             BufferedReader input = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(fileName)), StandardCharsets.UTF_8));
             int size = loadPriorDistribution(input);

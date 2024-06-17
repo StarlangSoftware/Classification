@@ -1,6 +1,6 @@
 package Classification.Experiment;
 
-import Classification.Classifier.DiscreteFeaturesNotAllowed;
+import Classification.Model.DiscreteFeaturesNotAllowed;
 import Classification.Performance.ExperimentPerformance;
 import Classification.Instance.Instance;
 import Sampling.KFoldCrossValidation;
@@ -29,7 +29,7 @@ public class MxKFoldRun extends KFoldRun {
         ExperimentPerformance result = new ExperimentPerformance();
         for (int j = 0; j < M; j++) {
             KFoldCrossValidation<Instance> crossValidation = new KFoldCrossValidation<>(experiment.getDataSet().getInstances(), K, experiment.getParameter().getSeed());
-            runExperiment(experiment.getClassifier(), experiment.getParameter(), result, crossValidation);
+            runExperiment(experiment.getModel(), experiment.getParameter(), result, crossValidation);
         }
         return result;
     }

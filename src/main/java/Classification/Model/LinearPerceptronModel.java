@@ -1,7 +1,9 @@
 package Classification.Model;
 
 import Classification.InstanceList.InstanceList;
+import Classification.InstanceList.Partition;
 import Classification.Parameter.LinearPerceptronParameter;
+import Classification.Parameter.Parameter;
 import Classification.Performance.ClassificationPerformance;
 import Math.*;
 
@@ -16,51 +18,29 @@ public class LinearPerceptronModel extends NeuralNetworkModel implements Seriali
     protected Matrix W;
 
     /**
-     * Constructor that sets the {@link NeuralNetworkModel} nodes with given {@link InstanceList}.
+     * Training algorithm for the linear perceptron algorithm. 20 percent of the data is separated as cross-validation
+     * data used for selecting the best weights. 80 percent of the data is used for training the linear perceptron with
+     * gradient descent.
      *
-     * @param trainSet InstanceList that is used to train.
+     * @param train   Training data given to the algorithm
+     * @param params Parameters of the linear perceptron.
      */
-    public LinearPerceptronModel(InstanceList trainSet) {
-        super(trainSet);
-    }
-
-    /**
-     * Loads a linear perceptron model from an input model file.
-     * @param fileName Model file name.
-     */
-    public LinearPerceptronModel(String fileName){
-        try {
-            BufferedReader input = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(fileName)), StandardCharsets.UTF_8));
-            loadClassLabels(input);
-            W = loadMatrix(input);
-            input.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * Default constructor
-     */
-    public LinearPerceptronModel(){
-    }
-
-    /**
-     * Constructor that takes {@link InstanceList}s as trainsSet and validationSet. Initially it allocates layer weights,
-     * then creates an input vector by using given trainSet and finds error. Via the validationSet it finds the classification
-     * performance and at the end it reassigns the allocated weight Matrix with the matrix that has the best accuracy.
-     *
-     * @param trainSet      InstanceList that is used to train.
-     * @param validationSet InstanceList that is used to validate.
-     * @param parameters    Linear perceptron parameters; learningRate, etaDecrease, crossValidationRatio, epoch.
-     */
-    public LinearPerceptronModel(InstanceList trainSet, InstanceList validationSet, LinearPerceptronParameter parameters) {
-        this(trainSet);
+    public void train(InstanceList train, Parameter params) throws DiscreteFeaturesNotAllowed {
         Vector rMinusY;
         int epoch;
         double learningRate;
         Matrix deltaW, bestW;
         ClassificationPerformance currentClassificationPerformance, bestClassificationPerformance;
+        if (!discreteCheck(train.get(0))) {
+            throw new DiscreteFeaturesNotAllowed();
+        }
+        classLabels = train.getDistinctClassLabels();
+        K = classLabels.size();
+        d = train.get(0).continuousAttributeSize();
+        LinearPerceptronParameter parameters = (LinearPerceptronParameter) params;
+        Partition partition = new Partition(train, parameters.getCrossValidationRatio(), new Random(parameters.getSeed()), true);
+        InstanceList trainSet = partition.get(1);
+        InstanceList validationSet = partition.get(0);
         W = allocateLayerWeights(K, d + 1, new Random(parameters.getSeed()));
         bestW = W.clone();
         bestClassificationPerformance = new ClassificationPerformance(0.0);
@@ -86,6 +66,22 @@ public class LinearPerceptronModel extends NeuralNetworkModel implements Seriali
             learningRate *= parameters.getEtaDecrease();
         }
         W = bestW;
+    }
+
+    /**
+     * Loads the linear perceptron model from an input file.
+     * @param fileName File name of the linear perceptron model.
+     */
+    @Override
+    public void loadModel(String fileName) {
+        try {
+            BufferedReader input = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(fileName)), StandardCharsets.UTF_8));
+            loadClassLabels(input);
+            W = loadMatrix(input);
+            input.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**

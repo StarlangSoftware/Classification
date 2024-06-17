@@ -1,8 +1,10 @@
 package Classification.Model;
 
 import Classification.InstanceList.InstanceList;
+import Classification.InstanceList.Partition;
 import Classification.Parameter.ActivationFunction;
 import Classification.Parameter.MultiLayerPerceptronParameter;
+import Classification.Parameter.Parameter;
 import Classification.Performance.ClassificationPerformance;
 import Math.*;
 
@@ -14,8 +16,7 @@ import java.util.Random;
 
 public class MultiLayerPerceptronModel extends LinearPerceptronModel implements Serializable {
     private Matrix V;
-    private final ActivationFunction activationFunction;
-
+    private ActivationFunction activationFunction;
 
     /**
      * The allocateWeights method allocates layers' weights of Matrix W and V.
@@ -29,22 +30,28 @@ public class MultiLayerPerceptronModel extends LinearPerceptronModel implements 
     }
 
     /**
-     * A constructor that takes {@link InstanceList}s as trainsSet and validationSet. It  sets the {@link NeuralNetworkModel}
-     * nodes with given {@link InstanceList} then creates an input vector by using given trainSet and finds error.
-     * Via the validationSet it finds the classification performance and reassigns the allocated weight Matrix with the matrix
-     * that has the best accuracy and the Matrix V with the best Vector input.
+     * Training algorithm for the multilayer perceptron algorithm. 20 percent of the data is separated as cross-validation
+     * data used for selecting the best weights. 80 percent of the data is used for training the multilayer perceptron with
+     * gradient descent.
      *
-     * @param trainSet      InstanceList that is used to train.
-     * @param validationSet InstanceList that is used to validate.
-     * @param parameters    Multi layer perceptron parameters; seed, learningRate, etaDecrease, crossValidationRatio, epoch, hiddenNodes.
+     * @param train   Training data given to the algorithm
+     * @param params Parameters of the multilayer perceptron.
      */
-    public MultiLayerPerceptronModel(InstanceList trainSet, InstanceList validationSet, MultiLayerPerceptronParameter parameters) {
-        super(trainSet);
+    public void train(InstanceList train, Parameter params) throws DiscreteFeaturesNotAllowed {
         Vector rMinusY, hidden, hiddenBiased, tmph, tmpHidden, activationDerivative;
         int epoch;
         double learningRate;
         Matrix deltaW, deltaV, bestW, bestV;
-        ClassificationPerformance currentClassificationPerformance, bestClassificationPerformance;
+        ClassificationPerformance currentClassificationPerformance, bestClassificationPerformance;        if (!discreteCheck(train.get(0))) {
+            throw new DiscreteFeaturesNotAllowed();
+        }
+        MultiLayerPerceptronParameter parameters = (MultiLayerPerceptronParameter) params;
+        classLabels = train.getDistinctClassLabels();
+        K = classLabels.size();
+        d = train.get(0).continuousAttributeSize();
+        Partition partition = new Partition(train, parameters.getCrossValidationRatio(), new Random(parameters.getSeed()), true);
+        InstanceList trainSet = partition.get(1);
+        InstanceList validationSet = partition.get(0);
         activationFunction = parameters.getActivationFunction();
         allocateWeights(parameters.getHiddenNodes(), new Random(parameters.getSeed()));
         bestW = W.clone();
@@ -86,10 +93,11 @@ public class MultiLayerPerceptronModel extends LinearPerceptronModel implements 
     }
 
     /**
-     * Loads a multi-layer perceptron model from an input model file.
-     * @param fileName Model file name.
+     * Loads the multi-layer perceptron model from an input file.
+     * @param fileName File name of the multi-layer perceptron model.
      */
-    public MultiLayerPerceptronModel(String fileName){
+    @Override
+    public void loadModel(String fileName) {
         try {
             BufferedReader input = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(fileName)), StandardCharsets.UTF_8));
             loadClassLabels(input);

@@ -3,7 +3,10 @@ package Classification.Model.DecisionTree;
 import Classification.Instance.CompositeInstance;
 import Classification.Instance.Instance;
 import Classification.InstanceList.InstanceList;
+import Classification.InstanceList.Partition;
 import Classification.Model.ValidatedModel;
+import Classification.Parameter.C45Parameter;
+import Classification.Parameter.Parameter;
 import Classification.Performance.ClassificationPerformance;
 
 import java.io.*;
@@ -11,10 +14,47 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.Random;
 
 public class DecisionTree extends ValidatedModel implements Serializable {
 
-    private final DecisionNode root;
+    protected DecisionNode root;
+
+    /**
+     * Training algorithm for C4.5 univariate decision tree classifier. 20 percent of the data are left aside for pruning
+     * 80 percent of the data is used for constructing the tree.
+     *
+     * @param trainSet   Training data given to the algorithm.
+     * @param parameters -
+     */
+    public void train(InstanceList trainSet, Parameter parameters) {
+        if (((C45Parameter) parameters).isPrune()) {
+            Partition partition = new Partition(trainSet, ((C45Parameter) parameters).getCrossValidationRatio(), new Random(parameters.getSeed()), true);
+            root = new DecisionNode(partition.get(1), null, null, false);
+            prune(partition.get(0));
+        } else {
+            root = new DecisionNode(trainSet, null, null, false);
+        }
+    }
+
+    /**
+     * Loads the decision tree model from an input file.
+     * @param fileName File name of the decision tree model.
+     */
+    @Override
+    public void loadModel(String fileName) {
+        try {
+            BufferedReader input = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(fileName)), StandardCharsets.UTF_8));
+            root = new DecisionNode(input);
+            input.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public DecisionTree(){
+
+    }
 
     /**
      * Constructor that sets root node of the decision tree.
@@ -23,20 +63,6 @@ public class DecisionTree extends ValidatedModel implements Serializable {
      */
     public DecisionTree(DecisionNode root) {
         this.root = root;
-    }
-
-    /**
-     * Loads a decision tree model from an input model file.
-     * @param fileName Model file name.
-     */
-    public DecisionTree(String fileName){
-        try {
-            BufferedReader input = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(fileName)), StandardCharsets.UTF_8));
-            root = new DecisionNode(input);
-            input.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     /**

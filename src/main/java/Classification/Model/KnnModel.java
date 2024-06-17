@@ -5,6 +5,8 @@ import Classification.DistanceMetric.EuclidianDistance;
 import Classification.Instance.CompositeInstance;
 import Classification.Instance.Instance;
 import Classification.InstanceList.InstanceList;
+import Classification.Parameter.KnnParameter;
+import Classification.Parameter.Parameter;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -16,28 +18,29 @@ import java.util.HashMap;
 
 public class KnnModel extends Model implements Serializable {
 
-    private final InstanceList data;
-    private final int k;
-    private final DistanceMetric distanceMetric;
+    private InstanceList data;
+    private int k;
+    private DistanceMetric distanceMetric;
 
     /**
-     * Constructor that sets the data {@link InstanceList}, k value and the {@link DistanceMetric}.
+     * Training algorithm for K-nearest neighbor classifier.
      *
-     * @param data           {@link InstanceList} input.
-     * @param k              K value.
-     * @param distanceMetric {@link DistanceMetric} input.
+     * @param trainSet   Training data given to the algorithm.
+     * @param parameters K: k parameter of the K-nearest neighbor algorithm
+     *                   distanceMetric: distance metric used to calculate the distance between two instances.
      */
-    public KnnModel(InstanceList data, int k, DistanceMetric distanceMetric) {
-        this.data = data;
-        this.k = k;
-        this.distanceMetric = distanceMetric;
+    public void train(InstanceList trainSet, Parameter parameters) {
+        this.data = trainSet;
+        this.k = ((KnnParameter) parameters).getK();
+        this.distanceMetric = ((KnnParameter) parameters).getDistanceMetric();
     }
 
     /**
-     * Loads a K-nearest neighbor model from an input model file.
-     * @param fileName Model file name.
+     * Loads the K-nearest neighbor model from an input file.
+     * @param fileName File name of the K-nearest neighbor model.
      */
-    public KnnModel(String fileName){
+    @Override
+    public void loadModel(String fileName) {
         this.distanceMetric = new EuclidianDistance();
         try {
             BufferedReader input = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(fileName)), StandardCharsets.UTF_8));

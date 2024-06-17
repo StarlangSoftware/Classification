@@ -1,5 +1,6 @@
 package Classification.Classifier;
 
+import Classification.Model.NaiveBayesModel;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -8,17 +9,17 @@ public class NaiveBayesTest extends ClassifierTest{
 
     @Test
     public void testTrain() {
-        NaiveBayes naiveBayes = new NaiveBayes();
+        NaiveBayesModel naiveBayes = new NaiveBayesModel();
         naiveBayes.train(iris.getInstanceList(), null);
-        naiveBayes.getModel().saveTxt("models/naiveBayes-iris.txt");
+        naiveBayes.saveTxt("models/naiveBayes-iris.txt");
         naiveBayes.loadModel("models/naiveBayes-iris.txt");
         assertEquals(5.33, 100 * naiveBayes.test(iris.getInstanceList()).getErrorRate(), 0.01);
         naiveBayes.train(bupa.getInstanceList(), null);
-        naiveBayes.getModel().saveTxt("models/naiveBayes-bupa.txt");
+        naiveBayes.saveTxt("models/naiveBayes-bupa.txt");
         naiveBayes.loadModel("models/naiveBayes-bupa.txt");
         assertEquals(38.55, 100 * naiveBayes.test(bupa.getInstanceList()).getErrorRate(), 0.01);
         naiveBayes.train(dermatology.getInstanceList(), null);
-        naiveBayes.getModel().saveTxt("models/naiveBayes-dermatology.txt");
+        naiveBayes.saveTxt("models/naiveBayes-dermatology.txt");
         naiveBayes.loadModel("models/naiveBayes-dermatology.txt");
         assertEquals(9.56, 100 * naiveBayes.test(dermatology.getInstanceList()).getErrorRate(), 0.01);
         naiveBayes.train(car.getInstanceList(), null);

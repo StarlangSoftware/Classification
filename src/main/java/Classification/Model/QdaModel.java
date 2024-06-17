@@ -1,6 +1,10 @@
 package Classification.Model;
 
 import Classification.Instance.Instance;
+import Classification.InstanceList.InstanceList;
+import Classification.InstanceList.InstanceListOfSameClass;
+import Classification.InstanceList.Partition;
+import Classification.Parameter.Parameter;
 import Math.*;
 
 import java.io.*;
@@ -10,26 +14,60 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 
 public class QdaModel extends LdaModel implements Serializable {
-    private final HashMap<String, Matrix> W;
+
+    private HashMap<String, Matrix> W;
 
     /**
-     * The constructor which sets the priorDistribution, w w1 and HashMap of String Matrix.
+     * Training algorithm for the quadratic discriminant analysis classifier (Introduction to Machine Learning, Alpaydin, 2015).
      *
-     * @param priorDistribution {@link DiscreteDistribution} input.
-     * @param W                 {@link HashMap} of String and Matrix.
-     * @param w                 {@link HashMap} of String and Vectors.
-     * @param w0                {@link HashMap} of String and Double.
+     * @param trainSet   Training data given to the algorithm.
+     * @param parameters -
      */
-    public QdaModel(DiscreteDistribution priorDistribution, HashMap<String, Matrix> W, HashMap<String, Vector> w, HashMap<String, Double> w0) {
-        super(priorDistribution, w, w0);
+    public void train(InstanceList trainSet, Parameter parameters) throws DiscreteFeaturesNotAllowed {
+        if (!discreteCheck(trainSet.get(0))) {
+            throw new DiscreteFeaturesNotAllowed();
+        }
+        String Ci;
+        double determinant = 0, w0i;
+        Matrix classCovariance, Wi;
+        Vector averageVector, wi;
+        HashMap<String, Double> w0 = new HashMap<>();
+        HashMap<String, Vector> w = new HashMap<>();
+        HashMap<String, Matrix> W = new HashMap<>();
+        Partition classLists = new Partition(trainSet);
+        DiscreteDistribution priorDistribution = trainSet.classDistribution();
+        for (int i = 0; i < classLists.size(); i++) {
+            Ci = ((InstanceListOfSameClass) classLists.get(i)).getClassLabel();
+            averageVector = new Vector(classLists.get(i).continuousAttributeAverage());
+            classCovariance = classLists.get(i).covariance(averageVector);
+            try {
+                determinant = classCovariance.determinant();
+                classCovariance.inverse();
+            } catch (DeterminantZero | MatrixNotSquare ignored) {
+            }
+            Wi = classCovariance.clone();
+            Wi.multiplyWithConstant(-0.5);
+            W.put(Ci, Wi);
+            try {
+                wi = classCovariance.multiplyWithVectorFromLeft(averageVector);
+                w.put(Ci, wi);
+                w0i = -0.5 * (wi.dotProduct(averageVector) + Math.log(determinant)) + Math.log(priorDistribution.getProbability(Ci));
+                w0.put(Ci, w0i);
+            } catch (MatrixRowMismatch | VectorSizeMismatch ignored) {
+            }
+        }
+        this.priorDistribution = priorDistribution;
+        this.w = w;
+        this.w0 = w0;
         this.W = W;
     }
 
     /**
-     * Loads a quadratic discriminant analysis model from an input model file.
-     * @param fileName Model file name.
+     * Loads the Qda model from an input file.
+     * @param fileName File name of the Qda model.
      */
-    public QdaModel(String fileName){
+    @Override
+    public void loadModel(String fileName) {
         try {
             BufferedReader input = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(fileName)), StandardCharsets.UTF_8));
             int size = loadPriorDistribution(input);

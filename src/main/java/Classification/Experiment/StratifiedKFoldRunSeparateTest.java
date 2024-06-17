@@ -1,6 +1,6 @@
 package Classification.Experiment;
 
-import Classification.Classifier.DiscreteFeaturesNotAllowed;
+import Classification.Model.DiscreteFeaturesNotAllowed;
 import Classification.Performance.ExperimentPerformance;
 import Classification.Instance.Instance;
 import Classification.InstanceList.InstanceList;
@@ -31,7 +31,7 @@ public class StratifiedKFoldRunSeparateTest extends KFoldRunSeparateTest{
         InstanceList instanceList = experiment.getDataSet().getInstanceList();
         Partition partition = new Partition(instanceList, 0.25, new Random(experiment.getParameter().getSeed()), true);
         StratifiedKFoldCrossValidation<Instance> crossValidation = new StratifiedKFoldCrossValidation<>(new Partition(partition.get(1)).getLists(), K, experiment.getParameter().getSeed());
-        runExperiment(experiment.getClassifier(), experiment.getParameter(), result, crossValidation, partition.get(0));
+        runExperiment(experiment.getModel(), experiment.getParameter(), result, crossValidation, partition.get(0));
         return result;
     }
 

@@ -1,21 +1,21 @@
 package Classification.Filter;
 
 import Classification.Classifier.ClassifierTest;
-import Classification.Classifier.DiscreteFeaturesNotAllowed;
-import Classification.Classifier.Knn;
-import Classification.Classifier.LinearPerceptron;
+import Classification.Model.DiscreteFeaturesNotAllowed;
 import Classification.DistanceMetric.EuclidianDistance;
+import Classification.Model.KnnModel;
+import Classification.Model.LinearPerceptronModel;
 import Classification.Parameter.KnnParameter;
 import Classification.Parameter.LinearPerceptronParameter;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class PcaTest extends ClassifierTest {
 
     @Test
     public void testLinearPerceptron() throws DiscreteFeaturesNotAllowed {
-        LinearPerceptron linearPerceptron = new LinearPerceptron();
+        LinearPerceptronModel linearPerceptron = new LinearPerceptronModel();
         LinearPerceptronParameter linearPerceptronParameter = new LinearPerceptronParameter(1, 0.1, 0.99, 0.2, 100);
         Pca pca = new Pca(iris);
         pca.convert();
@@ -34,7 +34,7 @@ public class PcaTest extends ClassifierTest {
 
     @Test
     public void testKnn() {
-        Knn knn = new Knn();
+        KnnModel knn = new KnnModel();
         KnnParameter knnParameter = new KnnParameter(1, 3, new EuclidianDistance());
         Pca pca = new Pca(iris);
         pca.convert();

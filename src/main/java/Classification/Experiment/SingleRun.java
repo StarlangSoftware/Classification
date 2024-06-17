@@ -1,6 +1,6 @@
 package Classification.Experiment;
 
-import Classification.Classifier.DiscreteFeaturesNotAllowed;
+import Classification.Model.DiscreteFeaturesNotAllowed;
 import Classification.Performance.Performance;
 
 public interface SingleRun {

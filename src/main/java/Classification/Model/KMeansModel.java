@@ -4,6 +4,9 @@ import Classification.DistanceMetric.DistanceMetric;
 import Classification.DistanceMetric.EuclidianDistance;
 import Classification.Instance.Instance;
 import Classification.InstanceList.InstanceList;
+import Classification.InstanceList.Partition;
+import Classification.Parameter.KMeansParameter;
+import Classification.Parameter.Parameter;
 import Math.DiscreteDistribution;
 
 import java.io.*;
@@ -12,27 +15,33 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class KMeansModel extends GaussianModel implements Serializable {
-    private final InstanceList classMeans;
-    private final DistanceMetric distanceMetric;
+    private InstanceList classMeans;
+    private DistanceMetric distanceMetric;
 
     /**
-     * The constructor that sets the classMeans, priorDistribution and distanceMetric according to given inputs.
+     * Training algorithm for K-Means classifier. K-Means finds the mean of each class for training.
      *
-     * @param priorDistribution {@link DiscreteDistribution} input.
-     * @param classMeans        {@link InstanceList} of class means.
-     * @param distanceMetric    {@link DistanceMetric} input.
+     * @param trainSet   Training data given to the algorithm.
+     * @param parameters distance metric used to calculate the distance between two instances.
      */
-    public KMeansModel(DiscreteDistribution priorDistribution, InstanceList classMeans, DistanceMetric distanceMetric) {
+    public void train(InstanceList trainSet, Parameter parameters) {
+        DiscreteDistribution priorDistribution = trainSet.classDistribution();
+        InstanceList classMeans = new InstanceList();
+        Partition classLists = new Partition(trainSet);
+        for (int i = 0; i < classLists.size(); i++) {
+            classMeans.add(classLists.get(i).average());
+        }
         this.classMeans = classMeans;
         this.priorDistribution = priorDistribution;
-        this.distanceMetric = distanceMetric;
+        this.distanceMetric = ((KMeansParameter) parameters).getDistanceMetric();
     }
 
     /**
-     * Loads a K-means model from an input model file.
-     * @param fileName Model file name.
+     * Loads the K-means model from an input file.
+     * @param fileName File name of the K-means model.
      */
-    public KMeansModel(String fileName){
+    @Override
+    public void loadModel(String fileName) {
         this.distanceMetric = new EuclidianDistance();
         try {
             BufferedReader input = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(fileName)), StandardCharsets.UTF_8));

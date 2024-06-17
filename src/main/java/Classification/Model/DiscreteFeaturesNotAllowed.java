@@ -1,4 +1,4 @@
-package Classification.Classifier;
+package Classification.Model;
 
 public class DiscreteFeaturesNotAllowed extends Exception {
 

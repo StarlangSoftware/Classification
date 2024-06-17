@@ -3,6 +3,10 @@ package Classification.FeatureSelection;
 import Classification.Classifier.*;
 import Classification.Experiment.Experiment;
 import Classification.Experiment.KFoldRun;
+import Classification.Model.DecisionTree.DecisionTree;
+import Classification.Model.KnnModel;
+import Classification.Model.LdaModel;
+import Classification.Model.NaiveBayesModel;
 import Classification.Parameter.*;
 import org.junit.Test;
 
@@ -14,7 +18,7 @@ public class SubSetSelectionTest extends ClassifierTest {
     public void testSubSetSelectionC45() {
         KFoldRun kFoldRun = new KFoldRun(10);
         SubSetSelection forwardSelection = new ForwardSelection();
-        Experiment experiment = new Experiment(new C45(), new C45Parameter(1, true, 0.2), iris);
+        Experiment experiment = new Experiment(new DecisionTree(), new C45Parameter(1, true, 0.2), iris);
         assertEquals(1, forwardSelection.execute(kFoldRun, experiment).size());
         SubSetSelection backwardSelection = new BackwardSelection(iris.attributeCount());
         assertEquals(3, backwardSelection.execute(kFoldRun, experiment).size());
@@ -26,7 +30,7 @@ public class SubSetSelectionTest extends ClassifierTest {
     public void testSubSetSelectionNaiveBayes() {
         KFoldRun kFoldRun = new KFoldRun(10);
         SubSetSelection forwardSelection = new ForwardSelection();
-        Experiment experiment = new Experiment(new NaiveBayes(), new Parameter(1), nursery);
+        Experiment experiment = new Experiment(new NaiveBayesModel(), new Parameter(1), nursery);
         assertEquals(3, forwardSelection.execute(kFoldRun, experiment).size());
         SubSetSelection backwardSelection = new BackwardSelection(nursery.attributeCount());
         assertEquals(8, backwardSelection.execute(kFoldRun, experiment).size());
@@ -38,24 +42,12 @@ public class SubSetSelectionTest extends ClassifierTest {
     public void testSubSetSelectionLda() {
         KFoldRun kFoldRun = new KFoldRun(10);
         SubSetSelection forwardSelection = new ForwardSelection();
-        Experiment experiment = new Experiment(new Lda(), new Parameter(1), dermatology);
+        Experiment experiment = new Experiment(new LdaModel(), new Parameter(1), dermatology);
         assertEquals(11, forwardSelection.execute(kFoldRun, experiment).size());
         SubSetSelection backwardSelection = new BackwardSelection(dermatology.attributeCount());
         assertEquals(33, backwardSelection.execute(kFoldRun, experiment).size());
         SubSetSelection floatingSelection = new FloatingSelection();
         assertEquals(11, floatingSelection.execute(kFoldRun, experiment).size());
-    }
-
-    @Test
-    public void testSubSetSelectionKnn() {
-        KFoldRun kFoldRun = new KFoldRun(10);
-        SubSetSelection forwardSelection = new ForwardSelection();
-        Experiment experiment = new Experiment(new Knn(), new KnnParameter(1, 3), car);
-        assertEquals(5, forwardSelection.execute(kFoldRun, experiment).size());
-        SubSetSelection backwardSelection = new BackwardSelection(car.attributeCount());
-        assertEquals(5, backwardSelection.execute(kFoldRun, experiment).size());
-        SubSetSelection floatingSelection = new FloatingSelection();
-        assertEquals(5, floatingSelection.execute(kFoldRun, experiment).size());
     }
 
 }

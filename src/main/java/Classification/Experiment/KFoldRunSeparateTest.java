@@ -1,7 +1,7 @@
 package Classification.Experiment;
 
-import Classification.Classifier.Classifier;
-import Classification.Classifier.DiscreteFeaturesNotAllowed;
+import Classification.Model.DiscreteFeaturesNotAllowed;
+import Classification.Model.Model;
 import Classification.Performance.ExperimentPerformance;
 import Classification.Instance.Instance;
 import Classification.InstanceList.InstanceList;
@@ -25,7 +25,7 @@ public class KFoldRunSeparateTest extends KFoldRun {
     /**
      * Runs a K fold cross-validated experiment for the given classifier with the given parameters. Testing will be
      * done on the separate test set. The experiment results will be added to the experimentPerformance.
-     * @param classifier Classifier for the experiment
+     * @param model Model for the experiment
      * @param parameter Hyperparameters of the classifier of the experiment
      * @param experimentPerformance Storage to add experiment results
      * @param crossValidation K-fold crossvalidated dataset.
@@ -33,11 +33,11 @@ public class KFoldRunSeparateTest extends KFoldRun {
      * @throws DiscreteFeaturesNotAllowed If the classifier does not allow discrete features and the dataset contains
      * discrete features, DiscreteFeaturesNotAllowed will be thrown.
      */
-    protected void runExperiment(Classifier classifier, Parameter parameter, ExperimentPerformance experimentPerformance, CrossValidation<Instance> crossValidation, InstanceList testSet) throws DiscreteFeaturesNotAllowed {
+    protected void runExperiment(Model model, Parameter parameter, ExperimentPerformance experimentPerformance, CrossValidation<Instance> crossValidation, InstanceList testSet) throws DiscreteFeaturesNotAllowed {
         for (int i = 0; i < K; i++) {
             InstanceList trainSet = new InstanceList(crossValidation.getTrainFold(i));
-            classifier.train(trainSet, parameter);
-            experimentPerformance.add(classifier.test(testSet));
+            model.train(trainSet, parameter);
+            experimentPerformance.add(model.test(testSet));
         }
     }
 
@@ -52,7 +52,7 @@ public class KFoldRunSeparateTest extends KFoldRun {
         InstanceList instanceList = experiment.getDataSet().getInstanceList();
         Partition partition = new Partition(instanceList, 0.25, new Random(experiment.getParameter().getSeed()), true);
         KFoldCrossValidation<Instance> crossValidation = new KFoldCrossValidation<>(partition.get(1).getInstances(), K, experiment.getParameter().getSeed());
-        runExperiment(experiment.getClassifier(), experiment.getParameter(), result, crossValidation, partition.get(0));
+        runExperiment(experiment.getModel(), experiment.getParameter(), result, crossValidation, partition.get(0));
         return result;
     }
 

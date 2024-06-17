@@ -1,6 +1,6 @@
 package Classification.Experiment;
 
-import Classification.Classifier.DiscreteFeaturesNotAllowed;
+import Classification.Model.DiscreteFeaturesNotAllowed;
 import Classification.Performance.ExperimentPerformance;
 import Classification.Instance.Instance;
 import Sampling.StratifiedKFoldCrossValidation;
@@ -24,7 +24,7 @@ public class StratifiedKFoldRun extends KFoldRun{
     public ExperimentPerformance execute(Experiment experiment) throws DiscreteFeaturesNotAllowed {
         ExperimentPerformance result = new ExperimentPerformance();
         StratifiedKFoldCrossValidation<Instance> crossValidation = new StratifiedKFoldCrossValidation<>(experiment.getDataSet().getClassInstances(), K, experiment.getParameter().getSeed());
-        runExperiment(experiment.getClassifier(), experiment.getParameter(), result, crossValidation);
+        runExperiment(experiment.getModel(), experiment.getParameter(), result, crossValidation);
         return result;
     }
 }

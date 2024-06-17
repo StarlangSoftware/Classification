@@ -2,8 +2,13 @@ package Classification.Model;
 
 import Classification.Attribute.ContinuousAttribute;
 import Classification.Attribute.DiscreteAttribute;
+import Classification.Attribute.DiscreteIndexedAttribute;
 import Classification.Instance.Instance;
 import Classification.InstanceList.InstanceList;
+import Classification.Parameter.Parameter;
+import Classification.Performance.ConfusionMatrix;
+import Classification.Performance.DetailedClassificationPerformance;
+import Classification.Performance.Performance;
 import DataStructure.CounterHashMap;
 import Math.Matrix;
 import Math.DiscreteDistribution;
@@ -25,6 +30,55 @@ public abstract class Model implements Serializable {
     public abstract HashMap<String, Double> predictProbability(Instance instance);
 
     public abstract void saveTxt(String fileName);
+
+    public abstract void train(InstanceList trainSet, Parameter parameters) throws DiscreteFeaturesNotAllowed;
+
+    public abstract void loadModel(String fileName);
+
+    /**
+     * Checks given instance's attribute and returns true if it is a discrete indexed attribute, false otherwise.
+     *
+     * @param instance Instance to check.
+     * @return True if instance is a discrete indexed attribute, false otherwise.
+     */
+    public boolean discreteCheck(Instance instance) {
+        for (int i = 0; i < instance.attributeSize(); i++) {
+            if (instance.getAttribute(i) instanceof DiscreteAttribute && !(instance.getAttribute(i) instanceof DiscreteIndexedAttribute)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Runs current classifier with the given train and test data.
+     *
+     * @param parameter Parameter of the classifier to be trained.
+     * @param trainSet  Training data to be used in training the classifier.
+     * @param testSet   Test data to be tested after training the model.
+     * @return The accuracy (and error) of the trained model as an instance of Performance class.
+     * @throws DiscreteFeaturesNotAllowed Exception for discrete features.
+     */
+    public Performance singleRun(Parameter parameter, InstanceList trainSet, InstanceList testSet) throws DiscreteFeaturesNotAllowed {
+        train(trainSet, parameter);
+        return test(testSet);
+    }
+
+    /**
+     * TestClassification an instance list with the current model.
+     *
+     * @param testSet Test data (list of instances) to be tested.
+     * @return The accuracy (and error) of the model as an instance of Performance class.
+     */
+    public Performance test(InstanceList testSet) {
+        ArrayList<String> classLabels = testSet.getUnionOfPossibleClassLabels();
+        ConfusionMatrix confusion = new ConfusionMatrix(classLabels);
+        for (int i = 0; i < testSet.size(); i++) {
+            Instance instance = testSet.get(i);
+            confusion.classify(instance.getClassLabel(), predict(instance));
+        }
+        return new DetailedClassificationPerformance(confusion);
+    }
 
     /**
      * The save method takes a file name as an input and writes model to that file.

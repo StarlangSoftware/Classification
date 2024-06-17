@@ -1,8 +1,10 @@
 package Classification.Model.Svm;
 
+import Classification.Model.DiscreteFeaturesNotAllowed;
 import Classification.Instance.Instance;
 import Classification.InstanceList.InstanceList;
 import Classification.Model.ValidatedModel;
+import Classification.Parameter.Parameter;
 import Classification.Parameter.SvmParameter;
 import Math.DiscreteDistribution;
 
@@ -10,16 +12,28 @@ import java.io.Serializable;
 import java.util.HashMap;
 
 public class SvmModel extends ValidatedModel implements Serializable{
-    private final DiscreteDistribution classDistribution;
-    private final double[] rho;
-    private final int[] numberOfSupportVectors;
-    private final NodeList[] supportVectors;
-    private final double[][] supportVectorCoefficients;
-    private final SvmParameter parameter;
-    private final int numberOfClasses;
-    private final int numberOfProblems;
+    private DiscreteDistribution classDistribution;
+    private double[] rho;
+    private int[] numberOfSupportVectors;
+    private NodeList[] supportVectors;
+    private double[][] supportVectorCoefficients;
+    private SvmParameter parameter;
+    private int numberOfClasses;
+    private int numberOfProblems;
 
-    public SvmModel(InstanceList trainSet, SvmParameter parameter){
+    @Override
+    public void loadModel(String fileName) {
+
+    }
+
+    /**
+     * Training algorithm for Support Vector Machine classifier.
+     *
+     * @param trainSet   Training data given to the algorithm.
+     * @param parameters Parameters of the SVM classifier algorithm.
+     * @throws DiscreteFeaturesNotAllowed Exception for discrete features.
+     */
+    public void train(InstanceList trainSet, Parameter parameters) throws DiscreteFeaturesNotAllowed {
         int[] start;
         int[] nonZeroCount;
         int[] nonZeroStart;
@@ -29,7 +43,10 @@ public class SvmModel extends ValidatedModel implements Serializable{
         double[] subProblemY;
         boolean[] nonZero;
         SolutionInfo[] weights;
-        this.parameter = parameter;
+        if (!discreteCheck(trainSet.get(0))) {
+            throw new DiscreteFeaturesNotAllowed();
+        }
+        this.parameter = (SvmParameter) parameters;
         trainSet.sort();
         Problem problem = new Problem(trainSet);
         l = problem.getL();

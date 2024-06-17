@@ -1,6 +1,6 @@
 package Classification.Experiment;
 
-import Classification.Classifier.DiscreteFeaturesNotAllowed;
+import Classification.Model.DiscreteFeaturesNotAllowed;
 import Classification.Instance.Instance;
 import Classification.InstanceList.InstanceList;
 import Classification.Performance.Performance;
@@ -30,6 +30,6 @@ public class StratifiedSingleRunWithK {
         StratifiedKFoldCrossValidation<Instance> crossValidation = new StratifiedKFoldCrossValidation<>(experiment.getDataSet().getClassInstances(), K, experiment.getParameter().getSeed());
         InstanceList trainSet = new InstanceList(crossValidation.getTrainFold(0));
         InstanceList testSet = new InstanceList(crossValidation.getTestFold(0));
-        return experiment.getClassifier().singleRun(experiment.getParameter(), trainSet, testSet);
+        return experiment.getModel().singleRun(experiment.getParameter(), trainSet, testSet);
     }
 }

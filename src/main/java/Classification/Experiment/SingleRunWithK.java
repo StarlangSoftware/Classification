@@ -1,9 +1,9 @@
 package Classification.Experiment;
 
-import Classification.Classifier.Classifier;
-import Classification.Classifier.DiscreteFeaturesNotAllowed;
+import Classification.Model.DiscreteFeaturesNotAllowed;
 import Classification.Instance.Instance;
 import Classification.InstanceList.InstanceList;
+import Classification.Model.Model;
 import Classification.Parameter.Parameter;
 import Classification.Performance.Performance;
 import Sampling.CrossValidation;
@@ -24,17 +24,17 @@ public class SingleRunWithK implements SingleRun {
     /**
      * Runs first fold of a K fold cross-validated experiment for the given classifier with the given parameters.
      * The experiment result will be returned.
-     * @param classifier Classifier for the experiment
+     * @param model Model for the experiment
      * @param parameter Hyperparameters of the classifier of the experiment
      * @param crossValidation K-fold crossvalidated dataset.
      * @return The experiment result of the first fold of the K-fold cross-validated experiment.
      * @throws DiscreteFeaturesNotAllowed If the classifier does not allow discrete features and the dataset contains
      * discrete features, DiscreteFeaturesNotAllowed will be thrown.
      */
-    protected Performance runExperiment(Classifier classifier, Parameter parameter, CrossValidation<Instance> crossValidation) throws DiscreteFeaturesNotAllowed {
+    protected Performance runExperiment(Model model, Parameter parameter, CrossValidation<Instance> crossValidation) throws DiscreteFeaturesNotAllowed {
         InstanceList trainSet = new InstanceList(crossValidation.getTrainFold(0));
         InstanceList testSet = new InstanceList(crossValidation.getTestFold(0));
-        return classifier.singleRun(parameter, trainSet, testSet);
+        return model.singleRun(parameter, trainSet, testSet);
     }
 
 
@@ -46,6 +46,6 @@ public class SingleRunWithK implements SingleRun {
      */
     public Performance execute(Experiment experiment) throws DiscreteFeaturesNotAllowed {
         KFoldCrossValidation<Instance> crossValidation = new KFoldCrossValidation<>(experiment.getDataSet().getInstances(), K, experiment.getParameter().getSeed());
-        return runExperiment(experiment.getClassifier(), experiment.getParameter(), crossValidation);
+        return runExperiment(experiment.getModel(), experiment.getParameter(), crossValidation);
     }
 }

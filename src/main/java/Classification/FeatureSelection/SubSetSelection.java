@@ -1,6 +1,6 @@
 package Classification.FeatureSelection;
 
-import Classification.Classifier.DiscreteFeaturesNotAllowed;
+import Classification.Model.DiscreteFeaturesNotAllowed;
 import Classification.Experiment.Experiment;
 import Classification.Experiment.MultipleRun;
 import Classification.Performance.ExperimentPerformance;

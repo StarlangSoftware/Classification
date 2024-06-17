@@ -1,20 +1,20 @@
 package Classification.Filter;
 
-import Classification.Classifier.C45;
 import Classification.Classifier.ClassifierTest;
-import Classification.Classifier.Knn;
 import Classification.DistanceMetric.EuclidianDistance;
+import Classification.Model.DecisionTree.DecisionTree;
+import Classification.Model.KnnModel;
 import Classification.Parameter.C45Parameter;
 import Classification.Parameter.KnnParameter;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class LaryToBinaryTest extends ClassifierTest {
 
     @Test
     public void testKnn() {
-        Knn knn = new Knn();
+        KnnModel knn = new KnnModel();
         KnnParameter knnParameter = new KnnParameter(1, 3, new EuclidianDistance());
         LaryToBinary laryToBinary = new LaryToBinary(car);
         laryToBinary.convert();
@@ -28,7 +28,7 @@ public class LaryToBinaryTest extends ClassifierTest {
 
     @Test
     public void testC45() {
-        C45 c45 = new C45();
+        DecisionTree c45 = new DecisionTree();
         C45Parameter c45Parameter = new C45Parameter(1, true, 0.2);
         LaryToBinary laryToBinary = new LaryToBinary(car);
         laryToBinary.convert();

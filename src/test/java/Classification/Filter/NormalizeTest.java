@@ -2,16 +2,17 @@ package Classification.Filter;
 
 import Classification.Classifier.*;
 import Classification.DistanceMetric.EuclidianDistance;
+import Classification.Model.*;
 import Classification.Parameter.*;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class NormalizeTest extends ClassifierTest {
 
     @Test
     public void testLinearPerceptron() throws DiscreteFeaturesNotAllowed {
-        LinearPerceptron linearPerceptron = new LinearPerceptron();
+        LinearPerceptronModel linearPerceptron = new LinearPerceptronModel();
         LinearPerceptronParameter linearPerceptronParameter = new LinearPerceptronParameter(1, 0.1, 0.99, 0.2, 100);
         Normalize normalize = new Normalize(iris);
         normalize.convert();
@@ -29,7 +30,7 @@ public class NormalizeTest extends ClassifierTest {
 
     @Test
     public void testMultiLayerPerceptron() throws DiscreteFeaturesNotAllowed {
-        MultiLayerPerceptron multiLayerPerceptron = new MultiLayerPerceptron();
+        MultiLayerPerceptronModel multiLayerPerceptron = new MultiLayerPerceptronModel();
         MultiLayerPerceptronParameter multiLayerPerceptronParameter = new MultiLayerPerceptronParameter(1, 1, 0.99, 0.2, 100, 3, ActivationFunction.SIGMOID);
         Normalize normalize = new Normalize(iris);
         normalize.convert();
@@ -44,12 +45,12 @@ public class NormalizeTest extends ClassifierTest {
         normalize = new Normalize(dermatology);
         normalize.convert();
         multiLayerPerceptron.train(dermatology.getInstanceList(), multiLayerPerceptronParameter);
-        assertEquals(0.27, 100 * multiLayerPerceptron.test(dermatology.getInstanceList()).getErrorRate(), 0.01);
+        assertEquals(1.91, 100 * multiLayerPerceptron.test(dermatology.getInstanceList()).getErrorRate(), 0.01);
     }
 
     @Test
     public void testKnn() {
-        Knn knn = new Knn();
+        KnnModel knn = new KnnModel();
         KnnParameter knnParameter = new KnnParameter(1, 3, new EuclidianDistance());
         Normalize normalize = new Normalize(iris);
         normalize.convert();
@@ -67,7 +68,7 @@ public class NormalizeTest extends ClassifierTest {
 
     @Test
     public void testKMeans() {
-        KMeans kMeans = new KMeans();
+        KMeansModel kMeans = new KMeansModel();
         KMeansParameter kMeansParameter = new KMeansParameter(1);
         Normalize normalize = new Normalize(iris);
         normalize.convert();

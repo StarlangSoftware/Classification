@@ -12,24 +12,12 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class TreeEnsembleModel extends Model implements Serializable {
+public abstract class TreeEnsembleModel extends Model implements Serializable {
 
-    private final ArrayList<DecisionTree> forest;
+    protected ArrayList<DecisionTree> forest;
 
-    /**
-     * A constructor which sets the {@link ArrayList} of {@link DecisionTree} with given input.
-     *
-     * @param forest An {@link ArrayList} of {@link DecisionTree}.
-     */
-    public TreeEnsembleModel(ArrayList<DecisionTree> forest) {
-        this.forest = forest;
-    }
-
-    /**
-     * Loads a tree ensemble model such as Random Forest model or Bagging model from an input model file.
-     * @param fileName Model file name.
-     */
-    public TreeEnsembleModel(String fileName){
+    @Override
+    public void loadModel(String fileName) {
         try {
             BufferedReader input = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(fileName)), StandardCharsets.UTF_8));
             int numberOfTrees = Integer.parseInt(input.readLine());

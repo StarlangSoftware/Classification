@@ -1,6 +1,8 @@
 package Classification.Model;
 
+import Classification.InstanceList.Partition;
 import Classification.Parameter.ActivationFunction;
+import Classification.Parameter.Parameter;
 import Classification.Performance.ClassificationPerformance;
 import Classification.InstanceList.InstanceList;
 import Classification.Parameter.DeepNetworkParameter;
@@ -16,7 +18,8 @@ import java.util.Random;
 public class DeepNetworkModel extends NeuralNetworkModel implements Serializable {
     private ArrayList<Matrix> weights;
     private int hiddenLayerSize;
-    private final ActivationFunction activationFunction;
+    private ActivationFunction activationFunction;
+
 
     /**
      * The allocateWeights method takes {@link DeepNetworkParameter}s as an input. First it adds random weights to the {@link ArrayList}
@@ -50,24 +53,27 @@ public class DeepNetworkModel extends NeuralNetworkModel implements Serializable
     }
 
     /**
-     * Constructor that takes two {@link InstanceList} train set and validation set and {@link DeepNetworkParameter} as inputs.
-     * First it sets the class labels, their sizes as K and the size of the continuous attributes as d of given train set and
-     * allocates weights and sets the best weights. At each epoch, it shuffles the train set and loops through the each item of that train set,
-     * it multiplies the weights Matrix with input Vector than applies the sigmoid function and stores the result as hidden and add bias.
-     * Then updates weights and at the end it compares the performance of these weights with validation set. It updates the bestClassificationPerformance and
-     * bestWeights according to the current situation. At the end it updates the learning rate via etaDecrease value and finishes
-     * with clearing the weights.
+     * Training algorithm for deep network classifier.
      *
-     * @param trainSet      {@link InstanceList} to be used as trainSet.
-     * @param validationSet {@link InstanceList} to be used as validationSet.
-     * @param parameters    {@link DeepNetworkParameter} input.
+     * @param train   Training data given to the algorithm.
+     * @param params Parameters of the deep network algorithm. crossValidationRatio and seed are used as parameters.
+     * @throws DiscreteFeaturesNotAllowed Exception for discrete features.
      */
-    public DeepNetworkModel(InstanceList trainSet, InstanceList validationSet, DeepNetworkParameter parameters) {
-        super(trainSet);
+    public void train(InstanceList train, Parameter params) throws DiscreteFeaturesNotAllowed {
         int epoch;
         double learningRate;
         Vector rMinusY, tmpHidden = new Vector(0, 0), tmph, activationDerivative;
         ClassificationPerformance currentClassificationPerformance, bestClassificationPerformance;
+        if (!discreteCheck(train.get(0))) {
+            throw new DiscreteFeaturesNotAllowed();
+        }
+        DeepNetworkParameter parameters = ((DeepNetworkParameter) params);
+        classLabels = train.getDistinctClassLabels();
+        K = classLabels.size();
+        d = train.get(0).continuousAttributeSize();
+        Partition partition = new Partition(train, parameters.getCrossValidationRatio(), new Random(parameters.getSeed()), true);
+        InstanceList trainSet = partition.get(1);
+        InstanceList validationSet = partition.get(0);
         ArrayList<Matrix> bestWeights;
         ArrayList<Matrix> deltaWeights = new ArrayList<>();
         ArrayList<Vector> hidden = new ArrayList<>();
@@ -131,10 +137,11 @@ public class DeepNetworkModel extends NeuralNetworkModel implements Serializable
     }
 
     /**
-     * Loads a deep network model from an input model file.
-     * @param fileName Model file name.
+     * Loads the deep network model from an input file.
+     * @param fileName File name of the deep network model.
      */
-    public DeepNetworkModel(String fileName){
+    @Override
+    public void loadModel(String fileName) {
         try {
             BufferedReader input = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(fileName)), StandardCharsets.UTF_8));
             loadClassLabels(input);

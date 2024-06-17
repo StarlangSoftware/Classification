@@ -1,33 +1,33 @@
 package Classification.Experiment;
 
-import Classification.Classifier.Classifier;
 import Classification.DataSet.DataSet;
 import Classification.FeatureSelection.FeatureSubSet;
+import Classification.Model.Model;
 import Classification.Parameter.Parameter;
 
 public class Experiment {
-    private final Classifier classifier;
+    private final Model model;
     private final Parameter parameter;
     private final DataSet dataSet;
 
     /**
      * Constructor for a specific machine learning experiment
-     * @param classifier Classifier used in the machine learning experiment
+     * @param model Model used in the machine learning experiment
      * @param parameter Parameter(s) of the classifier.
      * @param dataSet DataSet on which the classifier is run.
      */
-    public Experiment(Classifier classifier, Parameter parameter, DataSet dataSet) {
-        this.classifier = classifier;
+    public Experiment(Model model, Parameter parameter, DataSet dataSet) {
+        this.model = model;
         this.parameter = parameter;
         this.dataSet = dataSet;
     }
 
     /**
-     * Accessor for the classifier attribute.
-     * @return Classifier attribute.
+     * Accessor for the model attribute.
+     * @return Model attribute.
      */
-    public Classifier getClassifier() {
-        return classifier;
+    public Model getModel() {
+        return model;
     }
 
     /**
@@ -52,7 +52,7 @@ public class Experiment {
      * @return Experiment constructed
      */
     public Experiment featureSelectedExperiment(FeatureSubSet featureSubSet) {
-        return new Experiment(classifier, parameter, dataSet.getSubSetOfFeatures(featureSubSet));
+        return new Experiment(model, parameter, dataSet.getSubSetOfFeatures(featureSubSet));
     }
 
 }

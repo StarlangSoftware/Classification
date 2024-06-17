@@ -1,6 +1,10 @@
 package Classification.Model;
 
 import Classification.Instance.Instance;
+import Classification.InstanceList.InstanceList;
+import Classification.InstanceList.InstanceListOfSameClass;
+import Classification.InstanceList.Partition;
+import Classification.Parameter.Parameter;
 import Math.*;
 
 import java.io.*;
@@ -10,27 +14,75 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 
 public class LdaModel extends GaussianModel implements Serializable {
+
     protected HashMap<String, Double> w0;
     protected HashMap<String, Vector> w;
 
     /**
-     * A constructor which sets the priorDistribution, w and w0 according to given inputs.
+     * Training algorithm for the linear discriminant analysis classifier (Introduction to Machine Learning, Alpaydin, 2015).
      *
-     * @param priorDistribution {@link DiscreteDistribution} input.
-     * @param w                 {@link HashMap} of String and Vectors.
-     * @param w0                {@link HashMap} of String and Double.
+     * @param trainSet   Training data given to the algorithm.
+     * @param parameters -
      */
-    public LdaModel(DiscreteDistribution priorDistribution, HashMap<String, Vector> w, HashMap<String, Double> w0) {
+    public void train(InstanceList trainSet, Parameter parameters) throws DiscreteFeaturesNotAllowed {
+        if (!discreteCheck(trainSet.get(0))) {
+            throw new DiscreteFeaturesNotAllowed();
+        }
+        String Ci;
+        double w0i;
+        Matrix covariance, classCovariance;
+        Vector averageVector, wi;
+        HashMap<String, Double> w0 = new HashMap<>();
+        HashMap<String, Vector> w = new HashMap<>();
+        DiscreteDistribution priorDistribution = trainSet.classDistribution();
+        Partition classLists = new Partition(trainSet);
+        covariance = new Matrix(trainSet.get(0).continuousAttributeSize(), trainSet.get(0).continuousAttributeSize());
+        for (int i = 0; i < classLists.size(); i++) {
+            averageVector = new Vector(classLists.get(i).continuousAttributeAverage());
+            classCovariance = classLists.get(i).covariance(averageVector);
+            classCovariance.multiplyWithConstant(classLists.get(i).size() - 1);
+            try {
+                covariance.add(classCovariance);
+            } catch (MatrixDimensionMismatch ignored) {
+            }
+        }
+        covariance.divideByConstant(trainSet.size() - classLists.size());
+        try {
+            covariance.inverse();
+        } catch (DeterminantZero | MatrixNotSquare ignored) {
+        }
+        for (int i = 0; i < classLists.size(); i++) {
+            Ci = ((InstanceListOfSameClass) classLists.get(i)).getClassLabel();
+            averageVector = new Vector(classLists.get(i).continuousAttributeAverage());
+            try {
+                wi = covariance.multiplyWithVectorFromRight(averageVector);
+                w.put(Ci, wi);
+                w0i = -0.5 * wi.dotProduct(averageVector) + Math.log(priorDistribution.getProbability(Ci));
+                w0.put(Ci, w0i);
+            } catch (MatrixColumnMismatch | VectorSizeMismatch ignored) {
+            }
+        }
         this.priorDistribution = priorDistribution;
         this.w = w;
         this.w0 = w0;
     }
 
     /**
-     * Default constructor
+     * Loads the Lda model from an input file.
+     * @param fileName File name of the Lda model.
      */
-    public LdaModel(){
+    @Override
+    public void loadModel(String fileName) {
+        try {
+            BufferedReader input = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(fileName)), StandardCharsets.UTF_8));
+            int size = loadPriorDistribution(input);
+            loadWandW0(input, size);
+            input.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
+
 
     /**
      * Loads w0 and w hash maps from an input file. The number of items in the hash map is given by the parameter size.
@@ -46,21 +98,6 @@ public class LdaModel extends GaussianModel implements Serializable {
             w0.put(items[0], Double.parseDouble(items[1]));
         }
         w = loadVectors(input, size);
-    }
-
-    /**
-     * Loads a Linear Discriminant Analysis model from an input model file.
-     * @param fileName Model file name.
-     */
-    public LdaModel(String fileName){
-        try {
-            BufferedReader input = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(fileName)), StandardCharsets.UTF_8));
-            int size = loadPriorDistribution(input);
-            loadWandW0(input, size);
-            input.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     /**

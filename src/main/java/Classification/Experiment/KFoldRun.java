@@ -1,7 +1,7 @@
 package Classification.Experiment;
 
-import Classification.Classifier.Classifier;
-import Classification.Classifier.DiscreteFeaturesNotAllowed;
+import Classification.Model.DiscreteFeaturesNotAllowed;
+import Classification.Model.Model;
 import Classification.Performance.ExperimentPerformance;
 import Classification.Instance.Instance;
 import Classification.InstanceList.InstanceList;
@@ -24,19 +24,19 @@ public class KFoldRun implements MultipleRun {
     /**
      * Runs a K fold cross-validated experiment for the given classifier with the given parameters. The experiment
      * results will be added to the experimentPerformance.
-     * @param classifier Classifier for the experiment
+     * @param model Model for the experiment
      * @param parameter Hyperparameters of the classifier of the experiment
      * @param experimentPerformance Storage to add experiment results
      * @param crossValidation K-fold crossvalidated dataset.
      * @throws DiscreteFeaturesNotAllowed If the classifier does not allow discrete features and the dataset contains
      * discrete features, DiscreteFeaturesNotAllowed will be thrown.
      */
-    protected void runExperiment(Classifier classifier, Parameter parameter, ExperimentPerformance experimentPerformance, CrossValidation<Instance> crossValidation) throws DiscreteFeaturesNotAllowed {
+    protected void runExperiment(Model model, Parameter parameter, ExperimentPerformance experimentPerformance, CrossValidation<Instance> crossValidation) throws DiscreteFeaturesNotAllowed {
         for (int i = 0; i < K; i++) {
             InstanceList trainSet = new InstanceList(crossValidation.getTrainFold(i));
             InstanceList testSet = new InstanceList(crossValidation.getTestFold(i));
-            classifier.train(trainSet, parameter);
-            experimentPerformance.add(classifier.test(testSet));
+            model.train(trainSet, parameter);
+            experimentPerformance.add(model.test(testSet));
         }
     }
 
@@ -49,7 +49,7 @@ public class KFoldRun implements MultipleRun {
     public ExperimentPerformance execute(Experiment experiment) throws DiscreteFeaturesNotAllowed {
         ExperimentPerformance result = new ExperimentPerformance();
         KFoldCrossValidation<Instance> crossValidation = new KFoldCrossValidation<>(experiment.getDataSet().getInstances(), K, experiment.getParameter().getSeed());
-        runExperiment(experiment.getClassifier(), experiment.getParameter(), result, crossValidation);
+        runExperiment(experiment.getModel(), experiment.getParameter(), result, crossValidation);
         return result;
     }
 }

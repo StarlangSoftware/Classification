@@ -2,8 +2,10 @@ package Classification.Model;
 
 import Classification.Instance.Instance;
 import Classification.InstanceList.InstanceList;
+import Classification.InstanceList.Partition;
 import Classification.Parameter.ActivationFunction;
 import Classification.Parameter.MultiLayerPerceptronParameter;
+import Classification.Parameter.Parameter;
 import Classification.Performance.Performance;
 import Math.*;
 
@@ -14,34 +16,28 @@ public class AutoEncoderModel extends NeuralNetworkModel implements Serializable
     private Matrix V, W;
 
     /**
-     * The allocateWeights method takes an integer number and sets layer weights of W and V matrices according to given number.
+     * Training algorithm for auto encoders. An auto encoder is a neural network which attempts to replicate its input at its output.
      *
-     * @param H Integer input.
-     * @param random Random function to set seed.
+     * @param train   Training data given to the algorithm.
+     * @param params Parameters of the auto encoder.
+     * @throws DiscreteFeaturesNotAllowed Exception for discrete features.
      */
-    private void allocateWeights(int H, Random random) {
-        W = allocateLayerWeights(H, d + 1, random);
-        V = allocateLayerWeights(K, H + 1, random);
-    }
-
-    /**
-     * The {@link AutoEncoderModel} method takes two {@link InstanceList}s as inputs; train set and validation set. First it allocates
-     * the weights of W and V matrices using given {@link MultiLayerPerceptronParameter} and takes the clones of these matrices as the bestW and bestV.
-     * Then, it gets the epoch and starts to iterate over them. First it shuffles the train set and tries to find the new W and V matrices.
-     * At the end it tests the autoencoder with given validation set and if its performance is better than the previous one,
-     * it reassigns the bestW and bestV matrices. Continue to iterate with a lower learning rate till the end of an episode.
-     *
-     * @param trainSet      {@link InstanceList} to use as train set.
-     * @param validationSet {@link InstanceList} to use as validation set.
-     * @param parameters    {@link MultiLayerPerceptronParameter} is used to get the parameters.
-     */
-    public AutoEncoderModel(InstanceList trainSet, InstanceList validationSet, MultiLayerPerceptronParameter parameters) {
-        super(trainSet);
+    public void train(InstanceList train, Parameter params) throws DiscreteFeaturesNotAllowed {
         Matrix deltaW, deltaV, bestW, bestV;
         Vector hidden, hiddenBiased, rMinusY, oneMinusHidden, tmph, tmpHidden;
         int epoch;
         double learningRate;
         Performance currentPerformance, bestPerformance;
+        if (!discreteCheck(train.get(0))){
+            throw new DiscreteFeaturesNotAllowed();
+        }
+        MultiLayerPerceptronParameter parameters = (MultiLayerPerceptronParameter) params;
+        classLabels = train.getDistinctClassLabels();
+        K = classLabels.size();
+        d = train.get(0).continuousAttributeSize();
+        Partition partition = new Partition(train, 0.2, new Random(params.getSeed()), true);
+        InstanceList trainSet = partition.get(1);
+        InstanceList validationSet = partition.get(0);
         K = trainSet.get(0).continuousAttributeSize();
         allocateWeights(parameters.getHiddenNodes(), new Random(parameters.getSeed()));
         bestW = W.clone();
@@ -82,6 +78,22 @@ public class AutoEncoderModel extends NeuralNetworkModel implements Serializable
         }
         W = bestW;
         V = bestV;
+    }
+
+    @Override
+    public void loadModel(String fileName) {
+
+    }
+
+    /**
+     * The allocateWeights method takes an integer number and sets layer weights of W and V matrices according to given number.
+     *
+     * @param H Integer input.
+     * @param random Random function to set seed.
+     */
+    private void allocateWeights(int H, Random random) {
+        W = allocateLayerWeights(H, d + 1, random);
+        V = allocateLayerWeights(K, H + 1, random);
     }
 
     /**
@@ -135,6 +147,16 @@ public class AutoEncoderModel extends NeuralNetworkModel implements Serializable
     @Override
     public void saveTxt(String fileName) {
 
+    }
+
+    /**
+     * A performance test for an auto encoder with the given test set..
+     *
+     * @param testSet Test data (list of instances) to be tested.
+     * @return Error rate.
+     */
+    public Performance test(InstanceList testSet) {
+        return testAutoEncoder(testSet);
     }
 
 }

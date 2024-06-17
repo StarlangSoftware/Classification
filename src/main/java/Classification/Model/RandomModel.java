@@ -10,30 +10,33 @@ import java.util.Random;
 
 import Classification.Instance.CompositeInstance;
 import Classification.Instance.Instance;
+import Classification.InstanceList.InstanceList;
+import Classification.Parameter.Parameter;
 
 public class RandomModel extends Model implements Serializable {
-    private final ArrayList<String> classLabels;
-    private final Random random;
-
-    private final int seed;
+    private ArrayList<String> classLabels;
+    private Random random;
+    private int seed;
 
     /**
-     * A constructor that sets the class labels.
+     * Training algorithm for random classifier.
      *
-     * @param classLabels An ArrayList of class labels.
-     * @param seed Seed of the random function.
+     * @param trainSet   Training data given to the algorithm.
+     * @param parameters -
      */
-    public RandomModel(ArrayList<String> classLabels, int seed) {
-        this.classLabels = classLabels;
-        this.random = new Random(seed);
-        this.seed = seed;
+    @Override
+    public void train(InstanceList trainSet, Parameter parameters) {
+        this.classLabels = new ArrayList<>(trainSet.classDistribution().keySet());
+        this.random = new Random(parameters.getSeed());
+        this.seed = parameters.getSeed();
     }
 
     /**
-     * Loads a random classifier model from an input model file.
-     * @param fileName Model file name.
+     * Loads the random classifier model from an input file.
+     * @param fileName File name of the random classifier model.
      */
-    public RandomModel(String fileName){
+    @Override
+    public void loadModel(String fileName) {
         try {
             BufferedReader input = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(fileName)), StandardCharsets.UTF_8));
             seed = Integer.parseInt(input.readLine());
@@ -48,6 +51,7 @@ public class RandomModel extends Model implements Serializable {
             throw new RuntimeException(e);
         }
     }
+
 
     /**
      * The predict method gets an Instance as an input and retrieves the possible class labels as an ArrayList. Then selects a

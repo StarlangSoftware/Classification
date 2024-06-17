@@ -3,6 +3,7 @@ package Classification.Model;
 import Classification.Instance.CompositeInstance;
 import Classification.Instance.Instance;
 import Classification.InstanceList.InstanceList;
+import Classification.Parameter.Parameter;
 import Math.DiscreteDistribution;
 
 import java.io.*;
@@ -14,30 +15,7 @@ import java.util.HashMap;
 
 public class DummyModel extends Model implements Serializable {
 
-    private final DiscreteDistribution distribution;
-
-    /**
-     * Constructor which sets the distribution using the given {@link InstanceList}.
-     *
-     * @param trainSet {@link InstanceList} which is used to get the class distribution.
-     */
-    public DummyModel(InstanceList trainSet) {
-        this.distribution = trainSet.classDistribution();
-    }
-
-    /**
-     * Loads a dummy model from an input model file.
-     * @param fileName Model file name.
-     */
-    public DummyModel(String fileName){
-        try {
-            BufferedReader input = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(fileName)), StandardCharsets.UTF_8));
-            distribution = loadDiscreteDistribution(input);
-            input.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+    private DiscreteDistribution distribution;
 
     /**
      * The predict method takes an Instance as an input and returns the entry of distribution which has the maximum value.
@@ -75,6 +53,32 @@ public class DummyModel extends Model implements Serializable {
             saveDiscreteDistribution(output, distribution);
             output.close();
         } catch (FileNotFoundException | UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Training algorithm for the dummy classifier. Actually dummy classifier returns the maximum occurring class in
+     * the training data, there is no training. Sets the distribution using the given {@link InstanceList}.
+     *
+     * @param trainSet   Training data given to the algorithm.
+     * @param parameters -
+     */
+    public void train(InstanceList trainSet, Parameter parameters) {
+        distribution = trainSet.classDistribution();
+    }
+
+    /**
+     * Loads the dummy model from an input file.
+     * @param fileName File name of the dummy model.
+     */
+    @Override
+    public void loadModel(String fileName) {
+        try {
+            BufferedReader input = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(fileName)), StandardCharsets.UTF_8));
+            distribution = loadDiscreteDistribution(input);
+            input.close();
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
