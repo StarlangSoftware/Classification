@@ -7,9 +7,9 @@ public abstract class PairedTest {
 
     /**
      * Compares two classification algorithms based on their performances (accuracy or error rate). The method first
-     * checks the null hypothesis mu1 < mu2, if the test rejects this null hypothesis with alpha level of confidence, it
-     * decides mu1 > mu2. The algorithm then checks the null hypothesis mu1 > mu2, if the test rejects that null
-     * hypothesis with alpha level of confidence, if decides mu1 < mu2. If none of the two tests are rejected, it can not
+     * checks the null hypothesis mu1 is less than mu2, if the test rejects this null hypothesis with alpha level of confidence, it
+     * decides mu1 is larger than mu2. The algorithm then checks the null hypothesis mu1 is larger than mu2, if the test rejects that null
+     * hypothesis with alpha level of confidence, if decides mu1 is less than mu2. If none of the two tests are rejected, it can not
      * make a decision about the performances of algorithms.
      * @param classifier1 Performance (error rate or accuracy) results of the first classifier.
      * @param classifier2 Performance (error rate or accuracy) results of the second classifier.
