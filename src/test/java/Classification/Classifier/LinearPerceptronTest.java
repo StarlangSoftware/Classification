@@ -1,7 +1,7 @@
 package Classification.Classifier;
 
 import Classification.Model.DiscreteFeaturesNotAllowed;
-import Classification.Model.LinearPerceptronModel;
+import Classification.Model.NeuralNetwork.LinearPerceptronModel;
 import Classification.Parameter.LinearPerceptronParameter;
 import org.junit.Test;
 

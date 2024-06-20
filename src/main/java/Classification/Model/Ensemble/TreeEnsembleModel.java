@@ -1,8 +1,9 @@
-package Classification.Model;
+package Classification.Model.Ensemble;
 
 import Classification.Instance.Instance;
 import Classification.Model.DecisionTree.DecisionNode;
 import Classification.Model.DecisionTree.DecisionTree;
+import Classification.Model.Model;
 import Math.DiscreteDistribution;
 
 import java.io.*;

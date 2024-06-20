@@ -1,4 +1,4 @@
-package Classification.Model;
+package Classification.Model.Parametric;
 
 import Classification.Instance.CompositeInstance;
 import Classification.Instance.Instance;
@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.HashMap;
 
+import Classification.Model.ValidatedModel;
 import Math.DiscreteDistribution;
 import Math.Vector;
 

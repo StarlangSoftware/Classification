@@ -1,7 +1,7 @@
 package Classification.Classifier;
 
 import Classification.Model.DiscreteFeaturesNotAllowed;
-import Classification.Model.QdaModel;
+import Classification.Model.Parametric.QdaModel;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

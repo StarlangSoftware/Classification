@@ -1,7 +1,9 @@
-package Classification.Model;
+package Classification.Model.Ensemble;
 
 import Classification.Instance.Instance;
 import Classification.InstanceList.InstanceList;
+import Classification.Model.DiscreteFeaturesNotAllowed;
+import Classification.Model.Model;
 import Classification.Parameter.Parameter;
 
 import java.util.ArrayList;

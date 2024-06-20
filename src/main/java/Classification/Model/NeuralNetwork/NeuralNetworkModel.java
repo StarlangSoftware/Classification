@@ -1,4 +1,4 @@
-package Classification.Model;
+package Classification.Model.NeuralNetwork;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,6 +10,7 @@ import java.util.Random;
 
 import Classification.Instance.CompositeInstance;
 import Classification.Instance.Instance;
+import Classification.Model.ValidatedModel;
 import Classification.Parameter.ActivationFunction;
 import Math.*;
 

@@ -1,4 +1,4 @@
-package Classification.Model;
+package Classification.Model.Parametric;
 
 import Classification.Attribute.ContinuousAttribute;
 import Classification.Attribute.DiscreteAttribute;

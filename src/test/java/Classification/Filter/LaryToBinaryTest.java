@@ -3,7 +3,7 @@ package Classification.Filter;
 import Classification.Classifier.ClassifierTest;
 import Classification.DistanceMetric.EuclidianDistance;
 import Classification.Model.DecisionTree.DecisionTree;
-import Classification.Model.KnnModel;
+import Classification.Model.NonParametric.KnnModel;
 import Classification.Parameter.C45Parameter;
 import Classification.Parameter.KnnParameter;
 import org.junit.Test;

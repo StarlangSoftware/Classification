@@ -1,10 +1,11 @@
-package Classification.Model;
+package Classification.Model.NonParametric;
 
 import Classification.DistanceMetric.DistanceMetric;
 import Classification.DistanceMetric.EuclidianDistance;
 import Classification.Instance.CompositeInstance;
 import Classification.Instance.Instance;
 import Classification.InstanceList.InstanceList;
+import Classification.Model.Model;
 import Classification.Parameter.KnnParameter;
 import Classification.Parameter.Parameter;
 

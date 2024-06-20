@@ -3,6 +3,10 @@ package Classification.Filter;
 import Classification.Classifier.*;
 import Classification.DistanceMetric.EuclidianDistance;
 import Classification.Model.*;
+import Classification.Model.NeuralNetwork.LinearPerceptronModel;
+import Classification.Model.NeuralNetwork.MultiLayerPerceptronModel;
+import Classification.Model.NonParametric.KnnModel;
+import Classification.Model.Parametric.KMeansModel;
 import Classification.Parameter.*;
 import org.junit.Test;
 

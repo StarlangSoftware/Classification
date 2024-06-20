@@ -1,8 +1,9 @@
-package Classification.Model;
+package Classification.Model.NeuralNetwork;
 
 import Classification.Instance.Instance;
 import Classification.InstanceList.InstanceList;
 import Classification.InstanceList.Partition;
+import Classification.Model.DiscreteFeaturesNotAllowed;
 import Classification.Parameter.ActivationFunction;
 import Classification.Parameter.MultiLayerPerceptronParameter;
 import Classification.Parameter.Parameter;

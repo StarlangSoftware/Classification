@@ -1,6 +1,6 @@
 package Classification.Classifier;
 
-import Classification.Model.BaggingModel;
+import Classification.Model.Ensemble.BaggingModel;
 import Classification.Model.DiscreteFeaturesNotAllowed;
 import Classification.Parameter.BaggingParameter;
 import org.junit.Test;

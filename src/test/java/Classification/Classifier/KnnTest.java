@@ -1,7 +1,7 @@
 package Classification.Classifier;
 
 import Classification.DistanceMetric.EuclidianDistance;
-import Classification.Model.KnnModel;
+import Classification.Model.NonParametric.KnnModel;
 import Classification.Parameter.KnnParameter;
 import org.junit.Test;
 

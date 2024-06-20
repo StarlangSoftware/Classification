@@ -1,6 +1,7 @@
-package Classification.Model;
+package Classification.Model.NeuralNetwork;
 
 import Classification.InstanceList.Partition;
+import Classification.Model.DiscreteFeaturesNotAllowed;
 import Classification.Parameter.ActivationFunction;
 import Classification.Parameter.Parameter;
 import Classification.Performance.ClassificationPerformance;

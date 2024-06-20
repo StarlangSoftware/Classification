@@ -1,9 +1,10 @@
-package Classification.Model;
+package Classification.Model.Parametric;
 
 import Classification.Instance.Instance;
 import Classification.InstanceList.InstanceList;
 import Classification.InstanceList.InstanceListOfSameClass;
 import Classification.InstanceList.Partition;
+import Classification.Model.DiscreteFeaturesNotAllowed;
 import Classification.Parameter.Parameter;
 import Math.*;
 

@@ -1,6 +1,6 @@
 package Classification.Classifier;
 
-import Classification.Model.KMeansModel;
+import Classification.Model.Parametric.KMeansModel;
 import Classification.Parameter.KMeansParameter;
 import org.junit.Test;
 

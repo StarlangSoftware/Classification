@@ -1,4 +1,4 @@
-package Classification.Model;
+package Classification.Model.Parametric;
 
 import Classification.DistanceMetric.DistanceMetric;
 import Classification.DistanceMetric.EuclidianDistance;

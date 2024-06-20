@@ -1,6 +1,6 @@
 package Classification.Classifier;
 
-import Classification.Model.DeepNetworkModel;
+import Classification.Model.NeuralNetwork.DeepNetworkModel;
 import Classification.Model.DiscreteFeaturesNotAllowed;
 import Classification.Parameter.ActivationFunction;
 import Classification.Parameter.DeepNetworkParameter;

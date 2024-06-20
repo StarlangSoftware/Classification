@@ -1,4 +1,6 @@
-package Classification.Model;
+package Classification.Model.Ensemble;
+
+import Classification.Model.Model;
 
 import java.util.ArrayList;
 

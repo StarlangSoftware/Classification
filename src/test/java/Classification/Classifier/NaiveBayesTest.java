@@ -1,6 +1,6 @@
 package Classification.Classifier;
 
-import Classification.Model.NaiveBayesModel;
+import Classification.Model.Parametric.NaiveBayesModel;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

@@ -1,7 +1,7 @@
 package Classification.Classifier;
 
 import Classification.Model.DiscreteFeaturesNotAllowed;
-import Classification.Model.MultiLayerPerceptronModel;
+import Classification.Model.NeuralNetwork.MultiLayerPerceptronModel;
 import Classification.Parameter.ActivationFunction;
 import Classification.Parameter.MultiLayerPerceptronParameter;
 import org.junit.Test;

@@ -4,9 +4,8 @@ import Classification.Classifier.*;
 import Classification.Experiment.Experiment;
 import Classification.Experiment.KFoldRun;
 import Classification.Model.DecisionTree.DecisionTree;
-import Classification.Model.KnnModel;
-import Classification.Model.LdaModel;
-import Classification.Model.NaiveBayesModel;
+import Classification.Model.Parametric.LdaModel;
+import Classification.Model.Parametric.NaiveBayesModel;
 import Classification.Parameter.*;
 import org.junit.Test;
 

@@ -1,7 +1,7 @@
 package Classification.Classifier;
 
 import Classification.Model.DiscreteFeaturesNotAllowed;
-import Classification.Model.RandomForestModel;
+import Classification.Model.Ensemble.RandomForestModel;
 import Classification.Parameter.RandomForestParameter;
 import org.junit.Test;
 
