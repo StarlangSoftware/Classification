@@ -17,11 +17,10 @@ public class OneVersusRest extends EnsembleModel {
 
     @Override
     public void train(InstanceList trainSet, Parameter parameters) throws DiscreteFeaturesNotAllowed {
-        ArrayList<InstanceList> instanceLists = new ArrayList<>();
         ArrayList<String> classLabels = trainSet.getDistinctClassLabels();
-        for (String classLabel : classLabels) {
+        for (int i = 0; i < classLabels.size(); i++) {
+            String classLabel = classLabels.get(i);
             InstanceList instanceList = new InstanceList();
-            instanceLists.add(instanceList);
             for (int j = 0; j < trainSet.size(); j++) {
                 Instance currentInstance;
                 if (trainSet.get(j).getClassLabel().equals(classLabel)) {
@@ -34,9 +33,7 @@ public class OneVersusRest extends EnsembleModel {
                 }
                 instanceList.add(currentInstance);
             }
-        }
-        for (int i = 0; i < instanceLists.size(); i++) {
-            models.get(i).train(instanceLists.get(i), parameters);
+            models.get(i).train(instanceList, parameters);
         }
     }
 

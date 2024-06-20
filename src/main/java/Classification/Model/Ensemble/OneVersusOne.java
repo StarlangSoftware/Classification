@@ -35,7 +35,7 @@ public class OneVersusOne extends EnsembleModel {
         for (Model m : models) {
             HashMap<String, Double> currentProbabilities = m.predictProbability(instance);
             for (String key : currentProbabilities.keySet()) {
-                probabilities.put(key, probabilities.getOrDefault(key, 0.0) + currentProbabilities.get(key));
+                probabilities.put(key, probabilities.getOrDefault(key, 0.0) + ((currentProbabilities.get(key)) / (models.size() - 1)));
             }
         }
         return probabilities;
@@ -43,25 +43,19 @@ public class OneVersusOne extends EnsembleModel {
 
     @Override
     public void train(InstanceList trainSet, Parameter parameters) throws DiscreteFeaturesNotAllowed {
-        ArrayList<InstanceList> instanceLists = new ArrayList<>();
         ArrayList<String> classLabels = trainSet.getDistinctClassLabels();
+        int currentIndex = -1;
         for (int i = 0; i < classLabels.size() - 1; i++) {
             for (int j = i + 1; j < classLabels.size(); j++) {
+                currentIndex++;
                 InstanceList instanceList = new InstanceList();
-                instanceLists.add(instanceList);
                 for (int k = 0; k < trainSet.size(); k++) {
                     String label = trainSet.get(k).getClassLabel();
                     if (label.equals(classLabels.get(i)) || label.equals(classLabels.get(j))) {
                         instanceList.add(trainSet.get(k));
                     }
                 }
-            }
-        }
-        int currentIndex = -1;
-        for (int i = 0; i < classLabels.size() - 1; i++) {
-            for (int j = i + 1; j < classLabels.size(); j++) {
-                currentIndex++;
-                this.models.get(currentIndex).train(instanceLists.get(currentIndex), parameters);
+                models.get(currentIndex).train(instanceList, parameters);
             }
         }
     }
