@@ -7,7 +7,7 @@ import Classification.DataSet.DataSet;
 import java.util.ArrayList;
 
 public class ClassifierTest {
-    protected DataSet iris, car, chess, bupa, tictactoe, dermatology, nursery, tictactoeIndexed, carIndexed;
+    protected DataSet iris, car, chess, bupa, tictactoe, dermatology, nursery, tictactoeIndexed, carIndexed, maternal;
 
     @org.junit.Before
     public void setUp() throws Exception {
@@ -23,6 +23,12 @@ public class ClassifierTest {
         }
         dataDefinition = new DataDefinition(attributeTypes);
         bupa = new DataSet(dataDefinition, ",", "datasets/bupa.data");
+        attributeTypes = new ArrayList<AttributeType>();
+        for (int i = 0; i < 6; i++){
+            attributeTypes.add(AttributeType.CONTINUOUS);
+        }
+        dataDefinition = new DataDefinition(attributeTypes);
+        maternal = new DataSet(dataDefinition, ",", "datasets/maternal.data");
         attributeTypes = new ArrayList<AttributeType>();
         for (int i = 0; i < 34; i++){
             attributeTypes.add(AttributeType.CONTINUOUS);
