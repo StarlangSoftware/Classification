@@ -36,5 +36,19 @@ public class OneVersusOneTest extends ClassifierTest {
         }
         oneVersusOne.train(dermatology.getInstanceList(), c45Parameter);
         assertEquals(1.91, 100 * oneVersusOne.test(dermatology.getInstanceList()).getErrorRate(), 0.01);
+        classLabelSize = car.getInstanceList().getDistinctClassLabels().size();
+        models.clear();
+        for (int i = 0; i < (classLabelSize * (classLabelSize - 1)) / 2; i++) {
+            models.add(new DecisionTree());
+        }
+        oneVersusOne.train(car.getInstanceList(), c45Parameter);
+        assertEquals(3.82, 100 * oneVersusOne.test(car.getInstanceList()).getErrorRate(), 0.01);
+        classLabelSize = maternal.getInstanceList().getDistinctClassLabels().size();
+        models.clear();
+        for (int i = 0; i < (classLabelSize * (classLabelSize - 1)) / 2; i++) {
+            models.add(new DecisionTree());
+        }
+        oneVersusOne.train(maternal.getInstanceList(), c45Parameter);
+        assertEquals(15.18, 100 * oneVersusOne.test(maternal.getInstanceList()).getErrorRate(), 0.01);
     }
 }

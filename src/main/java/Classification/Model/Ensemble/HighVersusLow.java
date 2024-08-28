@@ -17,6 +17,11 @@ public class HighVersusLow extends EnsembleModel {
     public HighVersusLow(ArrayList<Model> models, ArrayList<String> sortedClassLabels) {
         super(models);
         this.sortedClassLabels = sortedClassLabels;
+        setIndexMap();
+    }
+
+    private void setIndexMap() {
+        indexMap.clear();
         for (int i = 0; i < sortedClassLabels.size(); i++) {
             indexMap.put(sortedClassLabels.get(i), i);
         }
@@ -56,6 +61,7 @@ public class HighVersusLow extends EnsembleModel {
 
     @Override
     public void train(InstanceList trainSet, Parameter parameters) throws DiscreteFeaturesNotAllowed {
+        setIndexMap();
         for (int i = 0; i < sortedClassLabels.size() - 1; i++) {
             String classLabel = sortedClassLabels.get(i);
             InstanceList instanceList = new InstanceList();
