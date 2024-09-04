@@ -25,13 +25,12 @@ public class NaiveBayesModel extends GaussianModel implements Serializable {
     /**
      * Training algorithm for Naive Bayes algorithm with a continuous data set.
      *
-     * @param priorDistribution Probability distribution of classes P(C_i)
      * @param classLists        Instances are divided into K lists, where each list contains only instances from a single class
      */
-    private void trainContinuousVersion(DiscreteDistribution priorDistribution, Partition classLists){
+    private void trainContinuousVersion(Partition classLists){
         String classLabel;
-        HashMap<String, Vector> classMeans = new HashMap<>();
-        HashMap<String, Vector> classDeviations = new HashMap<>();
+        classMeans = new HashMap<>();
+        classDeviations = new HashMap<>();
         for (int i = 0; i < classLists.size(); i++){
             classLabel = ((InstanceListOfSameClass) classLists.get(i)).getClassLabel();
             Vector averageVector = classLists.get(i).average().toVector();
@@ -39,23 +38,17 @@ public class NaiveBayesModel extends GaussianModel implements Serializable {
             Vector standardDeviationVector = classLists.get(i).standardDeviation().toVector();
             classDeviations.put(classLabel, standardDeviationVector);
         }
-        this.priorDistribution = priorDistribution;
-        this.classMeans = classMeans;
-        this.classDeviations = classDeviations;
     }
 
     /**
      * Training algorithm for Naive Bayes algorithm with a discrete data set.
-     * @param priorDistribution Probability distribution of classes P(C_i)
      * @param classLists Instances are divided into K lists, where each list contains only instances from a single class
      */
-    private void trainDiscreteVersion(DiscreteDistribution priorDistribution, Partition classLists){
-        HashMap<String, ArrayList<DiscreteDistribution>> classAttributeDistributions = new HashMap<>();
+    private void trainDiscreteVersion(Partition classLists){
+        classAttributeDistributions = new HashMap<>();
         for (int i = 0; i < classLists.size(); i++){
             classAttributeDistributions.put(((InstanceListOfSameClass) classLists.get(i)).getClassLabel(), classLists.get(i).allAttributesDistribution());
         }
-        this.priorDistribution = priorDistribution;
-        this.classAttributeDistributions = classAttributeDistributions;
     }
 
     /**
@@ -65,12 +58,12 @@ public class NaiveBayesModel extends GaussianModel implements Serializable {
      * @param parameters -
      */
     public void train(InstanceList trainSet, Parameter parameters) {
-        DiscreteDistribution priorDistribution = trainSet.classDistribution();
+        priorDistribution = trainSet.classDistribution();
         Partition classLists = new Partition(trainSet);
         if (classLists.get(0).get(0).getAttribute(0) instanceof DiscreteAttribute){
-            trainDiscreteVersion(priorDistribution, classLists);
+            trainDiscreteVersion(classLists);
         } else {
-            trainContinuousVersion(priorDistribution, classLists);
+            trainContinuousVersion(classLists);
         }
     }
 

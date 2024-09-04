@@ -32,12 +32,7 @@ public class LinearPerceptronModel extends NeuralNetworkModel implements Seriali
         double learningRate;
         Matrix deltaW, bestW;
         ClassificationPerformance currentClassificationPerformance, bestClassificationPerformance;
-        if (!discreteCheck(train.get(0))) {
-            throw new DiscreteFeaturesNotAllowed();
-        }
-        classLabels = train.getDistinctClassLabels();
-        K = classLabels.size();
-        d = train.get(0).continuousAttributeSize();
+        initialize(train);
         LinearPerceptronParameter parameters = (LinearPerceptronParameter) params;
         Partition partition = new Partition(train, parameters.getCrossValidationRatio(), new Random(parameters.getSeed()), true);
         InstanceList trainSet = partition.get(1);

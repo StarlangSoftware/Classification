@@ -29,13 +29,8 @@ public class AutoEncoderModel extends NeuralNetworkModel implements Serializable
         int epoch;
         double learningRate;
         Performance currentPerformance, bestPerformance;
-        if (!discreteCheck(train.get(0))){
-            throw new DiscreteFeaturesNotAllowed();
-        }
+        initialize(train);
         MultiLayerPerceptronParameter parameters = (MultiLayerPerceptronParameter) params;
-        classLabels = train.getDistinctClassLabels();
-        K = classLabels.size();
-        d = train.get(0).continuousAttributeSize();
         Partition partition = new Partition(train, 0.2, new Random(params.getSeed()), true);
         InstanceList trainSet = partition.get(1);
         InstanceList validationSet = partition.get(0);

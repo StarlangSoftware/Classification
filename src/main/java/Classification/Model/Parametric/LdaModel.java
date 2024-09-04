@@ -33,9 +33,9 @@ public class LdaModel extends GaussianModel implements Serializable {
         double w0i;
         Matrix covariance, classCovariance;
         Vector averageVector, wi;
-        HashMap<String, Double> w0 = new HashMap<>();
-        HashMap<String, Vector> w = new HashMap<>();
-        DiscreteDistribution priorDistribution = trainSet.classDistribution();
+        w0 = new HashMap<>();
+        w = new HashMap<>();
+        priorDistribution = trainSet.classDistribution();
         Partition classLists = new Partition(trainSet);
         covariance = new Matrix(trainSet.get(0).continuousAttributeSize(), trainSet.get(0).continuousAttributeSize());
         for (int i = 0; i < classLists.size(); i++) {
@@ -63,9 +63,6 @@ public class LdaModel extends GaussianModel implements Serializable {
             } catch (MatrixColumnMismatch | VectorSizeMismatch ignored) {
             }
         }
-        this.priorDistribution = priorDistribution;
-        this.w = w;
-        this.w0 = w0;
     }
 
     /**

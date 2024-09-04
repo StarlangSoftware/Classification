@@ -7,7 +7,6 @@ import Classification.InstanceList.InstanceList;
 import Classification.InstanceList.Partition;
 import Classification.Parameter.KMeansParameter;
 import Classification.Parameter.Parameter;
-import Math.DiscreteDistribution;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -25,14 +24,12 @@ public class KMeansModel extends GaussianModel implements Serializable {
      * @param parameters distance metric used to calculate the distance between two instances.
      */
     public void train(InstanceList trainSet, Parameter parameters) {
-        DiscreteDistribution priorDistribution = trainSet.classDistribution();
-        InstanceList classMeans = new InstanceList();
+        priorDistribution = trainSet.classDistribution();
+        classMeans = new InstanceList();
         Partition classLists = new Partition(trainSet);
         for (int i = 0; i < classLists.size(); i++) {
             classMeans.add(classLists.get(i).average());
         }
-        this.classMeans = classMeans;
-        this.priorDistribution = priorDistribution;
         this.distanceMetric = ((KMeansParameter) parameters).getDistanceMetric();
     }
 

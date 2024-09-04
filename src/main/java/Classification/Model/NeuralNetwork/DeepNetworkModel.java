@@ -65,13 +65,8 @@ public class DeepNetworkModel extends NeuralNetworkModel implements Serializable
         double learningRate;
         Vector rMinusY, tmpHidden = new Vector(0, 0), tmph, activationDerivative;
         ClassificationPerformance currentClassificationPerformance, bestClassificationPerformance;
-        if (!discreteCheck(train.get(0))) {
-            throw new DiscreteFeaturesNotAllowed();
-        }
+        initialize(train);
         DeepNetworkParameter parameters = ((DeepNetworkParameter) params);
-        classLabels = train.getDistinctClassLabels();
-        K = classLabels.size();
-        d = train.get(0).continuousAttributeSize();
         Partition partition = new Partition(train, parameters.getCrossValidationRatio(), new Random(parameters.getSeed()), true);
         InstanceList trainSet = partition.get(1);
         InstanceList validationSet = partition.get(0);

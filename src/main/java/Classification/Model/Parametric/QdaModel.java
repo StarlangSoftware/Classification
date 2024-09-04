@@ -32,11 +32,11 @@ public class QdaModel extends LdaModel implements Serializable {
         double determinant = 0, w0i;
         Matrix classCovariance, Wi;
         Vector averageVector, wi;
-        HashMap<String, Double> w0 = new HashMap<>();
-        HashMap<String, Vector> w = new HashMap<>();
-        HashMap<String, Matrix> W = new HashMap<>();
+        w0 = new HashMap<>();
+        w = new HashMap<>();
+        W = new HashMap<>();
         Partition classLists = new Partition(trainSet);
-        DiscreteDistribution priorDistribution = trainSet.classDistribution();
+        priorDistribution = trainSet.classDistribution();
         for (int i = 0; i < classLists.size(); i++) {
             Ci = ((InstanceListOfSameClass) classLists.get(i)).getClassLabel();
             averageVector = new Vector(classLists.get(i).continuousAttributeAverage());
@@ -57,10 +57,6 @@ public class QdaModel extends LdaModel implements Serializable {
             } catch (MatrixRowMismatch | VectorSizeMismatch ignored) {
             }
         }
-        this.priorDistribution = priorDistribution;
-        this.w = w;
-        this.w0 = w0;
-        this.W = W;
     }
 
     /**

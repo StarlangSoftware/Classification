@@ -10,6 +10,8 @@ import java.util.Random;
 
 import Classification.Instance.CompositeInstance;
 import Classification.Instance.Instance;
+import Classification.InstanceList.InstanceList;
+import Classification.Model.DiscreteFeaturesNotAllowed;
 import Classification.Model.ValidatedModel;
 import Classification.Parameter.ActivationFunction;
 import Math.*;
@@ -25,6 +27,15 @@ public abstract class NeuralNetworkModel extends ValidatedModel implements Seria
      * Default constructor
      */
     public NeuralNetworkModel(){
+    }
+
+    protected void initialize(InstanceList train) throws DiscreteFeaturesNotAllowed {
+        if (!discreteCheck(train.get(0))){
+            throw new DiscreteFeaturesNotAllowed();
+        }
+        classLabels = train.getDistinctClassLabels();
+        K = classLabels.size();
+        d = train.get(0).continuousAttributeSize();
     }
 
     /**
