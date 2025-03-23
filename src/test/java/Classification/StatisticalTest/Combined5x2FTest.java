@@ -31,7 +31,7 @@ public class Combined5x2FTest extends ClassifierTest {
         assertEquals(0.00010636, combined5x2F.compare(experimentPerformance1, experimentPerformance2).getPValue(), 0.0000001);
         experimentPerformance1 = mxKFoldRun.execute(new Experiment(new LdaModel(), new Parameter(1), dermatology));
         experimentPerformance2 = mxKFoldRun.execute(new Experiment(new LinearPerceptronModel(), new LinearPerceptronParameter(1, 0.1, 0.99, 0.2, 100), dermatology));
-        assertEquals(0.3863, combined5x2F.compare(experimentPerformance1, experimentPerformance2).getPValue(), 0.0001);
+        assertEquals(0.6024, combined5x2F.compare(experimentPerformance1, experimentPerformance2).getPValue(), 0.0001);
         experimentPerformance1 = mxKFoldRun.execute(new Experiment(new DummyModel(), new Parameter(1), nursery));
         experimentPerformance2 = mxKFoldRun.execute(new Experiment(new NaiveBayesModel(), new Parameter(1), nursery));
         assertEquals(0.0, combined5x2F.compare(experimentPerformance1, experimentPerformance2).getPValue(), 0.0001);

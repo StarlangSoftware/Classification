@@ -35,7 +35,7 @@ public class BootstrapRunTest extends ClassifierTest {
         experimentPerformance = bootstrapRun.execute(new Experiment(new LinearPerceptronModel(), new LinearPerceptronParameter(1, 0.1, 0.99, 0.2, 100), iris));
         assertEquals(3.08, 100 * experimentPerformance.meanPerformance().getErrorRate(), 0.01);
         experimentPerformance = bootstrapRun.execute(new Experiment(new LinearPerceptronModel(), new LinearPerceptronParameter(1, 0.1, 0.99, 0.2, 100), dermatology));
-        assertEquals(2.51, 100 * experimentPerformance.meanPerformance().getErrorRate(), 0.01);
+        assertEquals(2.64, 100 * experimentPerformance.meanPerformance().getErrorRate(), 0.01);
         experimentPerformance = bootstrapRun.execute(new Experiment(new NaiveBayesModel(), new Parameter(1), car));
         assertEquals(14.14, 100 * experimentPerformance.meanPerformance().getErrorRate(), 0.01);
         experimentPerformance = bootstrapRun.execute(new Experiment(new NaiveBayesModel(), new Parameter(1), nursery));

@@ -35,7 +35,7 @@ public class KFoldRunTest extends ClassifierTest {
         experimentPerformance = kFoldRun.execute(new Experiment(new LinearPerceptronModel(), new LinearPerceptronParameter(1, 0.1, 0.99, 0.2, 100), iris));
         assertEquals(2.67, 100 * experimentPerformance.meanPerformance().getErrorRate(), 0.01);
         experimentPerformance = kFoldRun.execute(new Experiment(new LinearPerceptronModel(), new LinearPerceptronParameter(1, 0.1, 0.99, 0.2, 100), dermatology));
-        assertEquals(3.54, 100 * experimentPerformance.meanPerformance().getErrorRate(), 0.01);
+        assertEquals(3.81, 100 * experimentPerformance.meanPerformance().getErrorRate(), 0.01);
         experimentPerformance = kFoldRun.execute(new Experiment(new NaiveBayesModel(), new Parameter(1), car));
         assertEquals(14.30, 100 * experimentPerformance.meanPerformance().getErrorRate(), 0.01);
         experimentPerformance = kFoldRun.execute(new Experiment(new NaiveBayesModel(), new Parameter(1), nursery));

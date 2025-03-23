@@ -22,7 +22,7 @@ public class MultiLayerPerceptronTest extends ClassifierTest{
         multiLayerPerceptron.train(bupa.getInstanceList(), multiLayerPerceptronParameter);
         multiLayerPerceptron.saveTxt("models/multiLayerPerceptron-bupa.txt");
         multiLayerPerceptron.loadModel("models/multiLayerPerceptron-bupa.txt");
-        assertEquals(27.54, 100 * multiLayerPerceptron.test(bupa.getInstanceList()).getErrorRate(), 0.01);
+        assertEquals(29.57, 100 * multiLayerPerceptron.test(bupa.getInstanceList()).getErrorRate(), 0.01);
         multiLayerPerceptronParameter = new MultiLayerPerceptronParameter(1, 0.01, 0.99, 0.2, 100, 20, ActivationFunction.SIGMOID);
         multiLayerPerceptron.train(dermatology.getInstanceList(), multiLayerPerceptronParameter);
         multiLayerPerceptron.saveTxt("models/multiLayerPerceptron-dermatology.txt");

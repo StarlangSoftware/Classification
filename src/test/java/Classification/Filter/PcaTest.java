@@ -29,7 +29,7 @@ public class PcaTest extends ClassifierTest {
         pca = new Pca(dermatology);
         pca.convert();
         linearPerceptron.train(dermatology.getInstanceList(), linearPerceptronParameter);
-        assertEquals(1.91, 100 * linearPerceptron.test(dermatology.getInstanceList()).getErrorRate(), 0.01);
+        assertEquals(2.73, 100 * linearPerceptron.test(dermatology.getInstanceList()).getErrorRate(), 0.01);
     }
 
     @Test

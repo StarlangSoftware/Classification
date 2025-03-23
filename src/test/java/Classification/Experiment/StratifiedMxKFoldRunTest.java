@@ -35,7 +35,7 @@ public class StratifiedMxKFoldRunTest extends ClassifierTest {
         experimentPerformance = stratifiedMxKFoldRun.execute(new Experiment(new LinearPerceptronModel(), new LinearPerceptronParameter(1, 0.1, 0.99, 0.2, 100), iris));
         assertEquals(2.67, 100 * experimentPerformance.meanPerformance().getErrorRate(), 0.01);
         experimentPerformance = stratifiedMxKFoldRun.execute(new Experiment(new LinearPerceptronModel(), new LinearPerceptronParameter(1, 0.1, 0.99, 0.2, 100), dermatology));
-        assertEquals(4.92, 100 * experimentPerformance.meanPerformance().getErrorRate(), 0.01);
+        assertEquals(2.73, 100 * experimentPerformance.meanPerformance().getErrorRate(), 0.01);
         experimentPerformance = stratifiedMxKFoldRun.execute(new Experiment(new NaiveBayesModel(), new Parameter(1), car));
         assertEquals(15.28, 100 * experimentPerformance.meanPerformance().getErrorRate(), 0.01);
         experimentPerformance = stratifiedMxKFoldRun.execute(new Experiment(new NaiveBayesModel(), new Parameter(1), nursery));

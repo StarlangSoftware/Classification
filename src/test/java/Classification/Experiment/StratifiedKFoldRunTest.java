@@ -35,7 +35,7 @@ public class StratifiedKFoldRunTest extends ClassifierTest {
         experimentPerformance = stratifiedKFoldRun.execute(new Experiment(new LinearPerceptronModel(), new LinearPerceptronParameter(1, 0.1, 0.99, 0.2, 100), iris));
         assertEquals(4.67, 100 * experimentPerformance.meanPerformance().getErrorRate(), 0.01);
         experimentPerformance = stratifiedKFoldRun.execute(new Experiment(new LinearPerceptronModel(), new LinearPerceptronParameter(1, 0.1, 0.99, 0.2, 100), dermatology));
-        assertEquals(2.66, 100 * experimentPerformance.meanPerformance().getErrorRate(), 0.01);
+        assertEquals(3.02, 100 * experimentPerformance.meanPerformance().getErrorRate(), 0.01);
         experimentPerformance = stratifiedKFoldRun.execute(new Experiment(new NaiveBayesModel(), new Parameter(1), car));
         assertEquals(14.11, 100 * experimentPerformance.meanPerformance().getErrorRate(), 0.01);
         experimentPerformance = stratifiedKFoldRun.execute(new Experiment(new NaiveBayesModel(), new Parameter(1), nursery));

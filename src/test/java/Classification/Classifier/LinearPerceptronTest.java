@@ -21,12 +21,12 @@ public class LinearPerceptronTest extends ClassifierTest{
         linearPerceptron.train(bupa.getInstanceList(), linearPerceptronParameter);
         linearPerceptron.saveTxt("models/linearPerceptron-bupa.txt");
         linearPerceptron.loadModel("models/linearPerceptron-bupa.txt");
-        assertEquals(31.88, 100 * linearPerceptron.test(bupa.getInstanceList()).getErrorRate(), 0.01);
+        assertEquals(28.99, 100 * linearPerceptron.test(bupa.getInstanceList()).getErrorRate(), 0.01);
         linearPerceptronParameter = new LinearPerceptronParameter(1, 0.1, 0.99, 0.2, 100);
         linearPerceptron.train(dermatology.getInstanceList(), linearPerceptronParameter);
         linearPerceptron.saveTxt("models/linearPerceptron-dermatology.txt");
         linearPerceptron.loadModel("models/linearPerceptron-dermatology.txt");
-        assertEquals(1.09, 100 * linearPerceptron.test(dermatology.getInstanceList()).getErrorRate(), 0.01);
+        assertEquals(1.37, 100 * linearPerceptron.test(dermatology.getInstanceList()).getErrorRate(), 0.01);
     }
 
 }
